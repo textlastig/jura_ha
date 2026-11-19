@@ -129,8 +129,8 @@ class Client:
                         )
                         _LOGGER.debug("heartbeat sent")
                     except Exception as e:
-                        # we log as info as this is expected if the device is off
-                        _LOGGER.info("heartbeat error", exc_info=e)
+                        # expected if the device is turning off
+                        _LOGGER.debug("heartbeat error", exc_info=e)
 
                     self.ping_future = self.loop.create_future()
                     # 10 is too late, 9 is ok
@@ -171,11 +171,8 @@ class Client:
             if decrypt and self.key:
                 return encryption.encdec(list(data), self.key)
             return data
-        except BleakError as e:
-            _LOGGER.info(f"Error reading from characteristic {uuid}", exc_info=e)
-            raise
         except Exception as e:
-            _LOGGER.info(f"Error reading from characteristic {uuid}", exc_info=e)
+            _LOGGER.debug(f"Error reading from characteristic {uuid}", exc_info=e)
             raise
 
     async def read_statistics_data(
@@ -186,7 +183,7 @@ class Client:
 
         # Send statistics request command
         # https://github.com/Jutta-Proto/protocol-bt-cpp?tab=readme-ov-file#writing-1
-        command_bytes = [0x2A, 0x00, 0x01, 0xFF, 0xFF]
+        command_bytes = [self.key, 0x00, 0x01, 0xFF, 0xFF]
         self.send(bytes(command_bytes), uuid=UUIDs.STATS_COMMAND)
 
         # Wait for connection
@@ -208,7 +205,7 @@ class Client:
                 break
             await asyncio.sleep(0.8)
         else:
-            _LOGGER.error("Device not ready for statistics reading")
+            _LOGGER.debug("Device not ready for statistics reading")
             return None
 
         # Read statistics data

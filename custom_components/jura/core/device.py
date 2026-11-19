@@ -244,7 +244,7 @@ class Device:
             if product_counts_array and product_counts_array[0] is not None
             else None
         )
-        _LOGGER.info(
+        _LOGGER.debug(
             f"Total coffee count from data: {total_count if total_count is not None else 'undefined'}"
         )
 
@@ -270,9 +270,8 @@ class Device:
             else:
                 _LOGGER.debug(f"No product found for code {i} with count {count}")
 
-        # Log the final counts at info log level
         for product, count in product_counts.items():
-            _LOGGER.info(f"Product: {product}, Count: {count}")
+            _LOGGER.debug(f"Product: {product}, Count: {count}")
 
         # Save the statistics
         self.statistics = {

@@ -49,6 +49,14 @@ ALERT_SENSORS = [
         "device_class": BinarySensorDeviceClass.PROBLEM,
         "entity_category": EntityCategory.DIAGNOSTIC,
     },
+    {
+        "name_pattern": "no beans",
+        "type": "no_beans",
+        "display_name": "No Beans",
+        "icon": "mdi:coffee-off",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
     # Service alerts (require cleaning or filter replacement)
     {
         "name_pattern": "cleaning alert",
