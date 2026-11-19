@@ -10,6 +10,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import PERCENTAGE, EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_time_interval
@@ -34,6 +35,11 @@ async def async_setup_entry(
         product_name = product["@Name"]
         if product.get("@Active") != "false":
             entities.append(JuraProductCountSensor(device, product_name))
+
+    # Maintenance counters and percents (if the machine file lists them)
+    for kind in ("counters", "percents"):
+        for mtype in device.maintenance.get(kind, []):
+            entities.append(JuraMaintenanceSensor(device, kind, mtype))
 
     # Create alert sensors
     entities.append(JuraAlertSensor(device))
@@ -129,6 +135,45 @@ class JuraProductCountSensor(JuraStatisticsSensor):
         )
         _LOGGER.debug(f"Product {self.product_name} count: {value}")
         return value
+
+
+MAINTENANCE_NAMES = {
+    "Cleaning": "Cleaning",
+    "FilterChange": "Filter Change",
+    "Decalc": "Descaling",
+    "CoffeeRinse": "Coffee Rinse",
+    "CappuRinse": "Milk System Rinse",
+    "CappuClean": "Milk System Cleaning",
+}
+
+
+class JuraMaintenanceSensor(JuraStatisticsSensor):
+    """Maintenance counter (times done) or percent (progress until due)."""
+
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+
+    def __init__(self, device, kind: str, mtype: str):
+        self.kind = kind
+        self.mtype = mtype
+        name = MAINTENANCE_NAMES.get(mtype, mtype)
+        if kind == "counters":
+            attr = f"maintenance_count_{mtype.lower()}"
+            self._attr_icon = "mdi:counter"
+            self._attr_state_class = SensorStateClass.TOTAL_INCREASING
+            label = f"{name} Count"
+        else:
+            attr = f"maintenance_percent_{mtype.lower()}"
+            self._attr_icon = "mdi:progress-wrench"
+            self._attr_state_class = SensorStateClass.MEASUREMENT
+            self._attr_native_unit_of_measurement = PERCENTAGE
+            label = f"{name} Percent"
+        super().__init__(device, attr)
+        self._attr_name = f"{device.name} {label}"
+
+    def _get_value(self) -> int | None:
+        return self.device.statistics.get(f"maintenance_{self.kind}", {}).get(
+            self.mtype
+        )
 
 
 class JuraAlertSensor(JuraEntity, SensorEntity):

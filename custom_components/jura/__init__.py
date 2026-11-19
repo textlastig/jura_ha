@@ -70,6 +70,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         machine["alerts"],
         machine["key"],
         service_info.device,
+        machine["maintenance"],
     )
     device.update_ble(service_info)
     device.client.ble_device_callback = lambda: bluetooth.async_ble_device_from_address(

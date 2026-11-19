@@ -46,6 +46,8 @@ class Client:
         self.send_data = None
         self.send_time = 0
         self.send_uuid = None
+        # set by the ping loop once send_data has been written
+        self.send_done = asyncio.Event()
 
     def ping(self):
         if self.stopped:
@@ -88,6 +90,7 @@ class Client:
         self.send_time = time.time() + COMMAND_TIME
         self.send_data = data
         self.send_uuid = uuid
+        self.send_done.clear()
 
         # refresh ping time
         self.ping()
@@ -117,6 +120,7 @@ class Client:
                                 response=True,
                             )
                         self.send_data = None
+                        self.send_done.set()
 
                     # important dummy write to keep the connection
                     # https://github.com/Jutta-Proto/protocol-bt-cpp?tab=readme-ov-file#heartbeat
@@ -210,6 +214,43 @@ class Client:
 
         # Read statistics data
         # https://github.com/Jutta-Proto/protocol-bt-cpp?tab=readme-ov-file#statistics-data
+        return await self.read(UUIDs.STATS_DATA, decrypt=True)
+
+    async def read_statistics_page(
+        self, page: int, arg: int, timeout: int = 20, retries: int = 30
+    ) -> bytes | None:
+        """Read one statistics page, e.g. maintenance counters (0x04, 0x0100).
+
+        Waits until the machine has taken the request: the first byte of the
+        decrypted STATS_COMMAND differs from the key. Before that, STATS_DATA
+        still holds the previous page, which would be decoded as this one.
+        """
+        command = [self.key, 0x00, page, arg >> 8, arg & 0xFF]
+        self.send(bytes(command), uuid=UUIDs.STATS_COMMAND)
+
+        for _ in range(timeout):
+            if self.client:
+                break
+            await asyncio.sleep(1)
+        else:
+            _LOGGER.debug("Failed to establish connection")
+            return None
+
+        try:
+            await asyncio.wait_for(self.send_done.wait(), timeout=10)
+        except TimeoutError:
+            _LOGGER.debug(f"Statistics page {page:#04x} request not sent")
+            return None
+
+        for _ in range(retries):
+            status = await self.read(UUIDs.STATS_COMMAND, decrypt=True)
+            if status and status[0] != self.key:
+                break
+            await asyncio.sleep(0.8)
+        else:
+            _LOGGER.debug(f"Statistics page {page:#04x} not ready")
+            return None
+
         return await self.read(UUIDs.STATS_DATA, decrypt=True)
 
     async def read_machine_status(self) -> bytes | None:

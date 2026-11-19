@@ -15,6 +15,11 @@ if TYPE_CHECKING:
 _LOGGER = logging.getLogger(__name__)
 
 COMMAND_TIME = 15
+
+# statistics pages (from andrei-marinache/Jura-AlexxIT): bank command -> key
+MAINTENANCE_BANKS = {"@TG:43": "counters", "@TG:C0": "percents"}
+# page, argument
+MAINTENANCE_PAGES = {"counters": (0x04, 0x0100), "percents": (0x08, 0x0100)}
 SELECTS = [
     "product",  # 1
     "grinder_ratio",  # 2
@@ -53,11 +58,14 @@ class Device:
         alerts: dict[int, str],
         key: int,
         device: BLEDevice,
+        maintenance: dict[str, list[str]] | None = None,
     ):
         self.name = name
         self.model = model
         self.products = products
         self.alerts = alerts
+        # maintenance types from the machine file, e.g. counters: ["Cleaning", ...]
+        self.maintenance = maintenance or {"counters": [], "percents": []}
 
         self.client = Client(device, self.set_connected, key)
 
@@ -72,7 +80,12 @@ class Device:
         self.updates_product: list = []
         self.updates_statistics = []
         self.updates_alerts = []
-        self.statistics = {"total_products": None, "product_counts": {}}
+        self.statistics = {
+            "total_products": None,
+            "product_counts": {},
+            "maintenance_counters": {},
+            "maintenance_percents": {},
+        }
         self.active_alerts = {}
 
     @property
@@ -274,10 +287,13 @@ class Device:
             _LOGGER.debug(f"Product: {product}, Count: {count}")
 
         # Save the statistics
-        self.statistics = {
-            "total_products": total_count,
-            "product_counts": product_counts,
-        }
+        self.statistics["total_products"] = total_count
+        self.statistics["product_counts"] = product_counts
+
+        try:
+            await self.read_maintenance()
+        except Exception as ex:
+            _LOGGER.debug(f"Error reading maintenance values: {ex}")
 
         # Notify all statistics listeners
         _LOGGER.debug(f"Notifying {len(self.updates_statistics)} statistics listeners")
@@ -285,6 +301,47 @@ class Device:
             handler()
 
         return self.statistics
+
+    async def _read_page_twice(self, kind: str) -> bytes | None:
+        page, arg = MAINTENANCE_PAGES[kind]
+        data1 = await self.client.read_statistics_page(page, arg)
+        data2 = await self.client.read_statistics_page(page, arg)
+        if data1 is None or data1 != data2:
+            _LOGGER.debug(f"Maintenance {kind}: no or inconsistent data")
+            return None
+        return data1
+
+    async def read_maintenance(self):
+        """Read maintenance counters and percents, if the machine has them."""
+        if types := self.maintenance["counters"]:
+            data = await self._read_page_twice("counters")
+            if data and len(data) >= 2 * len(types):
+                counters = {
+                    t: int.from_bytes(data[2 * i : 2 * i + 2], "big")
+                    for i, t in enumerate(types)
+                }
+                old = self.statistics["maintenance_counters"]
+                # lifetime counters never go back: then another page was read
+                if any(v < old.get(k, 0) for k, v in counters.items()):
+                    _LOGGER.debug(f"Maintenance counters went back: {old} -> {counters}")
+                else:
+                    self.statistics["maintenance_counters"] = counters
+                    _LOGGER.debug(f"Maintenance counters: {counters}")
+
+        if types := self.maintenance["percents"]:
+            data = await self._read_page_twice("percents")
+            if data and len(data) >= len(types):
+                values = list(data[: len(types)])
+                # 0xFF: not used (e.g. no filter), 101..254: invalid read
+                if any(100 < v < 255 for v in values):
+                    _LOGGER.debug(f"Maintenance percents invalid: {values}")
+                else:
+                    self.statistics["maintenance_percents"] = {
+                        t: None if v == 255 else v for t, v in zip(types, values)
+                    }
+                    _LOGGER.debug(
+                        f"Maintenance percents: {self.statistics['maintenance_percents']}"
+                    )
 
     def register_alert_update(self, handler: Callable):
         """Register a callback for alert updates."""
@@ -363,8 +420,35 @@ def get_machine(adv: bytes) -> dict | None:
             except:
                 alerts = {}
 
+            maintenance = get_maintenance(raw)
+
     # First byte is the encryption key
-    return {"model": items[1], "products": products, "alerts": alerts, "key": adv[0]}
+    return {
+        "model": items[1],
+        "products": products,
+        "alerts": alerts,
+        "key": adv[0],
+        "maintenance": maintenance,
+    }
+
+
+def get_maintenance(raw: dict) -> dict[str, list[str]]:
+    """Maintenance types per bank, in the order of the values on the page."""
+    result = {"counters": [], "percents": []}
+    try:
+        banks = raw["JOE"]["STATISTIC"]["MAINTENANCEPAGE"]["BANK"]
+    except (KeyError, TypeError):
+        return result
+    if isinstance(banks, dict):
+        banks = [banks]
+    for bank in banks:
+        key = MAINTENANCE_BANKS.get(bank.get("@Command"))
+        items = bank.get("TEXTITEM", [])
+        if isinstance(items, dict):
+            items = [items]
+        if key:
+            result[key] = [i["@Type"] for i in items]
+    return result
 
 
 def get_options(products: list[dict]) -> dict[str, list]:
