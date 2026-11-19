@@ -260,10 +260,10 @@
         "name": "Product"
       },
       "grinder_ratio": {
-        "name": "Grinder Ratio"
+        "name": "Grinder ratio"
       },
       "coffee_strength": {
-        "name": "Coffee Strength"
+        "name": "Coffee strength"
       },
       "temperature": {
         "name": "Temperature"
@@ -271,19 +271,19 @@
     },
     "number": {
       "water_amount": {
-        "name": "Water Amount"
+        "name": "Amount of water"
       },
       "milk_amount": {
-        "name": "Milk Amount"
+        "name": "Amount of milk"
       },
       "milk_foam_amount": {
-        "name": "Milk Foam Amount"
+        "name": "Amount of milk foam"
       },
       "bypass": {
-        "name": "Bypass"
+        "name": "Bypass water"
       },
       "milk_break": {
-        "name": "Milk Break"
+        "name": "Milk break"
       }
     },
     "button": {
@@ -291,7 +291,7 @@
         "name": "Make"
       },
       "refresh_stats": {
-        "name": "Refresh Statistics"
+        "name": "Refresh statistics"
       }
     },
     "switch": {

@@ -8,7 +8,13 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import entity_registry as er
 
 from .core import DOMAIN
-from .core.device import Device, EmptyModel, UnsupportedModel, get_machine
+from .core.device import (
+    Device,
+    EmptyModel,
+    UnsupportedModel,
+    get_machine,
+    load_texts,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -119,6 +125,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         machine["key"],
         ble_device,
         machine["maintenance"],
+    )
+    # names as in the JURA app, in the Home Assistant language
+    device.set_texts(
+        await hass.async_add_executor_job(load_texts, hass.config.language)
     )
     if service_info:
         device.update_ble(service_info)

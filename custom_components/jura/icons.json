@@ -1,0 +1,51 @@
+{
+  "entity": {
+    "button": {
+      "make": {
+        "default": "mdi:coffee-maker-outline"
+      },
+      "refresh_stats": {
+        "default": "mdi:refresh"
+      }
+    },
+    "select": {
+      "product": {
+        "default": "mdi:coffee"
+      },
+      "grinder_ratio": {
+        "default": "mdi:grain"
+      },
+      "coffee_strength": {
+        "default": "mdi:coffee-outline"
+      },
+      "temperature": {
+        "default": "mdi:thermometer"
+      }
+    },
+    "number": {
+      "water_amount": {
+        "default": "mdi:water"
+      },
+      "bypass": {
+        "default": "mdi:water-plus"
+      },
+      "milk_amount": {
+        "default": "mdi:cup"
+      },
+      "milk_foam_amount": {
+        "default": "mdi:cloud-outline"
+      },
+      "milk_break": {
+        "default": "mdi:timer-pause-outline"
+      }
+    },
+    "switch": {
+      "connection": {
+        "default": "mdi:bluetooth-connect",
+        "state": {
+          "off": "mdi:bluetooth-off"
+        }
+      }
+    }
+  }
+}

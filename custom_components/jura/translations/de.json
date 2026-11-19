@@ -257,10 +257,10 @@
     },
     "select": {
       "product": {
-        "name": "Produkt"
+        "name": "Kaffeespezialität"
       },
       "grinder_ratio": {
-        "name": "Mahlgrad"
+        "name": "Mahlwerk-Verhältnis"
       },
       "coffee_strength": {
         "name": "Kaffeestärke"
@@ -280,7 +280,7 @@
         "name": "Milchschaummenge"
       },
       "bypass": {
-        "name": "Bypass"
+        "name": "Bypass-Wassermenge"
       },
       "milk_break": {
         "name": "Milchpause"

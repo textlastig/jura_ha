@@ -57,7 +57,7 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 | Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen) |
 | Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
 | Binärsensoren | Restwasserschale fehlt, Wassertank füllen, Kaffeesatzbehälter leeren, Restwasserschale leeren, Bohnen füllen, Gerät reinigen, Filter wechseln, Gerät entkalken, Gerät bald entkalken; bei Maschinen mit Milchprodukten zusätzlich Milchsystem spülen, Milchsystem reinigen |
-| Steuerung | Produkt, Mahlgrad, Stärke, Temperatur, Mengen (Wasser, Milch, Milchschaum, Bypass, Milchpause), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
+| Steuerung | Kaffeespezialität (Namen wie in der JURA-App), Mahlwerk-Verhältnis (z. B. „50% / 50%“), Kaffeestärke, Temperatur (Niedrig, Normal, Hoch), Mengen (Wasser und Bypass in ml, Milch, Milchschaum und Milchpause in Sekunden), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
 
 Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist.
 
@@ -92,6 +92,6 @@ Zusammengeführt, ergänzt und getestet wurde der Fork von [textlastig](https://
 
 Der Code steht unter der [MIT-Lizenz](LICENSE), wie das Original von AlexxIT. Die Beiträge aus den Pull Requests AlexxIT/Jura#41, #59 und #77 wurden in das MIT-lizenzierte Original-Repo eingereicht und stehen damit unter derselben Lizenz. Die Rechte an den übernommenen Beiträgen liegen bei ihren Autoren.
 
-**Ausgenommen:** `custom_components/jura/core/resources.zip` enthält die Maschinendateien von JURA (Produkte, Einstellungen und Meldungen je Modell). Sie stammen von JURA, fallen nicht unter die MIT-Lizenz und sind nur zum Betrieb dieser Integration enthalten, wie im Original. Dasselbe gilt für die Produkt- und Meldungsnamen in `translations/*.json`, die aus der JURA-App J.O.E. übernommen sind.
+**Ausgenommen:** `custom_components/jura/core/resources.zip` enthält die Maschinendateien von JURA (Produkte, Einstellungen und Meldungen je Modell). Sie stammen von JURA, fallen nicht unter die MIT-Lizenz und sind nur zum Betrieb dieser Integration enthalten, wie im Original. Dasselbe gilt für die Produkt-, Einstellungs- und Meldungsnamen in `translations/*.json` und `core/texts.json`, die aus der JURA-App J.O.E. übernommen sind.
 
 JURA und Smart Connect sind Marken der JURA Elektroapparate AG. Dieses Projekt ist nicht mit JURA verbunden.

@@ -1,4 +1,5 @@
-from homeassistant.components.number import NumberEntity
+from homeassistant.components.number import NumberEntity, NumberMode
+from homeassistant.const import UnitOfTime, UnitOfVolume
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -15,7 +16,23 @@ async def async_setup_entry(
     add_entities([JuraNumber(device, select) for select in device.numbers()])
 
 
+# water in ml, milk in seconds (JURA app: "Sek.")
+UNITS = {
+    "water_amount": UnitOfVolume.MILLILITERS,
+    "bypass": UnitOfVolume.MILLILITERS,
+    "milk_amount": UnitOfTime.SECONDS,
+    "milk_foam_amount": UnitOfTime.SECONDS,
+    "milk_break": UnitOfTime.SECONDS,
+}
+
+
 class JuraNumber(JuraEntity, NumberEntity):
+    _attr_mode = NumberMode.SLIDER
+
+    def __init__(self, device, attr: str):
+        self._attr_native_unit_of_measurement = UNITS.get(attr)
+        super().__init__(device, attr)
+
     def internal_update(self):
         attribute = self.device.attribute(self.attr)
 

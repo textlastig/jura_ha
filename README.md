@@ -57,7 +57,7 @@ When on, the integration only creates sensors and binary sensors. Buttons (make,
 | Sensors | Total products, count per product (unit "products", in German "Bezüge"), alerts (`ok`/`alert` with the list of active alerts) |
 | Diagnostic | Maintenance counters (cleaning, filter change, descaling, coffee rinse, as far as the machine has them), maintenance percentages, connection |
 | Binary sensors | No drip tray, Fill the water tank, Empty the coffee grounds container, Empty the drip tray, Add beans, Clean the machine, Change the filter, Descale the machine, Descale the machine soon; machines with milk products also Rinse the milk system, Clean the milk system |
-| Control | Product, grinder ratio, coffee strength, temperature, amounts (water, milk, milk foam, bypass, milk break), Make button, Refresh Statistics button, connection switch |
+| Control | Product (named as in the JURA app), grinder ratio (e.g. "50% / 50%"), coffee strength, temperature (Low, Normal, High), amounts (water and bypass in ml, milk, milk foam and milk break in seconds), Make button, Refresh statistics button, connection switch |
 
 Names follow the Home Assistant language (English or German); entity IDs do not depend on it (`<device>_<mac>_<attribute>`). Products and alerts are named as in the JURA J.O.E. app and on the machine display: the machine file gives each product a text number, the names for it come from the app (version 4.6.16). Which entities appear depends on the model's machine file. Statistics and alerts are read every minute while the machine is on.
 
@@ -92,6 +92,6 @@ The fork was merged, extended and tested by [textlastig](https://github.com/text
 
 The code is licensed under the [MIT License](LICENSE), like AlexxIT's original. The contributions from pull requests AlexxIT/Jura#41, #59 and #77 were submitted to the MIT-licensed original repository and are therefore under the same license. Copyright in those contributions remains with their authors.
 
-**Excluded:** `custom_components/jura/core/resources.zip` contains JURA's machine files (products, settings and alerts per model). They come from JURA, are not covered by the MIT License and are included only to operate this integration, as in the original. The same applies to the product and alert names in `translations/*.json`, which are taken from the JURA J.O.E. app.
+**Excluded:** `custom_components/jura/core/resources.zip` contains JURA's machine files (products, settings and alerts per model). They come from JURA, are not covered by the MIT License and are included only to operate this integration, as in the original. The same applies to the product, setting and alert names in `translations/*.json` and `core/texts.json`, which are taken from the JURA J.O.E. app.
 
 JURA and Smart Connect are trademarks of JURA Elektroapparate AG. This project is not affiliated with JURA.

@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import datetime, timezone
 from pathlib import Path
@@ -74,6 +75,8 @@ class Device:
         self.conn_info = {"mac": device.address}
 
         self.options = get_options(self.products)
+        # attr -> machine name -> display name (JURA app texts), see set_texts
+        self.labels: dict[str, dict[str, str]] = {}
 
         self.product = None
         self.values = None
@@ -128,7 +131,34 @@ class Device:
         products = str(self.products).lower()
         return [k for k in NUMBERS if k in products]
 
+    def set_texts(self, texts: dict[str, str]):
+        """Display names for products and setting items (text number -> name)."""
+        active = [i for i in self.products if i.get("@Active") != "false"]
+        self.labels = {"product": make_labels(active, texts)}
+        for attr in SELECTS[1:]:
+            items = {
+                i["@Name"]: i
+                for p in self.products
+                for i in as_list(p.get(attr.upper(), {}).get("ITEM"))
+            }
+            self.labels[attr] = make_labels(items.values(), texts)
+
+    def label(self, attr: str, name: str | None) -> str | None:
+        return self.labels.get(attr, {}).get(name, name)
+
+    def machine_name(self, attr: str, label: str) -> str:
+        labels = self.labels.get(attr, {})
+        return next((n for n, v in labels.items() if v == label), label)
+
     def attribute(self, attr: str) -> Attribute:
+        attribute = self._attribute(attr)
+        if "options" in attribute:
+            attribute["options"] = [self.label(attr, i) for i in attribute["options"]]
+        if attribute.get("default") is not None:
+            attribute["default"] = self.label(attr, attribute["default"])
+        return attribute
+
+    def _attribute(self, attr: str) -> Attribute:
         if attr == "connection":
             return Attribute(is_on=self.connected, extra=self.conn_info)
 
@@ -154,13 +184,16 @@ class Device:
 
         default = attribute["@Default"]
         return Attribute(
-            options=[i["@Name"] for i in attribute["ITEM"]],
+            options=[i["@Name"] for i in as_list(attribute["ITEM"])],
             default=next(
-                i["@Name"] for i in attribute["ITEM"] if i["@Value"] == default
+                i["@Name"]
+                for i in as_list(attribute["ITEM"])
+                if i["@Value"] == default
             ),
         )
 
     def select_option(self, attr: str, option: str):
+        option = self.machine_name(attr, option)
         if attr == "product":
             self.select_product(option)
             return
@@ -169,7 +202,9 @@ class Device:
         if not attribute:
             return None
 
-        value = next(i["@Value"] for i in attribute["ITEM"] if i["@Name"] == option)
+        value = next(
+            i["@Value"] for i in as_list(attribute["ITEM"]) if i["@Name"] == option
+        )
         self.set_value(attr, int(value, 16))
 
     def set_value(self, attr: str, value: int):
@@ -457,13 +492,41 @@ def get_maintenance(raw: dict) -> dict[str, list[str]]:
     return result
 
 
+def as_list(value) -> list:
+    """xmltodict gives a dict for a single element."""
+    if value is None:
+        return []
+    return value if isinstance(value, list) else [value]
+
+
+def make_labels(entries, texts: dict[str, str]) -> dict[str, str]:
+    """Machine name -> display name; numbers stay, duplicates get the name."""
+    labels: dict[str, str] = {}
+    for entry in entries:
+        name = entry["@Name"]
+        label = name if name.isdigit() else texts.get(entry.get("@Text"), name)
+        if label in labels.values():
+            label = f"{label} ({name})"
+        labels[name] = label
+    return labels
+
+
+def load_texts(language: str | None) -> dict[str, str]:
+    """Product and setting names from the JURA app (texts.json), de or en."""
+    path = Path(__file__).parent / "texts.json"
+    with open(path, encoding="utf-8") as f:
+        texts = json.load(f)
+    lang = (language or "en").split("-")[0].lower()
+    return texts.get(lang, texts["en"])
+
+
 def get_options(products: list[dict]) -> dict[str, list]:
     return {
         attr: list(
             {
                 option["@Name"]: None
                 for product in products
-                for option in product.get(attr.upper(), {}).get("ITEM", [])
+                for option in as_list(product.get(attr.upper(), {}).get("ITEM"))
             }.keys()  # unique keys with save order
         )
         for attr in SELECTS
