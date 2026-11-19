@@ -1,97 +1,97 @@
-# JURA-Kaffeevollautomaten für Home Assistant
+# JURA Coffee Machines for Home Assistant
 
-Custom-Integration für [Home Assistant](https://www.home-assistant.io/), die JURA-Kaffeevollautomaten über das Bluetooth-Modul [JURA Smart Connect](https://us.jura.com/en/homeproducts/accessories/SmartConnect-Main-72167) einbindet: Statistik, Wartungsstand und Meldungen auslesen und auf Wunsch Produkte zubereiten.
+**English** | [Deutsch](README.de.md)
 
-Dies ist ein Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura). Er führt Verbesserungen aus offenen Pull Requests und anderen Forks zusammen und ergänzt eine Option, die Maschine nur auszulesen.
+Custom integration for [Home Assistant](https://www.home-assistant.io/) that connects JURA coffee machines through the [JURA Smart Connect](https://us.jura.com/en/homeproducts/accessories/SmartConnect-Main-72167) Bluetooth module: read statistics, maintenance status and alerts, and optionally make products.
 
-> **English summary:** Fork of AlexxIT/Jura 1.2.2 that merges fixes and features from open pull requests (madAndroid #77, Andrei Marinache #41, tidalf #59): reliable setup and reconnects, descaling and maintenance sensors, setup while the machine is off with restored values, and an optional *read only* mode. Control features are unchanged and enabled by default. Entity IDs are the same as in the original, so switching keeps your history. Install via HACS as a custom repository `https://github.com/textlastig/jura_ha` (category Integration).
+This is a fork of [AlexxIT/Jura](https://github.com/AlexxIT/Jura). It merges improvements from open pull requests and other forks and adds an option to only read the machine.
 
 ![](demo.png)
 
-## Was dieser Fork gegenüber dem Original ändert
+## What this fork changes
 
-| Änderung | Herkunft |
+| Change | Source |
 |---|---|
-| Sauberes Entladen, erneuter Einrichtungsversuch statt Abbruch, aktuelles Bluetooth-Gerät bei jeder Verbindung, aktive Suche (das Modell steht nur in der Scan-Antwort) | [madAndroid, AlexxIT/Jura#77](https://github.com/AlexxIT/Jura/pull/77) |
-| Sensoren „Descaling Needed“ und „Descaling Soon“, Wartungszähler und Wartungsstand in Prozent, Einrichtung bei ausgeschalteter Maschine mit den letzten Werten | [Andrei Marinache, AlexxIT/Jura#41](https://github.com/AlexxIT/Jura/pull/41) |
-| Sensor „No Beans“, richtiger Schlüssel im Statistikbefehl, weniger Log-Rauschen | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
-| Option **Nur auslesen, keine Steuerung** | neu in diesem Fork |
+| Clean unload, setup retry instead of failure, fresh Bluetooth device on every connection, active scanning (the model is only sent in the scan response) | [madAndroid, AlexxIT/Jura#77](https://github.com/AlexxIT/Jura/pull/77) |
+| "Descaling Needed" and "Descaling Soon" sensors, maintenance counters and maintenance percentages, setup while the machine is off with the last known values | [Andrei Marinache, AlexxIT/Jura#41](https://github.com/AlexxIT/Jura/pull/41) |
+| "No Beans" sensor, correct key in the statistics command, less log noise | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
+| **Read only, no control** option, entity names in English and German | new in this fork |
 
-Die Steuerung bleibt vollständig enthalten und ist Standard. Die Entitäts-IDs sind dieselben wie beim Original; wer umsteigt, behält Verlauf und Statistik.
+Control features are fully included and enabled by default. Entity IDs are the same as in the original, so switching keeps your history and statistics.
 
-## Getestete Maschinen
+## Tested machines
 
-Laut Original: [D4](https://github.com/AlexxIT/Jura/issues/49), [E4](https://github.com/AlexxIT/Jura/issues/47), [E6](https://github.com/AlexxIT/Jura/issues/13), E8, ENA8 (mit Tasten), [S8](https://github.com/AlexxIT/Jura/issues/20), [Z8](https://github.com/AlexxIT/Jura/issues/15). Dieser Fork läuft mit einer **WE6**. Andere Modelle sollten gehen, solange ihre Maschinendatei in `resources.zip` steht.
+According to the original: [D4](https://github.com/AlexxIT/Jura/issues/49), [E4](https://github.com/AlexxIT/Jura/issues/47), [E6](https://github.com/AlexxIT/Jura/issues/13), E8, ENA8 (with physical buttons), [S8](https://github.com/AlexxIT/Jura/issues/20), [Z8](https://github.com/AlexxIT/Jura/issues/15). This fork runs with a **WE6**. Other models should work as long as their machine file is included in `resources.zip`.
 
 ## Installation
 
 [![](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=textlastig&repository=jura_ha&category=Integration)
 
-HACS bzw. Marketplace › Menü › *Benutzerdefinierte Repositories* › URL `https://github.com/textlastig/jura_ha`, Typ *Integration* › Hinzufügen › Herunterladen. Danach Home Assistant neu starten.
+HACS (Marketplace) › menu › *Custom repositories* › URL `https://github.com/textlastig/jura_ha`, type *Integration* › Add › Download. Then restart Home Assistant.
 
-Ohne HACS: den Ordner `custom_components/jura` aus dem [neuesten Release](https://github.com/textlastig/jura_ha/releases/latest) nach `custom_components` im Konfigurationsordner kopieren.
+Without HACS: copy the `custom_components/jura` folder from the [latest release](https://github.com/textlastig/jura_ha/releases/latest) to `custom_components` in your configuration folder.
 
-**Umstieg vom Original:** Original und Fork nutzen beide die Domain `jura`, es darf nur eine davon installiert sein. Das Original in HACS entfernen, den Fork installieren, neu starten. Der vorhandene Eintrag läuft weiter, Entitäten und IDs bleiben.
+**Switching from the original:** the original and this fork both use the `jura` domain, so only one of them may be installed. Remove the original in HACS, install the fork, restart. Your existing entry keeps working, entities and IDs stay.
 
-## Einrichtung
+## Configuration
 
 [![](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=jura)
 
-1. Die Bluetooth-Integration von Home Assistant einrichten.
-2. *Einstellungen › Geräte & Dienste › Integration hinzufügen › JURA Coffee Machines*, MAC-Adresse wählen.
+1. Set up the Home Assistant Bluetooth integration.
+2. *Settings › Devices & services › Add integration › JURA Coffee Machines*, pick the MAC address.
 
-Für die erste Einrichtung muss die Maschine an sein. Steht keine MAC-Adresse zur Auswahl, sieht Home Assistant gerade keine Maschine: Ist sie an, funktioniert Bluetooth (verbindet sich die JURA-App?) und ist der Empfänger nah genug? Maschinen mit PIN-Schutz werden nicht unterstützt.
+The machine has to be on for the first setup. If no MAC address is offered, Home Assistant currently sees no machine: is it on, does Bluetooth work (can the JURA app connect?), and is the receiver close enough? Machines protected by a PIN are not supported.
 
-Danach darf die Maschine aus sein, auch beim Neustart von Home Assistant: Die Integration merkt sich Modell und Schlüssel und zeigt die letzten Werte, bis die Maschine wieder erreichbar ist.
+After that the machine may be off, even when Home Assistant restarts: the integration remembers model and key and shows the last values until the machine is reachable again.
 
-### Option „Nur auslesen, keine Steuerung“
+### Option "Read only, no control"
 
-*Einstellungen › Geräte & Dienste › JURA Coffee Machines › Konfigurieren.* Standard ist aus.
+*Settings › Devices & services › JURA Coffee Machines › Configure.* Off by default.
 
-Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Zubereiten, Statistik aktualisieren), Auswahlen, Zahlen und der Verbindungsschalter werden aus Home Assistant entfernt. Ausschalten legt sie mit denselben IDs wieder an. Sinnvoll, wenn niemand über Home Assistant Kaffee machen soll, etwa bei Sprachassistenten oder Dashboards für alle.
+When on, the integration only creates sensors and binary sensors. Buttons (make, refresh statistics), selects, numbers and the connection switch are removed from Home Assistant. Turning it off creates them again with the same IDs. Useful when nobody should make coffee through Home Assistant, for example with voice assistants or shared dashboards.
 
-## Entitäten
+## Entities
 
-| Art | Entitäten |
+| Kind | Entities |
 |---|---|
-| Sensoren | Gesamtzahl der Produkte, Zähler je Produkt, Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen) |
-| Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
-| Binärsensoren | Insert Tray, Fill Water, Empty Grounds, Empty Tray, No Beans, Cleaning Needed, Filter Change Needed, Descaling Needed, Descaling Soon, Milk System Rinse Needed, Milk System Cleaning Needed |
-| Steuerung | Produkt, Mahlgrad, Stärke, Temperatur, Mengen (Wasser, Milch, Milchschaum, Bypass, Milchpause), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
+| Sensors | Total products, count per product, alerts (`ok`/`alert` with the list of active alerts) |
+| Diagnostic | Maintenance counters (cleaning, filter change, descaling, coffee rinse, as far as the machine has them), maintenance percentages, connection |
+| Binary sensors | Insert Tray, Fill Water, Empty Grounds, Empty Tray, No Beans, Cleaning Needed, Filter Change Needed, Descaling Needed, Descaling Soon, Milk System Rinse Needed, Milk System Cleaning Needed |
+| Control | Product, grinder ratio, coffee strength, temperature, amounts (water, milk, milk foam, bypass, milk break), Make button, Refresh Statistics button, connection switch |
 
-Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist.
+Names follow the Home Assistant language (English or German); entity IDs do not depend on it (`<device>_<mac>_<attribute>`). Which entities appear depends on the model's machine file. Statistics and alerts are read every minute while the machine is on.
 
 ## Bluetooth
 
-Ein guter Bluetooth-Empfänger ist wichtig, siehe die [Liste von Home Assistant](https://www.home-assistant.io/integrations/bluetooth/). AlexxIT hatte mit fünf Adaptern (*Unbranded CSR clone detected*) keine stabile Verbindung, erst ein Adapter mit `CSR8510A10` lief zuverlässig.
+A good Bluetooth receiver matters, see the [Home Assistant list](https://www.home-assistant.io/integrations/bluetooth/). AlexxIT had no stable connection with five adapters (*Unbranded CSR clone detected*); only an adapter with a `CSR8510A10` chip worked reliably.
 
-Gut geht ein [ESPHome-Bluetooth-Proxy](https://esphome.io/components/bluetooth_proxy.html) mit `active: true` nah an der Maschine, zum Beispiel ein M5Stack Atom Lite. Die Maschine sendet ihr Modell nur in der Scan-Antwort; ein Empfänger, der nur passiv mithört, reicht für die Einrichtung nicht.
+An [ESPHome Bluetooth proxy](https://esphome.io/components/bluetooth_proxy.html) with `active: true` close to the machine works well, for example an M5Stack Atom Lite. The machine sends its model only in the scan response; a receiver that only listens passively is not enough for setup.
 
-## WLAN
+## Wi-Fi
 
-Das [WLAN-Modul](https://us.jura.com/en/homeproducts/accessories/WiFi-Connect-24160) wird nicht unterstützt und ist auch nicht geplant.
+The [Wi-Fi module](https://us.jura.com/en/homeproducts/accessories/WiFi-Connect-24160) is not supported and not planned.
 
-## Dank
+## Thanks
 
-- **[AlexxIT](https://github.com/AlexxIT)** für die Integration, das Protokoll und die jahrelange Pflege, ohne die es diesen Fork nicht gäbe.
-- **[madAndroid](https://github.com/madAndroid)** (Andrew Stangl) für die Fixes zu Einrichtung, Verbindung und aktiver Suche.
-- **[Andrei Marinache](https://github.com/andrei-marinache)** für Entkalken, Wartungszähler und die Einrichtung bei ausgeschalteter Maschine.
-- **[tidalf](https://github.com/tidalf)** (Cyril Leclerc) für „No Beans“ und die Korrekturen am Statistikbefehl.
-- Allen, die im Original-Repo Maschinen getestet, Protokolle mitgeschnitten und Fehler gemeldet haben.
+- **[AlexxIT](https://github.com/AlexxIT)** for the integration, the protocol work and years of maintenance; this fork would not exist without it.
+- **[madAndroid](https://github.com/madAndroid)** (Andrew Stangl) for the fixes to setup, connection and active scanning.
+- **[Andrei Marinache](https://github.com/andrei-marinache)** for descaling, maintenance counters and setup while the machine is off.
+- **[tidalf](https://github.com/tidalf)** (Cyril Leclerc) for "No Beans" and the statistics command fixes.
+- Everyone who tested machines, captured protocols and reported bugs in the original repository.
 
-Zusammengeführt, ergänzt und getestet wurde der Fork von [textlastig](https://github.com/textlastig) mit Unterstützung von [Claude](https://claude.com/claude-code) (Anthropic). Übernommene Commits tragen ihre ursprünglichen Autoren, nachgebaute Teile nennen sie als Co-Autoren.
+The fork was merged, extended and tested by [textlastig](https://github.com/textlastig) with the help of [Claude](https://claude.com/claude-code) (Anthropic). Cherry-picked commits keep their original authors; reimplemented parts credit them as co-authors.
 
-## Nützliche Links
+## Useful links
 
 - https://lunarius.fe80.eu/blog/tag/bluetooth.html
 - https://github.com/Jutta-Proto/protocol-cpp
 - https://github.com/Jutta-Proto/protocol-bt-cpp
 - https://github.com/franfrancisco9/Jura-Python-BT
 
-## Lizenz
+## License
 
-Der Code steht unter der [MIT-Lizenz](LICENSE), wie das Original von AlexxIT. Die Beiträge aus den Pull Requests AlexxIT/Jura#41, #59 und #77 wurden in das MIT-lizenzierte Original-Repo eingereicht und stehen damit unter derselben Lizenz. Die Rechte an den übernommenen Beiträgen liegen bei ihren Autoren.
+The code is licensed under the [MIT License](LICENSE), like AlexxIT's original. The contributions from pull requests AlexxIT/Jura#41, #59 and #77 were submitted to the MIT-licensed original repository and are therefore under the same license. Copyright in those contributions remains with their authors.
 
-**Ausgenommen:** `custom_components/jura/core/resources.zip` enthält die Maschinendateien von JURA (Produkte, Einstellungen und Meldungen je Modell). Sie stammen von JURA, fallen nicht unter die MIT-Lizenz und sind nur zum Betrieb dieser Integration enthalten, wie im Original.
+**Excluded:** `custom_components/jura/core/resources.zip` contains JURA's machine files (products, settings and alerts per model). They come from JURA, are not covered by the MIT License and are included only to operate this integration, as in the original.
 
-JURA und Smart Connect sind Marken der JURA Elektroapparate AG. Dieses Projekt ist nicht mit JURA verbunden.
+JURA and Smart Connect are trademarks of JURA Elektroapparate AG. This project is not affiliated with JURA.
