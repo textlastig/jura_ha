@@ -20,5 +20,140 @@
         }
       }
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "connection": {
+        "name": "Verbindung"
+      },
+      "alert_insert_tray": {
+        "name": "Schale einsetzen"
+      },
+      "alert_fill_water": {
+        "name": "Wasser auffüllen"
+      },
+      "alert_empty_grounds": {
+        "name": "Trester leeren"
+      },
+      "alert_empty_tray": {
+        "name": "Schale leeren"
+      },
+      "alert_no_beans": {
+        "name": "Keine Bohnen"
+      },
+      "alert_cleaning_alert": {
+        "name": "Reinigung nötig"
+      },
+      "alert_filter_alert": {
+        "name": "Filterwechsel nötig"
+      },
+      "alert_decalc_alert": {
+        "name": "Entkalken nötig"
+      },
+      "alert_decalc_info": {
+        "name": "Entkalken bald nötig"
+      },
+      "alert_cappu_rinse_alert": {
+        "name": "Milchsystem spülen nötig"
+      },
+      "alert_cappu_clean_alert": {
+        "name": "Milchsystem reinigen nötig"
+      }
+    },
+    "sensor": {
+      "total_product": {
+        "name": "Produkte gesamt"
+      },
+      "product_count": {
+        "name": "{product} Anzahl"
+      },
+      "alerts": {
+        "name": "Meldungen",
+        "state": {
+          "ok": "OK",
+          "alert": "Meldung"
+        }
+      },
+      "maintenance_count_cleaning": {
+        "name": "Reinigungen"
+      },
+      "maintenance_percent_cleaning": {
+        "name": "Wartungsstand Reinigung"
+      },
+      "maintenance_count_filterchange": {
+        "name": "Filterwechsel"
+      },
+      "maintenance_percent_filterchange": {
+        "name": "Wartungsstand Filterwechsel"
+      },
+      "maintenance_count_decalc": {
+        "name": "Entkalkungen"
+      },
+      "maintenance_percent_decalc": {
+        "name": "Wartungsstand Entkalken"
+      },
+      "maintenance_count_coffeerinse": {
+        "name": "Kaffeespülungen"
+      },
+      "maintenance_percent_coffeerinse": {
+        "name": "Wartungsstand Kaffeespülung"
+      },
+      "maintenance_count_cappurinse": {
+        "name": "Milchsystem-Spülungen"
+      },
+      "maintenance_percent_cappurinse": {
+        "name": "Wartungsstand Milchsystem-Spülung"
+      },
+      "maintenance_count_cappuclean": {
+        "name": "Milchsystem-Reinigungen"
+      },
+      "maintenance_percent_cappuclean": {
+        "name": "Wartungsstand Milchsystem-Reinigung"
+      }
+    },
+    "select": {
+      "product": {
+        "name": "Produkt"
+      },
+      "grinder_ratio": {
+        "name": "Mahlgrad"
+      },
+      "coffee_strength": {
+        "name": "Kaffeestärke"
+      },
+      "temperature": {
+        "name": "Temperatur"
+      }
+    },
+    "number": {
+      "water_amount": {
+        "name": "Wassermenge"
+      },
+      "milk_amount": {
+        "name": "Milchmenge"
+      },
+      "milk_foam_amount": {
+        "name": "Milchschaummenge"
+      },
+      "bypass": {
+        "name": "Bypass"
+      },
+      "milk_break": {
+        "name": "Milchpause"
+      }
+    },
+    "button": {
+      "make": {
+        "name": "Zubereiten"
+      },
+      "refresh_stats": {
+        "name": "Statistik aktualisieren"
+      }
+    },
+    "switch": {
+      "connection": {
+        "name": "Verbindung"
+      }
+    }
   }
 }

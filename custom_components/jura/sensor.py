@@ -110,7 +110,7 @@ class JuraStatisticsSensor(JuraEntity, RestoreSensor):
 
     def internal_update(self):
         """Override parent method to ensure statistics are refreshed."""
-        _LOGGER.debug(f"Updating sensor {self._attr_name}")
+        _LOGGER.debug(f"Updating sensor {self.entity_id}")
         if self.hass is not None:
             self.async_write_ha_state()
 
@@ -125,7 +125,6 @@ class JuraTotalCoffeeSensor(JuraStatisticsSensor):
     def __init__(self, device):
         """Initialize the sensor."""
         super().__init__(device, "total_product")
-        self._attr_name = f"{device.name} Total Products"
 
     def _get_value(self) -> int:
         """Get the total coffee count."""
@@ -146,7 +145,8 @@ class JuraProductCountSensor(JuraStatisticsSensor):
         self.product_name = product_name
         attr_name = f"product_{product_name.lower().replace(' ', '_')}"
         super().__init__(device, attr_name)
-        self._attr_name = f"{device.name} {product_name} Count"
+        self._attr_translation_key = "product_count"
+        self._attr_translation_placeholders = {"product": product_name}
 
     def _get_value(self) -> int:
         """Get the count for this specific product."""
@@ -188,7 +188,8 @@ class JuraMaintenanceSensor(JuraStatisticsSensor):
             self._attr_native_unit_of_measurement = PERCENTAGE
             label = f"{name} Percent"
         super().__init__(device, attr)
-        self._attr_name = f"{device.name} {label}"
+        if mtype not in MAINTENANCE_NAMES:
+            self._attr_name = label  # no translation for unknown types
 
     def _get_value(self) -> int | None:
         return self.device.statistics.get(f"maintenance_{self.kind}", {}).get(
@@ -206,7 +207,6 @@ class JuraAlertSensor(JuraEntity, RestoreSensor):
     def __init__(self, device):
         """Initialize the sensor."""
         super().__init__(device, "alerts")
-        self._attr_name = f"{device.name} Alerts"
         self._attr_extra_state_attributes = {"active_alerts": []}
 
         # Register for updates on alerts
@@ -245,6 +245,6 @@ class JuraAlertSensor(JuraEntity, RestoreSensor):
 
     def internal_update(self):
         """Override parent method to ensure alerts are refreshed."""
-        _LOGGER.debug(f"Updating alert sensor {self._attr_name}")
+        _LOGGER.debug(f"Updating alert sensor {self.entity_id}")
         if self.hass is not None:
             self.async_write_ha_state()

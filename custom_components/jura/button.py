@@ -42,7 +42,6 @@ class JuraRefreshStatsButton(JuraEntity, ButtonEntity):
     def __init__(self, device):
         super().__init__(device, "refresh_stats")
         self._attr_icon = "mdi:refresh"
-        self._attr_name = f"{device.name} Refresh Statistics"
         self._attr_entity_category = EntityCategory.DIAGNOSTIC
         self._attr_available = True  # Always make the button available
 

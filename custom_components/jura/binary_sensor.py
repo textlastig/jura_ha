@@ -151,7 +151,6 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity, RestoreEntity):
 
         super().__init__(device, f"alert_{alert_info['type']}")
 
-        self._attr_name = f"{device.name} {alert_info['display_name']}"
         self._attr_icon = alert_info["icon"]
         self._attr_device_class = alert_info["device_class"]
         self._attr_entity_category = alert_info["entity_category"]

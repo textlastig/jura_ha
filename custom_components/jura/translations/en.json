@@ -20,5 +20,140 @@
         }
       }
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "connection": {
+        "name": "Connection"
+      },
+      "alert_insert_tray": {
+        "name": "Insert Tray"
+      },
+      "alert_fill_water": {
+        "name": "Fill Water"
+      },
+      "alert_empty_grounds": {
+        "name": "Empty Grounds"
+      },
+      "alert_empty_tray": {
+        "name": "Empty Tray"
+      },
+      "alert_no_beans": {
+        "name": "No Beans"
+      },
+      "alert_cleaning_alert": {
+        "name": "Cleaning Needed"
+      },
+      "alert_filter_alert": {
+        "name": "Filter Change Needed"
+      },
+      "alert_decalc_alert": {
+        "name": "Descaling Needed"
+      },
+      "alert_decalc_info": {
+        "name": "Descaling Soon"
+      },
+      "alert_cappu_rinse_alert": {
+        "name": "Milk System Rinse Needed"
+      },
+      "alert_cappu_clean_alert": {
+        "name": "Milk System Cleaning Needed"
+      }
+    },
+    "sensor": {
+      "total_product": {
+        "name": "Total Products"
+      },
+      "product_count": {
+        "name": "{product} Count"
+      },
+      "alerts": {
+        "name": "Alerts",
+        "state": {
+          "ok": "OK",
+          "alert": "Alert"
+        }
+      },
+      "maintenance_count_cleaning": {
+        "name": "Cleaning Count"
+      },
+      "maintenance_percent_cleaning": {
+        "name": "Cleaning Percent"
+      },
+      "maintenance_count_filterchange": {
+        "name": "Filter Change Count"
+      },
+      "maintenance_percent_filterchange": {
+        "name": "Filter Change Percent"
+      },
+      "maintenance_count_decalc": {
+        "name": "Descaling Count"
+      },
+      "maintenance_percent_decalc": {
+        "name": "Descaling Percent"
+      },
+      "maintenance_count_coffeerinse": {
+        "name": "Coffee Rinse Count"
+      },
+      "maintenance_percent_coffeerinse": {
+        "name": "Coffee Rinse Percent"
+      },
+      "maintenance_count_cappurinse": {
+        "name": "Milk System Rinse Count"
+      },
+      "maintenance_percent_cappurinse": {
+        "name": "Milk System Rinse Percent"
+      },
+      "maintenance_count_cappuclean": {
+        "name": "Milk System Cleaning Count"
+      },
+      "maintenance_percent_cappuclean": {
+        "name": "Milk System Cleaning Percent"
+      }
+    },
+    "select": {
+      "product": {
+        "name": "Product"
+      },
+      "grinder_ratio": {
+        "name": "Grinder Ratio"
+      },
+      "coffee_strength": {
+        "name": "Coffee Strength"
+      },
+      "temperature": {
+        "name": "Temperature"
+      }
+    },
+    "number": {
+      "water_amount": {
+        "name": "Water Amount"
+      },
+      "milk_amount": {
+        "name": "Milk Amount"
+      },
+      "milk_foam_amount": {
+        "name": "Milk Foam Amount"
+      },
+      "bypass": {
+        "name": "Bypass"
+      },
+      "milk_break": {
+        "name": "Milk Break"
+      }
+    },
+    "button": {
+      "make": {
+        "name": "Make"
+      },
+      "refresh_stats": {
+        "name": "Refresh Statistics"
+      }
+    },
+    "switch": {
+      "connection": {
+        "name": "Connection"
+      }
+    }
   }
 }
