@@ -27,37 +27,37 @@
         "name": "Connection"
       },
       "alert_insert_tray": {
-        "name": "Insert Tray"
+        "name": "No drip tray"
       },
       "alert_fill_water": {
-        "name": "Fill Water"
+        "name": "Fill the water tank"
       },
       "alert_empty_grounds": {
-        "name": "Empty Grounds"
+        "name": "Empty the coffee grounds container"
       },
       "alert_empty_tray": {
-        "name": "Empty Tray"
+        "name": "Empty the drip tray"
       },
       "alert_no_beans": {
-        "name": "No Beans"
+        "name": "Add beans"
       },
       "alert_cleaning_alert": {
-        "name": "Cleaning Needed"
+        "name": "Clean the machine"
       },
       "alert_filter_alert": {
-        "name": "Filter Change Needed"
+        "name": "Change the filter"
       },
       "alert_decalc_alert": {
-        "name": "Descaling Needed"
+        "name": "Descale the machine"
       },
       "alert_decalc_info": {
-        "name": "Descaling Soon"
+        "name": "Descale the machine soon"
       },
       "alert_cappu_rinse_alert": {
-        "name": "Milk System Rinse Needed"
+        "name": "Rinse the milk system"
       },
       "alert_cappu_clean_alert": {
-        "name": "Milk System Cleaning Needed"
+        "name": "Clean the milk system"
       }
     },
     "sensor": {
@@ -66,6 +66,150 @@
       },
       "product_count": {
         "name": "{product}"
+      },
+      "product_8": {
+        "name": "Ristretto"
+      },
+      "product_9": {
+        "name": "Espresso"
+      },
+      "product_10": {
+        "name": "Coffee"
+      },
+      "product_11": {
+        "name": "Cappuccino"
+      },
+      "product_12": {
+        "name": "Café au lait"
+      },
+      "product_13": {
+        "name": "Latte macchiato"
+      },
+      "product_14": {
+        "name": "Portion of milk"
+      },
+      "product_15": {
+        "name": "Pot of coffee"
+      },
+      "product_16": {
+        "name": "Hot water"
+      },
+      "product_17": {
+        "name": "2 x Ristretto"
+      },
+      "product_18": {
+        "name": "2 x Espresso"
+      },
+      "product_19": {
+        "name": "2 x Coffee"
+      },
+      "product_20": {
+        "name": "2 x Cappuccino"
+      },
+      "product_21": {
+        "name": "2 x Café au lait"
+      },
+      "product_22": {
+        "name": "2 x Latte macchiato"
+      },
+      "product_23": {
+        "name": "2 x Portion of milk"
+      },
+      "product_24": {
+        "name": "Flat white"
+      },
+      "product_25": {
+        "name": "2 x Flat white"
+      },
+      "product_26": {
+        "name": "Hot water, large"
+      },
+      "product_27": {
+        "name": "Special coffee"
+      },
+      "product_28": {
+        "name": "2 x Special coffee"
+      },
+      "product_52": {
+        "name": "Portion of milk foam"
+      },
+      "product_53": {
+        "name": "Macchiato"
+      },
+      "product_73": {
+        "name": "Caffè Barista"
+      },
+      "product_74": {
+        "name": "Lungo Barista"
+      },
+      "product_75": {
+        "name": "2 x Caffè Barista"
+      },
+      "product_76": {
+        "name": "2 x Lungo Barista"
+      },
+      "product_77": {
+        "name": "Americano"
+      },
+      "product_86": {
+        "name": "2 x Macchiato"
+      },
+      "product_87": {
+        "name": "2 x Portion of milk foam"
+      },
+      "product_149": {
+        "name": "Hot water for green tea"
+      },
+      "product_150": {
+        "name": "Espresso doppio"
+      },
+      "product_151": {
+        "name": "Espresso, large (americano)"
+      },
+      "product_152": {
+        "name": "Coffee, large"
+      },
+      "product_153": {
+        "name": "Cappuccino, large"
+      },
+      "product_154": {
+        "name": "Café au lait, large"
+      },
+      "product_155": {
+        "name": "Latte macchiato, large"
+      },
+      "product_156": {
+        "name": "Portion of milk, large"
+      },
+      "product_157": {
+        "name": "Pot 2"
+      },
+      "product_160": {
+        "name": "Pepresso"
+      },
+      "product_283": {
+        "name": "Hot water for green tea"
+      },
+      "product_284": {
+        "name": "Hot water for black tea"
+      },
+      "product_317": {
+        "name": "Product with ground coffee"
+      },
+      "product_340": {
+        "name": "2 x Americano"
+      },
+      "product_356": {
+        "name": "Cortado"
+      },
+      "product_357": {
+        "name": "2 x Cortado"
+      },
+      "product_406": {
+        "name": "Sweet Latte"
+      },
+      "product_408": {
+        "name": "Lungo"
       },
       "alerts": {
         "name": "Alerts",
@@ -109,342 +253,6 @@
       },
       "maintenance_percent_cappuclean": {
         "name": "Milk System Cleaning Percent"
-      },
-      "product_count_1_ristretto": {
-        "name": "Ristretto"
-      },
-      "product_count_1_ristretto_big": {
-        "name": "Ristretto Big"
-      },
-      "product_count_2_ristretto": {
-        "name": "2 x Ristretto"
-      },
-      "product_count_2_ristretto_big": {
-        "name": "2 x Ristretto Big"
-      },
-      "product_count_1_espresso": {
-        "name": "Espresso"
-      },
-      "product_count_1_espresso_big": {
-        "name": "Espresso Big"
-      },
-      "product_count_2_espresso": {
-        "name": "2 x Espresso"
-      },
-      "product_count_2_espresso_big": {
-        "name": "2 x Espresso Big"
-      },
-      "product_count_1_coffee": {
-        "name": "Coffee"
-      },
-      "product_count_1_coffee_big": {
-        "name": "Coffee Big"
-      },
-      "product_count_2_coffee": {
-        "name": "2 x Coffee"
-      },
-      "product_count_2_coffee_big": {
-        "name": "2 x Coffee Big"
-      },
-      "product_count_1_coffee_special": {
-        "name": "Coffee Special"
-      },
-      "product_count_1_coffee_special_big": {
-        "name": "Coffee Special Big"
-      },
-      "product_count_2_coffee_special": {
-        "name": "2 x Coffee Special"
-      },
-      "product_count_2_coffee_special_big": {
-        "name": "2 x Coffee Special Big"
-      },
-      "product_count_1_cappuccino": {
-        "name": "Cappuccino"
-      },
-      "product_count_1_cappuccino_big": {
-        "name": "Cappuccino Big"
-      },
-      "product_count_2_cappuccino": {
-        "name": "2 x Cappuccino"
-      },
-      "product_count_2_cappuccino_big": {
-        "name": "2 x Cappuccino Big"
-      },
-      "product_count_1_latte_macchiato": {
-        "name": "Latte Macchiato"
-      },
-      "product_count_1_latte_macchiato_big": {
-        "name": "Latte Macchiato Big"
-      },
-      "product_count_2_latte_macchiato": {
-        "name": "2 x Latte Macchiato"
-      },
-      "product_count_2_latte_macchiato_big": {
-        "name": "2 x Latte Macchiato Big"
-      },
-      "product_count_1_espresso_macchiato": {
-        "name": "Espresso Macchiato"
-      },
-      "product_count_1_espresso_macchiato_big": {
-        "name": "Espresso Macchiato Big"
-      },
-      "product_count_2_espresso_macchiato": {
-        "name": "2 x Espresso Macchiato"
-      },
-      "product_count_2_espresso_macchiato_big": {
-        "name": "2 x Espresso Macchiato Big"
-      },
-      "product_count_1_espresso_doppio": {
-        "name": "Espresso Doppio"
-      },
-      "product_count_1_espresso_doppio_big": {
-        "name": "Espresso Doppio Big"
-      },
-      "product_count_2_espresso_doppio": {
-        "name": "2 x Espresso Doppio"
-      },
-      "product_count_2_espresso_doppio_big": {
-        "name": "2 x Espresso Doppio Big"
-      },
-      "product_count_1_flat_white": {
-        "name": "Flat White"
-      },
-      "product_count_1_flat_white_big": {
-        "name": "Flat White Big"
-      },
-      "product_count_2_flat_white": {
-        "name": "2 x Flat White"
-      },
-      "product_count_2_flat_white_big": {
-        "name": "2 x Flat White Big"
-      },
-      "product_count_1_milk_coffee": {
-        "name": "Milk Coffee"
-      },
-      "product_count_1_milk_coffee_big": {
-        "name": "Milk Coffee Big"
-      },
-      "product_count_2_milk_coffee": {
-        "name": "2 x Milk Coffee"
-      },
-      "product_count_2_milk_coffee_big": {
-        "name": "2 x Milk Coffee Big"
-      },
-      "product_count_1_milk_foam": {
-        "name": "Milk Foam"
-      },
-      "product_count_1_milk_foam_big": {
-        "name": "Milk Foam Big"
-      },
-      "product_count_2_milk_foam": {
-        "name": "2 x Milk Foam"
-      },
-      "product_count_2_milk_foam_big": {
-        "name": "2 x Milk Foam Big"
-      },
-      "product_count_1_milk": {
-        "name": "Milk"
-      },
-      "product_count_1_milk_big": {
-        "name": "Milk Big"
-      },
-      "product_count_2_milk": {
-        "name": "2 x Milk"
-      },
-      "product_count_2_milk_big": {
-        "name": "2 x Milk Big"
-      },
-      "product_count_1_milk_portion": {
-        "name": "Milk Portion"
-      },
-      "product_count_1_milk_portion_big": {
-        "name": "Milk Portion Big"
-      },
-      "product_count_2_milk_portion": {
-        "name": "2 x Milk Portion"
-      },
-      "product_count_2_milk_portion_big": {
-        "name": "2 x Milk Portion Big"
-      },
-      "product_count_1_hot_water": {
-        "name": "Hot Water"
-      },
-      "product_count_1_hot_water_big": {
-        "name": "Hot Water Big"
-      },
-      "product_count_2_hot_water": {
-        "name": "2 x Hot Water"
-      },
-      "product_count_2_hot_water_big": {
-        "name": "2 x Hot Water Big"
-      },
-      "product_count_1_hot_water_green_tea": {
-        "name": "Hot Water (Green Tea)"
-      },
-      "product_count_1_hot_water_green_tea_big": {
-        "name": "Hot Water (Green Tea) Big"
-      },
-      "product_count_2_hot_water_green_tea": {
-        "name": "2 x Hot Water (Green Tea)"
-      },
-      "product_count_2_hot_water_green_tea_big": {
-        "name": "2 x Hot Water (Green Tea) Big"
-      },
-      "product_count_1_hot_water_black_tea": {
-        "name": "Hot Water (Black Tea)"
-      },
-      "product_count_1_hot_water_black_tea_big": {
-        "name": "Hot Water (Black Tea) Big"
-      },
-      "product_count_2_hot_water_black_tea": {
-        "name": "2 x Hot Water (Black Tea)"
-      },
-      "product_count_2_hot_water_black_tea_big": {
-        "name": "2 x Hot Water (Black Tea) Big"
-      },
-      "product_count_1_barista_lungo": {
-        "name": "Lungo Barista"
-      },
-      "product_count_1_barista_lungo_big": {
-        "name": "Lungo Barista Big"
-      },
-      "product_count_2_barista_lungo": {
-        "name": "2 x Lungo Barista"
-      },
-      "product_count_2_barista_lungo_big": {
-        "name": "2 x Lungo Barista Big"
-      },
-      "product_count_1_cafe_barista": {
-        "name": "Caffè Barista"
-      },
-      "product_count_1_cafe_barista_big": {
-        "name": "Caffè Barista Big"
-      },
-      "product_count_2_cafe_barista": {
-        "name": "2 x Caffè Barista"
-      },
-      "product_count_2_cafe_barista_big": {
-        "name": "2 x Caffè Barista Big"
-      },
-      "product_count_1_cafe_barista_americano": {
-        "name": "Caffè Barista / Americano"
-      },
-      "product_count_1_cafe_barista_americano_big": {
-        "name": "Caffè Barista / Americano Big"
-      },
-      "product_count_2_cafe_barista_americano": {
-        "name": "2 x Caffè Barista / Americano"
-      },
-      "product_count_2_cafe_barista_americano_big": {
-        "name": "2 x Caffè Barista / Americano Big"
-      },
-      "product_count_1_americano": {
-        "name": "Americano"
-      },
-      "product_count_1_americano_big": {
-        "name": "Americano Big"
-      },
-      "product_count_2_americano": {
-        "name": "2 x Americano"
-      },
-      "product_count_2_americano_big": {
-        "name": "2 x Americano Big"
-      },
-      "product_count_1_cortado": {
-        "name": "Cortado"
-      },
-      "product_count_1_cortado_big": {
-        "name": "Cortado Big"
-      },
-      "product_count_2_cortado": {
-        "name": "2 x Cortado"
-      },
-      "product_count_2_cortado_big": {
-        "name": "2 x Cortado Big"
-      },
-      "product_count_1_lungo": {
-        "name": "Lungo"
-      },
-      "product_count_1_lungo_big": {
-        "name": "Lungo Big"
-      },
-      "product_count_2_lungo": {
-        "name": "2 x Lungo"
-      },
-      "product_count_2_lungo_big": {
-        "name": "2 x Lungo Big"
-      },
-      "product_count_1_pot": {
-        "name": "Pot"
-      },
-      "product_count_1_pot_big": {
-        "name": "Pot Big"
-      },
-      "product_count_2_pot": {
-        "name": "2 x Pot"
-      },
-      "product_count_2_pot_big": {
-        "name": "2 x Pot Big"
-      },
-      "product_count_1_powder_product": {
-        "name": "Powder Product"
-      },
-      "product_count_1_powder_product_big": {
-        "name": "Powder Product Big"
-      },
-      "product_count_2_powder_product": {
-        "name": "2 x Powder Product"
-      },
-      "product_count_2_powder_product_big": {
-        "name": "2 x Powder Product Big"
-      },
-      "product_count_1_sweet_latte": {
-        "name": "Sweet Latte"
-      },
-      "product_count_1_sweet_latte_big": {
-        "name": "Sweet Latte Big"
-      },
-      "product_count_2_sweet_latte": {
-        "name": "2 x Sweet Latte"
-      },
-      "product_count_2_sweet_latte_big": {
-        "name": "2 x Sweet Latte Big"
-      },
-      "product_count_1_coffee_speed_1": {
-        "name": "Coffee Speed 1"
-      },
-      "product_count_1_coffee_speed_1_big": {
-        "name": "Coffee Speed 1 Big"
-      },
-      "product_count_2_coffee_speed_1": {
-        "name": "2 x Coffee Speed 1"
-      },
-      "product_count_2_coffee_speed_1_big": {
-        "name": "2 x Coffee Speed 1 Big"
-      },
-      "product_count_1_coffee_speed_2": {
-        "name": "Coffee Speed 2"
-      },
-      "product_count_1_coffee_speed_2_big": {
-        "name": "Coffee Speed 2 Big"
-      },
-      "product_count_2_coffee_speed_2": {
-        "name": "2 x Coffee Speed 2"
-      },
-      "product_count_2_coffee_speed_2_big": {
-        "name": "2 x Coffee Speed 2 Big"
-      },
-      "product_count_1_pot_speed_2": {
-        "name": "Pot Speed 2"
-      },
-      "product_count_1_pot_speed_2_big": {
-        "name": "Pot Speed 2 Big"
-      },
-      "product_count_2_pot_speed_2": {
-        "name": "2 x Pot Speed 2"
-      },
-      "product_count_2_pot_speed_2_big": {
-        "name": "2 x Pot Speed 2 Big"
       }
     },
     "select": {

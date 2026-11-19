@@ -26,3 +26,5 @@ SOFTWARE.
 Exception: custom_components/jura/core/resources.zip contains machine files
 by JURA Elektroapparate AG. They are not covered by this license and are
 included only to operate this integration, as in the original project.
+The same applies to the product and alert names in
+custom_components/jura/translations/*.json taken from the JURA J.O.E. app.

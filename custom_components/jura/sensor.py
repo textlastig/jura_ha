@@ -1,7 +1,6 @@
 """Sensor platform for Jura integration."""
 
 import logging
-import re
 from datetime import timedelta
 from typing import Any
 
@@ -36,7 +35,9 @@ async def async_setup_entry(
     for product in device.products:
         product_name = product["@Name"]
         if product.get("@Active") != "false":
-            entities.append(JuraProductCountSensor(device, product_name))
+            entities.append(
+                JuraProductCountSensor(device, product_name, product.get("@Text"))
+            )
 
     # Maintenance counters and percents (if the machine file lists them)
     for kind in ("counters", "percents"):
@@ -154,13 +155,14 @@ class JuraProductCountSensor(JuraProductUnitSensor):
     _attr_icon = "mdi:coffee-outline"
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
 
-    def __init__(self, device, product_name: str):
+    def __init__(self, device, product_name: str, text: str | None = None):
         """Initialize the sensor."""
         self.product_name = product_name
         attr_name = f"product_{product_name.lower().replace(' ', '_')}"
         super().__init__(device, attr_name)
-        if key := product_translation_key(product_name):
-            self._attr_translation_key = key
+        if text in PRODUCT_TEXTS:
+            # the name the JURA app and the machine display use
+            self._attr_translation_key = f"product_{text}"
         else:
             self._attr_translation_key = "product_count"
             self._attr_translation_placeholders = {"product": product_name}
@@ -174,63 +176,10 @@ class JuraProductCountSensor(JuraProductUnitSensor):
         return value
 
 
-PRODUCT_BASES = {
-    "ristretto": "ristretto",
-    "ristretti": "ristretto",
-    "espresso": "espresso",
-    "espressi": "espresso",
-    "coffee": "coffee",
-    "coffee special": "coffee_special",
-    "cappuccino": "cappuccino",
-    "cappuccini": "cappuccino",
-    "latte macchiato": "latte_macchiato",
-    "latte macchiati": "latte_macchiato",
-    "espresso macchiato": "espresso_macchiato",
-    "espresso doppio": "espresso_doppio",
-    "espresso macchiati": "espresso_macchiato",
-    "coffee speed 1": "coffee_speed_1",
-    "coffee speed 2": "coffee_speed_2",
-    "pot 2 speed": "pot_speed_2",
-    "flat white": "flat_white",
-    "milkcoffee": "milk_coffee",
-    "milk foam": "milk_foam",
-    "milk": "milk",
-    "milk portion": "milk_portion",
-    "portion milk": "milk_portion",
-    "hotwater portion": "hot_water",
-    "hotwater portion(normal)": "hot_water",
-    "hotwater portion(green tea)": "hot_water_green_tea",
-    "hotwater portion(black tea)": "hot_water_black_tea",
-    "barista lungo": "barista_lungo",
-    "cafe barista": "cafe_barista",
-    "cafe barista / americano": "cafe_barista_americano",
-    "americano": "americano",
-    "cortado": "cortado",
-    "lungo": "lungo",
-    "pot": "pot",
-    "powderproduct": "powder_product",
-    "sweet latte": "sweet_latte",
-}
-
-
-def product_translation_key(name: str) -> str | None:
-    """Translation key for a product name from the machine file.
-
-    "2 Espressi", "2x Espresso" -> product_count_2_espresso,
-    "1 coffee special" -> product_count_1_coffee_special,
-    "Coffee Big" -> product_count_1_coffee_big; unknown names -> None
-    """
-    n = " ".join(name.lower().split())
-    n = re.sub(r"\s*\((joe only|only joe)\)$", "", n)  # only in the JURA app
-    count = 1
-    if m := re.match(r"^([12])\s*[x*]?\s*(?=\D)(.+)$", n):
-        count, n = int(m[1]), m[2]
-    big = n.endswith(" big")
-    if big:
-        n = n[: -len(" big")]
-    if (base := PRODUCT_BASES.get(n)) is None:
-        return None
-    return f"product_count_{count}_{base}" + ("_big" if big else "")
+# Text numbers of the products in the JURA machine files. Names per language
+# come from the JURA J.O.E. app (string "joe_<number>", app 4.6.16) and are in
+# translations/*.json as "product_<number>".
+PRODUCT_TEXTS = frozenset({"8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "52", "53", "73", "74", "75", "76", "77", "86", "87", "149", "150", "151", "152", "153", "154", "155", "156", "157", "160", "283", "284", "317", "340", "356", "357", "406", "408"})
 
 
 MAINTENANCE_NAMES = {

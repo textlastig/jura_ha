@@ -15,7 +15,7 @@ Dies ist ein Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura). Er führt
 | Sauberes Entladen, erneuter Einrichtungsversuch statt Abbruch, aktuelles Bluetooth-Gerät bei jeder Verbindung, aktive Suche (das Modell steht nur in der Scan-Antwort) | [madAndroid, AlexxIT/Jura#77](https://github.com/AlexxIT/Jura/pull/77) |
 | Sensoren „Descaling Needed“ und „Descaling Soon“, Wartungszähler und Wartungsstand in Prozent, Einrichtung bei ausgeschalteter Maschine mit den letzten Werten | [Andrei Marinache, AlexxIT/Jura#41](https://github.com/AlexxIT/Jura/pull/41) |
 | Sensor „No Beans“, richtiger Schlüssel im Statistikbefehl, weniger Log-Rauschen | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
-| Option **Nur auslesen, keine Steuerung**, Entitätsnamen auf Deutsch und Englisch | neu in diesem Fork |
+| Option **Nur auslesen, keine Steuerung**, Entitätsnamen auf Deutsch und Englisch, Produkt- und Meldungsnamen wie in der JURA-App, Milchsystem-Meldungen nur bei Maschinen mit Milchsystem | neu in diesem Fork |
 
 Die Steuerung bleibt vollständig enthalten und ist Standard. Die Entitäts-IDs sind dieselben wie beim Original; wer umsteigt, behält Verlauf und Statistik.
 
@@ -56,10 +56,10 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 |---|---|
 | Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen) |
 | Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
-| Binärsensoren | Insert Tray, Fill Water, Empty Grounds, Empty Tray, No Beans, Cleaning Needed, Filter Change Needed, Descaling Needed, Descaling Soon, Milk System Rinse Needed, Milk System Cleaning Needed |
+| Binärsensoren | Restwasserschale fehlt, Wassertank füllen, Kaffeesatzbehälter leeren, Restwasserschale leeren, Bohnen füllen, Gerät reinigen, Filter wechseln, Gerät entkalken, Gerät bald entkalken; bei Maschinen mit Milchprodukten zusätzlich Milchsystem spülen, Milchsystem reinigen |
 | Steuerung | Produkt, Mahlgrad, Stärke, Temperatur, Mengen (Wasser, Milch, Milchschaum, Bypass, Milchpause), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
 
-Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist.
+Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist.
 
 ## Bluetooth
 
@@ -92,6 +92,6 @@ Zusammengeführt, ergänzt und getestet wurde der Fork von [textlastig](https://
 
 Der Code steht unter der [MIT-Lizenz](LICENSE), wie das Original von AlexxIT. Die Beiträge aus den Pull Requests AlexxIT/Jura#41, #59 und #77 wurden in das MIT-lizenzierte Original-Repo eingereicht und stehen damit unter derselben Lizenz. Die Rechte an den übernommenen Beiträgen liegen bei ihren Autoren.
 
-**Ausgenommen:** `custom_components/jura/core/resources.zip` enthält die Maschinendateien von JURA (Produkte, Einstellungen und Meldungen je Modell). Sie stammen von JURA, fallen nicht unter die MIT-Lizenz und sind nur zum Betrieb dieser Integration enthalten, wie im Original.
+**Ausgenommen:** `custom_components/jura/core/resources.zip` enthält die Maschinendateien von JURA (Produkte, Einstellungen und Meldungen je Modell). Sie stammen von JURA, fallen nicht unter die MIT-Lizenz und sind nur zum Betrieb dieser Integration enthalten, wie im Original. Dasselbe gilt für die Produkt- und Meldungsnamen in `translations/*.json`, die aus der JURA-App J.O.E. übernommen sind.
 
 JURA und Smart Connect sind Marken der JURA Elektroapparate AG. Dieses Projekt ist nicht mit JURA verbunden.

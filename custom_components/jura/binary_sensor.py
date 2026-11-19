@@ -7,6 +7,7 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 
@@ -97,6 +98,7 @@ ALERT_SENSORS = [
     {
         "name_pattern": "cappu rinse alert",
         "type": "cappu_rinse_alert",
+        "milk": True,
         "display_name": "Milk System Rinse Needed",
         "icon": "mdi:cup-water",
         "device_class": BinarySensorDeviceClass.PROBLEM,
@@ -105,6 +107,7 @@ ALERT_SENSORS = [
     {
         "name_pattern": "cappu clean alert",
         "type": "cappu_clean_alert",
+        "milk": True,
         "display_name": "Milk System Cleaning Needed",
         "icon": "mdi:cup-water",
         "device_class": BinarySensorDeviceClass.PROBLEM,
@@ -121,11 +124,26 @@ async def async_setup_entry(
     # Create connection sensor
     entities: list = [JuraSensor(device, "connection")]
 
-    # Create alert binary sensors
+    # Create alert binary sensors; milk system alerts only for machines with
+    # milk products (the machine file lists these alerts for every model)
+    milk = has_milk_system(device.products)
+    registry = er.async_get(hass)
     for alert_info in ALERT_SENSORS:
+        if alert_info.get("milk") and not milk:
+            unique_id = f"{device.mac.replace(':', '')}_alert_{alert_info['type']}"
+            if entity_id := registry.async_get_entity_id(
+                "binary_sensor", DOMAIN, unique_id
+            ):
+                registry.async_remove(entity_id)  # created by an older version
+            continue
         entities.append(JuraAlertBinarySensor(device, alert_info))
 
     add_entities(entities)
+
+
+def has_milk_system(products: list) -> bool:
+    """True if the machine file has a product with milk (P_Kind M or CM)."""
+    return any("M" in p.get("@P_Kind", "") for p in products)
 
 
 class JuraSensor(JuraEntity, BinarySensorEntity):
