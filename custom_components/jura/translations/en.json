@@ -7,5 +7,18 @@
         }
       }
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options",
+        "data": {
+          "read_only": "Read only, no control"
+        },
+        "data_description": {
+          "read_only": "Only read statistics, maintenance values and alerts. Buttons, numbers, selects and switches for making products are removed; turning this off creates them again."
+        }
+      }
+    }
   }
 }

@@ -68,6 +68,7 @@ class Device:
         self.maintenance = maintenance or {"counters": [], "percents": []}
 
         self.client = Client(device, self.set_connected, key)
+        self.platforms: list[str] = []
 
         self.connected = False
         self.conn_info = {"mac": device.address}

@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "mac": "MAC"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen",
+        "data": {
+          "read_only": "Nur auslesen, keine Steuerung"
+        },
+        "data_description": {
+          "read_only": "Liest nur Statistik, Wartungswerte und Meldungen. Tasten, Zahlen, Auswahlen und Schalter zum Zubereiten werden entfernt; ausschalten legt sie wieder an."
+        }
+      }
+    }
+  }
+}

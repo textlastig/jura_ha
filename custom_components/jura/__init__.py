@@ -5,6 +5,7 @@ from homeassistant.components import bluetooth
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers import entity_registry as er
 
 from .core import DOMAIN
 from .core.device import Device, EmptyModel, UnsupportedModel, get_machine
@@ -12,6 +13,12 @@ from .core.device import Device, EmptyModel, UnsupportedModel, get_machine
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORMS = ["binary_sensor", "button", "number", "select", "switch", "sensor"]
+# option "read_only": only read values, no control entities
+READ_ONLY_PLATFORMS = ["binary_sensor", "sensor"]
+
+
+def get_platforms(entry: ConfigEntry) -> list[str]:
+    return READ_ONLY_PLATFORMS if entry.options.get("read_only") else PLATFORMS
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
@@ -119,13 +126,32 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         hass, mac, connectable=True
     )
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    device.platforms = platforms = get_platforms(entry)
+    if platforms != PLATFORMS:
+        # remove control entities left from before the option was set
+        registry = er.async_get(hass)
+        for reg_entry in er.async_entries_for_config_entry(registry, entry.entry_id):
+            if reg_entry.domain not in platforms:
+                registry.async_remove(reg_entry.entity_id)
+
+    entry.async_on_unload(entry.add_update_listener(async_update_options))
+
+    await hass.config_entries.async_forward_entry_setups(entry, platforms)
 
     return True
 
 
+async def async_update_options(hass: HomeAssistant, entry: ConfigEntry):
+    # entry data also changes when the saved advertisement is updated
+    device = hass.data[DOMAIN].get(entry.entry_id)
+    if device and device.platforms != get_platforms(entry):
+        await hass.config_entries.async_reload(entry.entry_id)
+
+
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
-    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    device = hass.data[DOMAIN].get(entry.entry_id)
+    platforms = device.platforms if device else get_platforms(entry)
+    unload_ok = await hass.config_entries.async_unload_platforms(entry, platforms)
     if unload_ok and (device := hass.data[DOMAIN].pop(entry.entry_id, None)):
         await device.client.async_stop()
     return unload_ok
