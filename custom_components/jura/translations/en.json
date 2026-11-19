@@ -62,10 +62,12 @@
     },
     "sensor": {
       "total_product": {
-        "name": "Total Products"
+        "name": "Total",
+        "unit_of_measurement": "products"
       },
       "product_count": {
-        "name": "{product} Count"
+        "name": "{product}",
+        "unit_of_measurement": "products"
       },
       "alerts": {
         "name": "Alerts",
@@ -111,340 +113,452 @@
         "name": "Milk System Cleaning Percent"
       },
       "product_count_1_ristretto": {
-        "name": "Ristretto Count"
+        "name": "Ristretto",
+        "unit_of_measurement": "products"
       },
       "product_count_1_ristretto_big": {
-        "name": "Ristretto Big Count"
+        "name": "Ristretto Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_ristretto": {
-        "name": "2 x Ristretto Count"
+        "name": "2 x Ristretto",
+        "unit_of_measurement": "products"
       },
       "product_count_2_ristretto_big": {
-        "name": "2 x Ristretto Big Count"
+        "name": "2 x Ristretto Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_espresso": {
-        "name": "Espresso Count"
+        "name": "Espresso",
+        "unit_of_measurement": "products"
       },
       "product_count_1_espresso_big": {
-        "name": "Espresso Big Count"
+        "name": "Espresso Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_espresso": {
-        "name": "2 x Espresso Count"
+        "name": "2 x Espresso",
+        "unit_of_measurement": "products"
       },
       "product_count_2_espresso_big": {
-        "name": "2 x Espresso Big Count"
+        "name": "2 x Espresso Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee": {
-        "name": "Coffee Count"
+        "name": "Coffee",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_big": {
-        "name": "Coffee Big Count"
+        "name": "Coffee Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee": {
-        "name": "2 x Coffee Count"
+        "name": "2 x Coffee",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_big": {
-        "name": "2 x Coffee Big Count"
+        "name": "2 x Coffee Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_special": {
-        "name": "Coffee Special Count"
+        "name": "Coffee Special",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_special_big": {
-        "name": "Coffee Special Big Count"
+        "name": "Coffee Special Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_special": {
-        "name": "2 x Coffee Special Count"
+        "name": "2 x Coffee Special",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_special_big": {
-        "name": "2 x Coffee Special Big Count"
+        "name": "2 x Coffee Special Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cappuccino": {
-        "name": "Cappuccino Count"
+        "name": "Cappuccino",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cappuccino_big": {
-        "name": "Cappuccino Big Count"
+        "name": "Cappuccino Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cappuccino": {
-        "name": "2 x Cappuccino Count"
+        "name": "2 x Cappuccino",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cappuccino_big": {
-        "name": "2 x Cappuccino Big Count"
+        "name": "2 x Cappuccino Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_latte_macchiato": {
-        "name": "Latte Macchiato Count"
+        "name": "Latte Macchiato",
+        "unit_of_measurement": "products"
       },
       "product_count_1_latte_macchiato_big": {
-        "name": "Latte Macchiato Big Count"
+        "name": "Latte Macchiato Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_latte_macchiato": {
-        "name": "2 x Latte Macchiato Count"
+        "name": "2 x Latte Macchiato",
+        "unit_of_measurement": "products"
       },
       "product_count_2_latte_macchiato_big": {
-        "name": "2 x Latte Macchiato Big Count"
+        "name": "2 x Latte Macchiato Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_espresso_macchiato": {
-        "name": "Espresso Macchiato Count"
+        "name": "Espresso Macchiato",
+        "unit_of_measurement": "products"
       },
       "product_count_1_espresso_macchiato_big": {
-        "name": "Espresso Macchiato Big Count"
+        "name": "Espresso Macchiato Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_espresso_macchiato": {
-        "name": "2 x Espresso Macchiato Count"
+        "name": "2 x Espresso Macchiato",
+        "unit_of_measurement": "products"
       },
       "product_count_2_espresso_macchiato_big": {
-        "name": "2 x Espresso Macchiato Big Count"
+        "name": "2 x Espresso Macchiato Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_espresso_doppio": {
-        "name": "Espresso Doppio Count"
+        "name": "Espresso Doppio",
+        "unit_of_measurement": "products"
       },
       "product_count_1_espresso_doppio_big": {
-        "name": "Espresso Doppio Big Count"
+        "name": "Espresso Doppio Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_espresso_doppio": {
-        "name": "2 x Espresso Doppio Count"
+        "name": "2 x Espresso Doppio",
+        "unit_of_measurement": "products"
       },
       "product_count_2_espresso_doppio_big": {
-        "name": "2 x Espresso Doppio Big Count"
+        "name": "2 x Espresso Doppio Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_flat_white": {
-        "name": "Flat White Count"
+        "name": "Flat White",
+        "unit_of_measurement": "products"
       },
       "product_count_1_flat_white_big": {
-        "name": "Flat White Big Count"
+        "name": "Flat White Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_flat_white": {
-        "name": "2 x Flat White Count"
+        "name": "2 x Flat White",
+        "unit_of_measurement": "products"
       },
       "product_count_2_flat_white_big": {
-        "name": "2 x Flat White Big Count"
+        "name": "2 x Flat White Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_coffee": {
-        "name": "Milk Coffee Count"
+        "name": "Milk Coffee",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_coffee_big": {
-        "name": "Milk Coffee Big Count"
+        "name": "Milk Coffee Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_coffee": {
-        "name": "2 x Milk Coffee Count"
+        "name": "2 x Milk Coffee",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_coffee_big": {
-        "name": "2 x Milk Coffee Big Count"
+        "name": "2 x Milk Coffee Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_foam": {
-        "name": "Milk Foam Count"
+        "name": "Milk Foam",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_foam_big": {
-        "name": "Milk Foam Big Count"
+        "name": "Milk Foam Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_foam": {
-        "name": "2 x Milk Foam Count"
+        "name": "2 x Milk Foam",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_foam_big": {
-        "name": "2 x Milk Foam Big Count"
+        "name": "2 x Milk Foam Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk": {
-        "name": "Milk Count"
+        "name": "Milk",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_big": {
-        "name": "Milk Big Count"
+        "name": "Milk Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk": {
-        "name": "2 x Milk Count"
+        "name": "2 x Milk",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_big": {
-        "name": "2 x Milk Big Count"
+        "name": "2 x Milk Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_portion": {
-        "name": "Milk Portion Count"
+        "name": "Milk Portion",
+        "unit_of_measurement": "products"
       },
       "product_count_1_milk_portion_big": {
-        "name": "Milk Portion Big Count"
+        "name": "Milk Portion Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_portion": {
-        "name": "2 x Milk Portion Count"
+        "name": "2 x Milk Portion",
+        "unit_of_measurement": "products"
       },
       "product_count_2_milk_portion_big": {
-        "name": "2 x Milk Portion Big Count"
+        "name": "2 x Milk Portion Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_hot_water": {
-        "name": "Hot Water Count"
+        "name": "Hot Water",
+        "unit_of_measurement": "products"
       },
       "product_count_1_hot_water_big": {
-        "name": "Hot Water Big Count"
+        "name": "Hot Water Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_hot_water": {
-        "name": "2 x Hot Water Count"
+        "name": "2 x Hot Water",
+        "unit_of_measurement": "products"
       },
       "product_count_2_hot_water_big": {
-        "name": "2 x Hot Water Big Count"
+        "name": "2 x Hot Water Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_hot_water_green_tea": {
-        "name": "Hot Water (Green Tea) Count"
+        "name": "Hot Water (Green Tea)",
+        "unit_of_measurement": "products"
       },
       "product_count_1_hot_water_green_tea_big": {
-        "name": "Hot Water (Green Tea) Big Count"
+        "name": "Hot Water (Green Tea) Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_hot_water_green_tea": {
-        "name": "2 x Hot Water (Green Tea) Count"
+        "name": "2 x Hot Water (Green Tea)",
+        "unit_of_measurement": "products"
       },
       "product_count_2_hot_water_green_tea_big": {
-        "name": "2 x Hot Water (Green Tea) Big Count"
+        "name": "2 x Hot Water (Green Tea) Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_hot_water_black_tea": {
-        "name": "Hot Water (Black Tea) Count"
+        "name": "Hot Water (Black Tea)",
+        "unit_of_measurement": "products"
       },
       "product_count_1_hot_water_black_tea_big": {
-        "name": "Hot Water (Black Tea) Big Count"
+        "name": "Hot Water (Black Tea) Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_hot_water_black_tea": {
-        "name": "2 x Hot Water (Black Tea) Count"
+        "name": "2 x Hot Water (Black Tea)",
+        "unit_of_measurement": "products"
       },
       "product_count_2_hot_water_black_tea_big": {
-        "name": "2 x Hot Water (Black Tea) Big Count"
+        "name": "2 x Hot Water (Black Tea) Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_barista_lungo": {
-        "name": "Lungo Barista Count"
+        "name": "Lungo Barista",
+        "unit_of_measurement": "products"
       },
       "product_count_1_barista_lungo_big": {
-        "name": "Lungo Barista Big Count"
+        "name": "Lungo Barista Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_barista_lungo": {
-        "name": "2 x Lungo Barista Count"
+        "name": "2 x Lungo Barista",
+        "unit_of_measurement": "products"
       },
       "product_count_2_barista_lungo_big": {
-        "name": "2 x Lungo Barista Big Count"
+        "name": "2 x Lungo Barista Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cafe_barista": {
-        "name": "Caffè Barista Count"
+        "name": "Caffè Barista",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cafe_barista_big": {
-        "name": "Caffè Barista Big Count"
+        "name": "Caffè Barista Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cafe_barista": {
-        "name": "2 x Caffè Barista Count"
+        "name": "2 x Caffè Barista",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cafe_barista_big": {
-        "name": "2 x Caffè Barista Big Count"
+        "name": "2 x Caffè Barista Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cafe_barista_americano": {
-        "name": "Caffè Barista / Americano Count"
+        "name": "Caffè Barista / Americano",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cafe_barista_americano_big": {
-        "name": "Caffè Barista / Americano Big Count"
+        "name": "Caffè Barista / Americano Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cafe_barista_americano": {
-        "name": "2 x Caffè Barista / Americano Count"
+        "name": "2 x Caffè Barista / Americano",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cafe_barista_americano_big": {
-        "name": "2 x Caffè Barista / Americano Big Count"
+        "name": "2 x Caffè Barista / Americano Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_americano": {
-        "name": "Americano Count"
+        "name": "Americano",
+        "unit_of_measurement": "products"
       },
       "product_count_1_americano_big": {
-        "name": "Americano Big Count"
+        "name": "Americano Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_americano": {
-        "name": "2 x Americano Count"
+        "name": "2 x Americano",
+        "unit_of_measurement": "products"
       },
       "product_count_2_americano_big": {
-        "name": "2 x Americano Big Count"
+        "name": "2 x Americano Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cortado": {
-        "name": "Cortado Count"
+        "name": "Cortado",
+        "unit_of_measurement": "products"
       },
       "product_count_1_cortado_big": {
-        "name": "Cortado Big Count"
+        "name": "Cortado Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cortado": {
-        "name": "2 x Cortado Count"
+        "name": "2 x Cortado",
+        "unit_of_measurement": "products"
       },
       "product_count_2_cortado_big": {
-        "name": "2 x Cortado Big Count"
+        "name": "2 x Cortado Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_lungo": {
-        "name": "Lungo Count"
+        "name": "Lungo",
+        "unit_of_measurement": "products"
       },
       "product_count_1_lungo_big": {
-        "name": "Lungo Big Count"
+        "name": "Lungo Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_lungo": {
-        "name": "2 x Lungo Count"
+        "name": "2 x Lungo",
+        "unit_of_measurement": "products"
       },
       "product_count_2_lungo_big": {
-        "name": "2 x Lungo Big Count"
+        "name": "2 x Lungo Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_pot": {
-        "name": "Pot Count"
+        "name": "Pot",
+        "unit_of_measurement": "products"
       },
       "product_count_1_pot_big": {
-        "name": "Pot Big Count"
+        "name": "Pot Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_pot": {
-        "name": "2 x Pot Count"
+        "name": "2 x Pot",
+        "unit_of_measurement": "products"
       },
       "product_count_2_pot_big": {
-        "name": "2 x Pot Big Count"
+        "name": "2 x Pot Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_powder_product": {
-        "name": "Powder Product Count"
+        "name": "Powder Product",
+        "unit_of_measurement": "products"
       },
       "product_count_1_powder_product_big": {
-        "name": "Powder Product Big Count"
+        "name": "Powder Product Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_powder_product": {
-        "name": "2 x Powder Product Count"
+        "name": "2 x Powder Product",
+        "unit_of_measurement": "products"
       },
       "product_count_2_powder_product_big": {
-        "name": "2 x Powder Product Big Count"
+        "name": "2 x Powder Product Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_sweet_latte": {
-        "name": "Sweet Latte Count"
+        "name": "Sweet Latte",
+        "unit_of_measurement": "products"
       },
       "product_count_1_sweet_latte_big": {
-        "name": "Sweet Latte Big Count"
+        "name": "Sweet Latte Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_sweet_latte": {
-        "name": "2 x Sweet Latte Count"
+        "name": "2 x Sweet Latte",
+        "unit_of_measurement": "products"
       },
       "product_count_2_sweet_latte_big": {
-        "name": "2 x Sweet Latte Big Count"
+        "name": "2 x Sweet Latte Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_speed_1": {
-        "name": "Coffee Speed 1 Count"
+        "name": "Coffee Speed 1",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_speed_1_big": {
-        "name": "Coffee Speed 1 Big Count"
+        "name": "Coffee Speed 1 Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_speed_1": {
-        "name": "2 x Coffee Speed 1 Count"
+        "name": "2 x Coffee Speed 1",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_speed_1_big": {
-        "name": "2 x Coffee Speed 1 Big Count"
+        "name": "2 x Coffee Speed 1 Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_speed_2": {
-        "name": "Coffee Speed 2 Count"
+        "name": "Coffee Speed 2",
+        "unit_of_measurement": "products"
       },
       "product_count_1_coffee_speed_2_big": {
-        "name": "Coffee Speed 2 Big Count"
+        "name": "Coffee Speed 2 Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_speed_2": {
-        "name": "2 x Coffee Speed 2 Count"
+        "name": "2 x Coffee Speed 2",
+        "unit_of_measurement": "products"
       },
       "product_count_2_coffee_speed_2_big": {
-        "name": "2 x Coffee Speed 2 Big Count"
+        "name": "2 x Coffee Speed 2 Big",
+        "unit_of_measurement": "products"
       },
       "product_count_1_pot_speed_2": {
-        "name": "Pot Speed 2 Count"
+        "name": "Pot Speed 2",
+        "unit_of_measurement": "products"
       },
       "product_count_1_pot_speed_2_big": {
-        "name": "Pot Speed 2 Big Count"
+        "name": "Pot Speed 2 Big",
+        "unit_of_measurement": "products"
       },
       "product_count_2_pot_speed_2": {
-        "name": "2 x Pot Speed 2 Count"
+        "name": "2 x Pot Speed 2",
+        "unit_of_measurement": "products"
       },
       "product_count_2_pot_speed_2_big": {
-        "name": "2 x Pot Speed 2 Big Count"
+        "name": "2 x Pot Speed 2 Big",
+        "unit_of_measurement": "products"
       }
     },
     "select": {

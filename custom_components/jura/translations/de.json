@@ -62,10 +62,12 @@
     },
     "sensor": {
       "total_product": {
-        "name": "Bezüge gesamt"
+        "name": "Gesamt",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count": {
-        "name": "Bezüge {product}"
+        "name": "{product}",
+        "unit_of_measurement": "Bezüge"
       },
       "alerts": {
         "name": "Meldungen",
@@ -111,340 +113,452 @@
         "name": "Wartungsstand Milchsystem-Reinigung"
       },
       "product_count_1_ristretto": {
-        "name": "Bezüge Ristretto"
+        "name": "Ristretto",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_ristretto_big": {
-        "name": "Bezüge Ristretto groß"
+        "name": "Ristretto groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_ristretto": {
-        "name": "Bezüge 2 x Ristretto"
+        "name": "2 x Ristretto",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_ristretto_big": {
-        "name": "Bezüge 2 x Ristretto groß"
+        "name": "2 x Ristretto groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_espresso": {
-        "name": "Bezüge Espresso"
+        "name": "Espresso",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_espresso_big": {
-        "name": "Bezüge Espresso groß"
+        "name": "Espresso groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_espresso": {
-        "name": "Bezüge 2 x Espresso"
+        "name": "2 x Espresso",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_espresso_big": {
-        "name": "Bezüge 2 x Espresso groß"
+        "name": "2 x Espresso groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee": {
-        "name": "Bezüge Kaffee"
+        "name": "Kaffee",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_big": {
-        "name": "Bezüge Kaffee groß"
+        "name": "Kaffee groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee": {
-        "name": "Bezüge 2 x Kaffee"
+        "name": "2 x Kaffee",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_big": {
-        "name": "Bezüge 2 x Kaffee groß"
+        "name": "2 x Kaffee groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_special": {
-        "name": "Bezüge Spezialkaffee"
+        "name": "Kaffee Spezial",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_special_big": {
-        "name": "Bezüge Spezialkaffee groß"
+        "name": "Kaffee Spezial groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_special": {
-        "name": "Bezüge 2 x Spezialkaffee"
+        "name": "2 x Kaffee Spezial",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_special_big": {
-        "name": "Bezüge 2 x Spezialkaffee groß"
+        "name": "2 x Kaffee Spezial groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cappuccino": {
-        "name": "Bezüge Cappuccino"
+        "name": "Cappuccino",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cappuccino_big": {
-        "name": "Bezüge Cappuccino groß"
+        "name": "Cappuccino groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cappuccino": {
-        "name": "Bezüge 2 x Cappuccino"
+        "name": "2 x Cappuccino",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cappuccino_big": {
-        "name": "Bezüge 2 x Cappuccino groß"
+        "name": "2 x Cappuccino groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_latte_macchiato": {
-        "name": "Bezüge Latte macchiato"
+        "name": "Latte macchiato",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_latte_macchiato_big": {
-        "name": "Bezüge Latte macchiato groß"
+        "name": "Latte macchiato groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_latte_macchiato": {
-        "name": "Bezüge 2 x Latte macchiato"
+        "name": "2 x Latte macchiato",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_latte_macchiato_big": {
-        "name": "Bezüge 2 x Latte macchiato groß"
+        "name": "2 x Latte macchiato groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_espresso_macchiato": {
-        "name": "Bezüge Espresso macchiato"
+        "name": "Espresso macchiato",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_espresso_macchiato_big": {
-        "name": "Bezüge Espresso macchiato groß"
+        "name": "Espresso macchiato groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_espresso_macchiato": {
-        "name": "Bezüge 2 x Espresso macchiato"
+        "name": "2 x Espresso macchiato",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_espresso_macchiato_big": {
-        "name": "Bezüge 2 x Espresso macchiato groß"
+        "name": "2 x Espresso macchiato groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_espresso_doppio": {
-        "name": "Bezüge Espresso doppio"
+        "name": "Espresso doppio",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_espresso_doppio_big": {
-        "name": "Bezüge Espresso doppio groß"
+        "name": "Espresso doppio groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_espresso_doppio": {
-        "name": "Bezüge 2 x Espresso doppio"
+        "name": "2 x Espresso doppio",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_espresso_doppio_big": {
-        "name": "Bezüge 2 x Espresso doppio groß"
+        "name": "2 x Espresso doppio groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_flat_white": {
-        "name": "Bezüge Flat White"
+        "name": "Flat White",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_flat_white_big": {
-        "name": "Bezüge Flat White groß"
+        "name": "Flat White groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_flat_white": {
-        "name": "Bezüge 2 x Flat White"
+        "name": "2 x Flat White",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_flat_white_big": {
-        "name": "Bezüge 2 x Flat White groß"
+        "name": "2 x Flat White groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_coffee": {
-        "name": "Bezüge Milchkaffee"
+        "name": "Milchkaffee",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_coffee_big": {
-        "name": "Bezüge Milchkaffee groß"
+        "name": "Milchkaffee groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_coffee": {
-        "name": "Bezüge 2 x Milchkaffee"
+        "name": "2 x Milchkaffee",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_coffee_big": {
-        "name": "Bezüge 2 x Milchkaffee groß"
+        "name": "2 x Milchkaffee groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_foam": {
-        "name": "Bezüge Milchschaum"
+        "name": "Milchschaum",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_foam_big": {
-        "name": "Bezüge Milchschaum groß"
+        "name": "Milchschaum groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_foam": {
-        "name": "Bezüge 2 x Milchschaum"
+        "name": "2 x Milchschaum",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_foam_big": {
-        "name": "Bezüge 2 x Milchschaum groß"
+        "name": "2 x Milchschaum groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk": {
-        "name": "Bezüge Milch"
+        "name": "Milch",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_big": {
-        "name": "Bezüge Milch groß"
+        "name": "Milch groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk": {
-        "name": "Bezüge 2 x Milch"
+        "name": "2 x Milch",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_big": {
-        "name": "Bezüge 2 x Milch groß"
+        "name": "2 x Milch groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_portion": {
-        "name": "Bezüge Milchportion"
+        "name": "Milchportion",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_milk_portion_big": {
-        "name": "Bezüge Milchportion groß"
+        "name": "Milchportion groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_portion": {
-        "name": "Bezüge 2 x Milchportion"
+        "name": "2 x Milchportion",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_milk_portion_big": {
-        "name": "Bezüge 2 x Milchportion groß"
+        "name": "2 x Milchportion groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_hot_water": {
-        "name": "Bezüge Heißwasser"
+        "name": "Heißwasser",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_hot_water_big": {
-        "name": "Bezüge Heißwasser groß"
+        "name": "Heißwasser groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_hot_water": {
-        "name": "Bezüge 2 x Heißwasser"
+        "name": "2 x Heißwasser",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_hot_water_big": {
-        "name": "Bezüge 2 x Heißwasser groß"
+        "name": "2 x Heißwasser groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_hot_water_green_tea": {
-        "name": "Bezüge Heißwasser (Grüntee)"
+        "name": "Heißwasser (Grüntee)",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_hot_water_green_tea_big": {
-        "name": "Bezüge Heißwasser (Grüntee) groß"
+        "name": "Heißwasser (Grüntee) groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_hot_water_green_tea": {
-        "name": "Bezüge 2 x Heißwasser (Grüntee)"
+        "name": "2 x Heißwasser (Grüntee)",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_hot_water_green_tea_big": {
-        "name": "Bezüge 2 x Heißwasser (Grüntee) groß"
+        "name": "2 x Heißwasser (Grüntee) groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_hot_water_black_tea": {
-        "name": "Bezüge Heißwasser (Schwarztee)"
+        "name": "Heißwasser (Schwarztee)",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_hot_water_black_tea_big": {
-        "name": "Bezüge Heißwasser (Schwarztee) groß"
+        "name": "Heißwasser (Schwarztee) groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_hot_water_black_tea": {
-        "name": "Bezüge 2 x Heißwasser (Schwarztee)"
+        "name": "2 x Heißwasser (Schwarztee)",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_hot_water_black_tea_big": {
-        "name": "Bezüge 2 x Heißwasser (Schwarztee) groß"
+        "name": "2 x Heißwasser (Schwarztee) groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_barista_lungo": {
-        "name": "Bezüge Lungo Barista"
+        "name": "Lungo Barista",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_barista_lungo_big": {
-        "name": "Bezüge Lungo Barista groß"
+        "name": "Lungo Barista groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_barista_lungo": {
-        "name": "Bezüge 2 x Lungo Barista"
+        "name": "2 x Lungo Barista",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_barista_lungo_big": {
-        "name": "Bezüge 2 x Lungo Barista groß"
+        "name": "2 x Lungo Barista groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cafe_barista": {
-        "name": "Bezüge Caffè Barista"
+        "name": "Caffè Barista",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cafe_barista_big": {
-        "name": "Bezüge Caffè Barista groß"
+        "name": "Caffè Barista groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cafe_barista": {
-        "name": "Bezüge 2 x Caffè Barista"
+        "name": "2 x Caffè Barista",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cafe_barista_big": {
-        "name": "Bezüge 2 x Caffè Barista groß"
+        "name": "2 x Caffè Barista groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cafe_barista_americano": {
-        "name": "Bezüge Caffè Barista / Americano"
+        "name": "Caffè Barista / Americano",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cafe_barista_americano_big": {
-        "name": "Bezüge Caffè Barista / Americano groß"
+        "name": "Caffè Barista / Americano groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cafe_barista_americano": {
-        "name": "Bezüge 2 x Caffè Barista / Americano"
+        "name": "2 x Caffè Barista / Americano",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cafe_barista_americano_big": {
-        "name": "Bezüge 2 x Caffè Barista / Americano groß"
+        "name": "2 x Caffè Barista / Americano groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_americano": {
-        "name": "Bezüge Americano"
+        "name": "Americano",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_americano_big": {
-        "name": "Bezüge Americano groß"
+        "name": "Americano groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_americano": {
-        "name": "Bezüge 2 x Americano"
+        "name": "2 x Americano",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_americano_big": {
-        "name": "Bezüge 2 x Americano groß"
+        "name": "2 x Americano groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cortado": {
-        "name": "Bezüge Cortado"
+        "name": "Cortado",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_cortado_big": {
-        "name": "Bezüge Cortado groß"
+        "name": "Cortado groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cortado": {
-        "name": "Bezüge 2 x Cortado"
+        "name": "2 x Cortado",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_cortado_big": {
-        "name": "Bezüge 2 x Cortado groß"
+        "name": "2 x Cortado groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_lungo": {
-        "name": "Bezüge Lungo"
+        "name": "Lungo",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_lungo_big": {
-        "name": "Bezüge Lungo groß"
+        "name": "Lungo groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_lungo": {
-        "name": "Bezüge 2 x Lungo"
+        "name": "2 x Lungo",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_lungo_big": {
-        "name": "Bezüge 2 x Lungo groß"
+        "name": "2 x Lungo groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_pot": {
-        "name": "Bezüge Kanne"
+        "name": "Kanne",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_pot_big": {
-        "name": "Bezüge Kanne groß"
+        "name": "Kanne groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_pot": {
-        "name": "Bezüge 2 x Kanne"
+        "name": "2 x Kanne",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_pot_big": {
-        "name": "Bezüge 2 x Kanne groß"
+        "name": "2 x Kanne groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_powder_product": {
-        "name": "Bezüge Pulverprodukt"
+        "name": "Pulverprodukt",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_powder_product_big": {
-        "name": "Bezüge Pulverprodukt groß"
+        "name": "Pulverprodukt groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_powder_product": {
-        "name": "Bezüge 2 x Pulverprodukt"
+        "name": "2 x Pulverprodukt",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_powder_product_big": {
-        "name": "Bezüge 2 x Pulverprodukt groß"
+        "name": "2 x Pulverprodukt groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_sweet_latte": {
-        "name": "Bezüge Sweet Latte"
+        "name": "Sweet Latte",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_sweet_latte_big": {
-        "name": "Bezüge Sweet Latte groß"
+        "name": "Sweet Latte groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_sweet_latte": {
-        "name": "Bezüge 2 x Sweet Latte"
+        "name": "2 x Sweet Latte",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_sweet_latte_big": {
-        "name": "Bezüge 2 x Sweet Latte groß"
+        "name": "2 x Sweet Latte groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_speed_1": {
-        "name": "Bezüge Kaffee Speed 1"
+        "name": "Kaffee Speed 1",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_speed_1_big": {
-        "name": "Bezüge Kaffee Speed 1 groß"
+        "name": "Kaffee Speed 1 groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_speed_1": {
-        "name": "Bezüge 2 x Kaffee Speed 1"
+        "name": "2 x Kaffee Speed 1",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_speed_1_big": {
-        "name": "Bezüge 2 x Kaffee Speed 1 groß"
+        "name": "2 x Kaffee Speed 1 groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_speed_2": {
-        "name": "Bezüge Kaffee Speed 2"
+        "name": "Kaffee Speed 2",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_coffee_speed_2_big": {
-        "name": "Bezüge Kaffee Speed 2 groß"
+        "name": "Kaffee Speed 2 groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_speed_2": {
-        "name": "Bezüge 2 x Kaffee Speed 2"
+        "name": "2 x Kaffee Speed 2",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_coffee_speed_2_big": {
-        "name": "Bezüge 2 x Kaffee Speed 2 groß"
+        "name": "2 x Kaffee Speed 2 groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_pot_speed_2": {
-        "name": "Bezüge Kanne Speed 2"
+        "name": "Kanne Speed 2",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_1_pot_speed_2_big": {
-        "name": "Bezüge Kanne Speed 2 groß"
+        "name": "Kanne Speed 2 groß",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_pot_speed_2": {
-        "name": "Bezüge 2 x Kanne Speed 2"
+        "name": "2 x Kanne Speed 2",
+        "unit_of_measurement": "Bezüge"
       },
       "product_count_2_pot_speed_2_big": {
-        "name": "Bezüge 2 x Kanne Speed 2 groß"
+        "name": "2 x Kanne Speed 2 groß",
+        "unit_of_measurement": "Bezüge"
       }
     },
     "select": {

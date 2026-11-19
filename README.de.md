@@ -54,7 +54,7 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 
 | Art | Entitäten |
 |---|---|
-| Sensoren | Bezüge gesamt, Bezüge je Produkt (z. B. „Bezüge Kaffee“, „Bezüge 2 x Espresso“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen) |
+| Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen) |
 | Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
 | Binärsensoren | Insert Tray, Fill Water, Empty Grounds, Empty Tray, No Beans, Cleaning Needed, Filter Change Needed, Descaling Needed, Descaling Soon, Milk System Rinse Needed, Milk System Cleaning Needed |
 | Steuerung | Produkt, Mahlgrad, Stärke, Temperatur, Mengen (Wasser, Milch, Milchschaum, Bypass, Milchpause), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |

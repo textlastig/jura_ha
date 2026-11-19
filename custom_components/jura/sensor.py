@@ -121,7 +121,6 @@ class JuraTotalCoffeeSensor(JuraStatisticsSensor):
 
     _attr_icon = "mdi:coffee"
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
-    _attr_native_unit_of_measurement = "products"
 
     def __init__(self, device):
         """Initialize the sensor."""
@@ -139,7 +138,6 @@ class JuraProductCountSensor(JuraStatisticsSensor):
 
     _attr_icon = "mdi:coffee-outline"
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
-    _attr_native_unit_of_measurement = "products"
 
     def __init__(self, device, product_name: str):
         """Initialize the sensor."""
