@@ -1,5 +1,22 @@
 # Jura Coffee Machines for Home Assistant
 
+## Dieser Fork (textlastig/jura_ha)
+
+Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura) 1.2.2, ergänzt um Verbesserungen aus offenen Pull Requests und anderen Forks:
+
+| Änderung | Herkunft |
+|---|---|
+| Sauberes Entladen, erneuter Einrichtungsversuch, aktuelles Bluetooth-Gerät je Verbindung, aktive Suche (Modell steht nur in der Scan-Antwort) | [madAndroid, AlexxIT/Jura#77](https://github.com/AlexxIT/Jura/pull/77) |
+| Sensor „No Beans“, Schlüssel im Statistikbefehl, weniger Log-Rauschen | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
+| Sensoren „Descaling Needed“ und „Descaling Soon“, Wartungszähler und Wartungsstand in Prozent, Einrichtung bei ausgeschalteter Maschine mit letzten Werten | [Andrei Marinache, AlexxIT/Jura#41](https://github.com/AlexxIT/Jura/pull/41) |
+| Option **Nur auslesen, keine Steuerung** (Standard aus): nur Sensoren, keine Tasten, Zahlen, Auswahlen und Schalter | eigen |
+
+Die Steuerung (Produkt wählen und zubereiten) bleibt unverändert enthalten und ist Standard. Entitäts-IDs sind dieselben wie beim Original, ein Umstieg behält die Historie.
+
+Installation über HACS bzw. den Marketplace: *Benutzerdefiniertes Repository* `https://github.com/textlastig/jura_ha`, Typ Integration. Vorher das Original entfernen, beide nutzen die Domain `jura`. Die Option steht danach unter *Einstellungen › Geräte & Dienste › JURA Coffee Machines › Konfigurieren*.
+
+---
+
 [Home Assistant](https://www.home-assistant.io/) custom component for control [Jura Coffee Machines](https://us.jura.com/) via [Bluetooth module](https://us.jura.com/en/homeproducts/accessories/SmartConnect-Main-72167).
 
 Tested with the following coffee machines, but should support others: 
