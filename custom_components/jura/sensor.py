@@ -5,6 +5,7 @@ from datetime import timedelta
 from typing import Any
 
 from homeassistant.components.sensor import (
+    RestoreSensor,
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
@@ -69,8 +70,10 @@ async def async_setup_entry(
     hass.async_create_task(refresh_statistics())
 
 
-class JuraStatisticsSensor(JuraEntity, SensorEntity):
+class JuraStatisticsSensor(JuraEntity, RestoreSensor):
     """Base class for Jura statistics sensors."""
+
+    _restored = None
 
     def __init__(self, device, attr: str):
         """Initialize the sensor."""
@@ -79,10 +82,19 @@ class JuraStatisticsSensor(JuraEntity, SensorEntity):
         # Register for updates on statistics
         device.register_statistics_update(self.internal_update)
 
+    async def async_added_to_hass(self) -> None:
+        """Keep the last value while the machine is off."""
+        await super().async_added_to_hass()
+        if self._get_value() is None and (
+            last := await self.async_get_last_sensor_data()
+        ):
+            self._restored = last.native_value
+
     @property
     def native_value(self) -> Any:
         """Return the state of the sensor."""
-        return self._get_value()
+        value = self._get_value()
+        return self._restored if value is None else value
 
     def _get_value(self) -> Any:
         """Get the value for this sensor from statistics."""
@@ -92,6 +104,7 @@ class JuraStatisticsSensor(JuraEntity, SensorEntity):
         """Override parent method to ensure statistics are refreshed."""
         _LOGGER.debug(f"Updating sensor {self._attr_name}")
         if self.hass is not None:
+            self._restored = None  # values were read from the machine
             self.async_write_ha_state()
 
 
@@ -176,7 +189,7 @@ class JuraMaintenanceSensor(JuraStatisticsSensor):
         )
 
 
-class JuraAlertSensor(JuraEntity, SensorEntity):
+class JuraAlertSensor(JuraEntity, RestoreSensor):
     """Sensor for machine alerts."""
 
     _attr_icon = "mdi:alert"
@@ -192,9 +205,23 @@ class JuraAlertSensor(JuraEntity, SensorEntity):
         # Register for updates on alerts
         device.register_alert_update(self.internal_update)
 
+    async def async_added_to_hass(self) -> None:
+        """Keep the last alerts while the machine is off."""
+        await super().async_added_to_hass()
+        if not self.device.alerts_read and (last := await self.async_get_last_state()):
+            if last.state in self._attr_options:
+                self._restored = last.state
+                self._attr_extra_state_attributes = {
+                    "active_alerts": last.attributes.get("active_alerts", [])
+                }
+
+    _restored = None
+
     @property
     def native_value(self) -> str:
         """Return the state of the sensor."""
+        if not self.device.alerts_read and self._restored:
+            return self._restored
         return self._get_value()
 
     def _get_value(self) -> str:

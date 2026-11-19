@@ -87,6 +87,8 @@ class Device:
             "maintenance_percents": {},
         }
         self.active_alerts = {}
+        # False until the first read: entities keep their restored state
+        self.alerts_read = False
 
     @property
     def mac(self) -> str:
@@ -370,6 +372,7 @@ class Device:
 
         # Save the alerts
         self.active_alerts = alerts
+        self.alerts_read = True
 
         # Notify all alert listeners
         _LOGGER.debug(f"Notifying {len(self.updates_alerts)} alert listeners")

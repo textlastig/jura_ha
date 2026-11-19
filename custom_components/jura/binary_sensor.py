@@ -8,6 +8,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.restore_state import RestoreEntity
 
 from . import DOMAIN
 from .core.entity import JuraEntity
@@ -139,7 +140,7 @@ class JuraSensor(JuraEntity, BinarySensorEntity):
             self._async_write_ha_state()
 
 
-class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity):
+class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity, RestoreEntity):
     """Binary sensor for Jura alerts."""
 
     def __init__(self, device, alert_info: dict):
@@ -157,6 +158,13 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity):
 
         # Register for updates on alerts
         device.register_alert_update(self.internal_update)
+
+    async def async_added_to_hass(self) -> None:
+        """Keep the last state while the machine is off."""
+        await super().async_added_to_hass()
+        if not self.device.alerts_read and (last := await self.async_get_last_state()):
+            if last.state in ("on", "off"):
+                self._attr_is_on = last.state == "on"
 
     def internal_update(self):
         """Update the sensor state."""
