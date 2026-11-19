@@ -165,9 +165,12 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity, RestoreEntity):
         if not self.device.alerts_read and (last := await self.async_get_last_state()):
             if last.state in ("on", "off"):
                 self._attr_is_on = last.state == "on"
+                self.async_write_ha_state()
 
     def internal_update(self):
         """Update the sensor state."""
+        if not self.device.alerts_read and self._attr_is_on is not None:
+            return  # keep the restored state until alerts were read
         # Check if any active alert's name contains (or, if exact, equals) our pattern
         self._attr_is_on = any(
             self._name_pattern == alert_name.lower()

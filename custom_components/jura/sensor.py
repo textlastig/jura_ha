@@ -85,16 +85,24 @@ class JuraStatisticsSensor(JuraEntity, RestoreSensor):
     async def async_added_to_hass(self) -> None:
         """Keep the last value while the machine is off."""
         await super().async_added_to_hass()
-        if self._get_value() is None and (
-            last := await self.async_get_last_sensor_data()
-        ):
+        if self.device.statistics_read:
+            return
+        if last := await self.async_get_last_sensor_data():
             self._restored = last.native_value
+        elif (last := await self.async_get_last_state()) is not None:
+            # state saved by a version without restore data
+            try:
+                self._restored = int(float(last.state))
+            except ValueError:
+                pass
+        self.async_write_ha_state()
 
     @property
     def native_value(self) -> Any:
         """Return the state of the sensor."""
-        value = self._get_value()
-        return self._restored if value is None else value
+        if not self.device.statistics_read:
+            return self._restored
+        return self._get_value()
 
     def _get_value(self) -> Any:
         """Get the value for this sensor from statistics."""
@@ -104,7 +112,6 @@ class JuraStatisticsSensor(JuraEntity, RestoreSensor):
         """Override parent method to ensure statistics are refreshed."""
         _LOGGER.debug(f"Updating sensor {self._attr_name}")
         if self.hass is not None:
-            self._restored = None  # values were read from the machine
             self.async_write_ha_state()
 
 
@@ -214,6 +221,7 @@ class JuraAlertSensor(JuraEntity, RestoreSensor):
                 self._attr_extra_state_attributes = {
                     "active_alerts": last.attributes.get("active_alerts", [])
                 }
+                self.async_write_ha_state()
 
     _restored = None
 

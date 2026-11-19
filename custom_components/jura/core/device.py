@@ -90,6 +90,7 @@ class Device:
         self.active_alerts = {}
         # False until the first read: entities keep their restored state
         self.alerts_read = False
+        self.statistics_read = False
 
     @property
     def mac(self) -> str:
@@ -292,6 +293,7 @@ class Device:
         # Save the statistics
         self.statistics["total_products"] = total_count
         self.statistics["product_counts"] = product_counts
+        self.statistics_read = True
 
         try:
             await self.read_maintenance()
