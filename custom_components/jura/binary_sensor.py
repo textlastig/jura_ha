@@ -75,6 +75,25 @@ ALERT_SENSORS = [
         "entity_category": EntityCategory.DIAGNOSTIC,
     },
     {
+        # exact: "Info - decalc alert" (pre-warning) must not match
+        "name_pattern": "decalc alert",
+        "exact": True,
+        "type": "decalc_alert",
+        "display_name": "Descaling Needed",
+        "icon": "mdi:water-alert",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
+        "name_pattern": "info - decalc alert",
+        "exact": True,
+        "type": "decalc_info",
+        "display_name": "Descaling Soon",
+        "icon": "mdi:water-alert-outline",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
         "name_pattern": "cappu rinse alert",
         "type": "cappu_rinse_alert",
         "display_name": "Milk System Rinse Needed",
@@ -127,6 +146,7 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity):
         """Initialize the sensor."""
         # Store name pattern before calling super().__init__
         self._name_pattern = alert_info["name_pattern"].lower()
+        self._exact = alert_info.get("exact", False)
 
         super().__init__(device, f"alert_{alert_info['type']}")
 
@@ -140,10 +160,12 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity):
 
     def internal_update(self):
         """Update the sensor state."""
-        # Check if any active alert's name contains our pattern
+        # Check if any active alert's name contains (or, if exact, equals) our pattern
         self._attr_is_on = any(
-            self._name_pattern in alert_name.lower()
-            for _, alert_name in self.device.active_alerts.items()
+            self._name_pattern == alert_name.lower()
+            if self._exact
+            else self._name_pattern in alert_name.lower()
+            for alert_name in self.device.active_alerts.values()
         )
 
         if self.hass:
