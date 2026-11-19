@@ -116,7 +116,22 @@ class JuraStatisticsSensor(JuraEntity, RestoreSensor):
             self.async_write_ha_state()
 
 
-class JuraTotalCoffeeSensor(JuraStatisticsSensor):
+# Unit of the product counters per system language. Home Assistant takes
+# translated units only from the English file, so the unit is set here.
+PRODUCT_UNITS = {"de": "Bezüge"}
+
+
+class JuraProductUnitSensor(JuraStatisticsSensor):
+    """Statistics sensor counting products ("Bezüge" in German)."""
+
+    @property
+    def native_unit_of_measurement(self) -> str:
+        """Return the unit in the system language."""
+        lang = (self.hass.config.language if self.hass else None) or "en"
+        return PRODUCT_UNITS.get(lang.split("-")[0].lower(), "products")
+
+
+class JuraTotalCoffeeSensor(JuraProductUnitSensor):
     """Sensor for total coffee count."""
 
     _attr_icon = "mdi:coffee"
@@ -133,7 +148,7 @@ class JuraTotalCoffeeSensor(JuraStatisticsSensor):
         return value
 
 
-class JuraProductCountSensor(JuraStatisticsSensor):
+class JuraProductCountSensor(JuraProductUnitSensor):
     """Sensor for individual product count."""
 
     _attr_icon = "mdi:coffee-outline"
