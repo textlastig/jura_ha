@@ -1,6 +1,7 @@
 """Sensor platform for Jura integration."""
 
 import logging
+import re
 from datetime import timedelta
 from typing import Any
 
@@ -145,8 +146,11 @@ class JuraProductCountSensor(JuraStatisticsSensor):
         self.product_name = product_name
         attr_name = f"product_{product_name.lower().replace(' ', '_')}"
         super().__init__(device, attr_name)
-        self._attr_translation_key = "product_count"
-        self._attr_translation_placeholders = {"product": product_name}
+        if key := product_translation_key(product_name):
+            self._attr_translation_key = key
+        else:
+            self._attr_translation_key = "product_count"
+            self._attr_translation_placeholders = {"product": product_name}
 
     def _get_value(self) -> int:
         """Get the count for this specific product."""
@@ -155,6 +159,65 @@ class JuraProductCountSensor(JuraStatisticsSensor):
         )
         _LOGGER.debug(f"Product {self.product_name} count: {value}")
         return value
+
+
+PRODUCT_BASES = {
+    "ristretto": "ristretto",
+    "ristretti": "ristretto",
+    "espresso": "espresso",
+    "espressi": "espresso",
+    "coffee": "coffee",
+    "coffee special": "coffee_special",
+    "cappuccino": "cappuccino",
+    "cappuccini": "cappuccino",
+    "latte macchiato": "latte_macchiato",
+    "latte macchiati": "latte_macchiato",
+    "espresso macchiato": "espresso_macchiato",
+    "espresso doppio": "espresso_doppio",
+    "espresso macchiati": "espresso_macchiato",
+    "coffee speed 1": "coffee_speed_1",
+    "coffee speed 2": "coffee_speed_2",
+    "pot 2 speed": "pot_speed_2",
+    "flat white": "flat_white",
+    "milkcoffee": "milk_coffee",
+    "milk foam": "milk_foam",
+    "milk": "milk",
+    "milk portion": "milk_portion",
+    "portion milk": "milk_portion",
+    "hotwater portion": "hot_water",
+    "hotwater portion(normal)": "hot_water",
+    "hotwater portion(green tea)": "hot_water_green_tea",
+    "hotwater portion(black tea)": "hot_water_black_tea",
+    "barista lungo": "barista_lungo",
+    "cafe barista": "cafe_barista",
+    "cafe barista / americano": "cafe_barista_americano",
+    "americano": "americano",
+    "cortado": "cortado",
+    "lungo": "lungo",
+    "pot": "pot",
+    "powderproduct": "powder_product",
+    "sweet latte": "sweet_latte",
+}
+
+
+def product_translation_key(name: str) -> str | None:
+    """Translation key for a product name from the machine file.
+
+    "2 Espressi", "2x Espresso" -> product_count_2_espresso,
+    "1 coffee special" -> product_count_1_coffee_special,
+    "Coffee Big" -> product_count_1_coffee_big; unknown names -> None
+    """
+    n = " ".join(name.lower().split())
+    n = re.sub(r"\s*\((joe only|only joe)\)$", "", n)  # only in the JURA app
+    count = 1
+    if m := re.match(r"^([12])\s*[x*]?\s*(?=\D)(.+)$", n):
+        count, n = int(m[1]), m[2]
+    big = n.endswith(" big")
+    if big:
+        n = n[: -len(" big")]
+    if (base := PRODUCT_BASES.get(n)) is None:
+        return None
+    return f"product_count_{count}_{base}" + ("_big" if big else "")
 
 
 MAINTENANCE_NAMES = {
