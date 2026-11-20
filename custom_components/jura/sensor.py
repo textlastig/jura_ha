@@ -260,9 +260,11 @@ class JuraMaintenanceSensor(JuraStatisticsSensor):
             self._attr_name = label  # no translation for unknown types
 
     def _get_value(self) -> int | None:
-        return self.device.statistics.get(f"maintenance_{self.kind}", {}).get(
-            self.mtype
-        )
+        values = self.device.statistics.get(f"maintenance_{self.kind}", {})
+        if self.mtype not in values:
+            # products read, maintenance not (yet): keep the last known value
+            return self._restored
+        return values[self.mtype]
 
     @property
     def available(self) -> bool:
