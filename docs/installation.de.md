@@ -19,7 +19,9 @@ Neue Versionen erscheinen danach in Home Assistant wie jedes andere Update.
 
 ### Ohne HACS
 
-Den Ordner `custom_components/jura` aus dem [neuesten Release](https://github.com/textlastig/jura_ha/releases/latest) nach `custom_components` im Konfigurationsordner kopieren und Home Assistant neu starten.
+`jura.zip` aus dem [neuesten Release](https://github.com/textlastig/jura_ha/releases/latest) herunterladen, in den Ordner `custom_components/jura` im Konfigurationsordner entpacken (Ordner bei Bedarf anlegen) und Home Assistant neu starten.
+
+HACS installiert dieselbe Datei. GitHub zählt ihre Downloads je Release; nur daran sehen wir, wie oft die Integration installiert oder aktualisiert wird. Sonst wird nichts gemeldet.
 
 ### Umstieg vom Original (AlexxIT/Jura)
 
