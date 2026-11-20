@@ -16,6 +16,8 @@ Dies ist ein Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura). Er führt
 | Sensoren „Descaling Needed“ und „Descaling Soon“, Wartungszähler und Wartungsstand in Prozent, Einrichtung bei ausgeschalteter Maschine mit den letzten Werten | [Andrei Marinache, AlexxIT/Jura#41](https://github.com/AlexxIT/Jura/pull/41) |
 | Sensor „No Beans“, richtiger Schlüssel im Statistikbefehl, weniger Log-Rauschen | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
 | Option **Nur auslesen, keine Steuerung**, Entitätsnamen auf Deutsch und Englisch, Produkt- und Meldungsnamen wie in der JURA-App, Milchsystem-Meldungen nur bei Maschinen mit Milchsystem | neu in diesem Fork |
+| Meldungen und Vorwarnungen genau so, wie die Maschinendatei in `resources.zip` sie festlegt (z. B. „Gerät bald reinigen“, „Filter bald wechseln“, „Filter aktiv“); Wartung, die die Maschine nicht benutzt (z. B. Filter ohne Patrone), wird ausgeblendet | neu in diesem Fork |
+| Fertiges Dashboard und Tageszähler („Bezüge heute“) auf Deutsch und Englisch, siehe [Dashboard und Tageszähler](#dashboard-und-tageszähler) | neu in diesem Fork |
 
 Die Steuerung bleibt vollständig enthalten und ist Standard. Die Entitäts-IDs sind dieselben wie beim Original; wer umsteigt, behält Verlauf und Statistik.
 

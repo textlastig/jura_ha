@@ -16,6 +16,8 @@ This is a fork of [AlexxIT/Jura](https://github.com/AlexxIT/Jura). It merges imp
 | "Descaling Needed" and "Descaling Soon" sensors, maintenance counters and maintenance percentages, setup while the machine is off with the last known values | [Andrei Marinache, AlexxIT/Jura#41](https://github.com/AlexxIT/Jura/pull/41) |
 | "No Beans" sensor, correct key in the statistics command, less log noise | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
 | **Read only, no control** option, entity names in English and German, product and alert names as in the JURA app, milk system alerts only for machines with a milk system | new in this fork |
+| Alerts and early warnings exactly as the machine file in `resources.zip` defines them (e.g. "Clean the machine soon", "Change the filter soon", "Filter active"); maintenance the machine does not use (e.g. the filter without a cartridge) is hidden | new in this fork |
+| Ready-made dashboard and daily counters ("products today") in English and German, see [Dashboard and daily counters](#dashboard-and-daily-counters) | new in this fork |
 
 Control features are fully included and enabled by default. Entity IDs are the same as in the original, so switching keeps your history and statistics.
 
