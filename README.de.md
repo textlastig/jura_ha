@@ -57,9 +57,13 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 | Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen). Produkte, die die Maschinendatei als inaktiv führt (z. B. Heißwasser bei der WE6), bekommen ebenfalls einen Zähler, der standardmäßig deaktiviert ist: bei Bedarf am Gerät aktivieren |
 | Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
 | Binärsensoren | Restwasserschale fehlt, Kaffeesatzbehälter fehlt, Wassertank füllen, Kaffeesatzbehälter leeren, Restwasserschale leeren, Bohnen füllen, Gerät reinigen, Filter wechseln, Gerät entkalken, Gerät bald entkalken; bei Maschinen mit Milchprodukten zusätzlich Milchsystem spülen, Milchsystem reinigen |
-| Steuerung | Kaffeespezialität (Namen wie in der JURA-App), Mahlwerk-Verhältnis (z. B. „50% / 50%“), Kaffeestärke, Temperatur (Niedrig, Normal, Hoch), Mengen (Wasser und Bypass in ml, Milch, Milchschaum und Milchpause in Sekunden), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
+| Steuerung | Kaffeespezialität (Namen wie in der JURA-App), Mahlwerk-Verhältnis (z. B. „50% / 50%“), Kaffeestärke, Temperatur (Niedrig, Normal, Hoch), Mengen (Wasser und Bypass in ml, Milch, Milchschaum und Milchpause in Sekunden), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter, Ausschalten nach (experimentell, siehe unten) |
 
 Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist. Tageszähler und Abschalt-Timer lassen sich bei der WE6 über Bluetooth nicht auslesen (mit 1.8.0 geprüft: Statistikseite 2 ist auch nach einem Bezug nur 0, Einstellung 0x13 liefert keinen Wert).
+
+### Ausschalten nach (experimentell)
+
+Setzt den Abschalt-Timer (15 min bis 9 h) mit dem Befehl, den die JURA-App bei Modellen verwendet, deren Maschinendatei diese Einstellung hat (Einstellung 13). Die Maschine meldet den Timer nicht zurück; die Entität zeigt darum den zuletzt aus Home Assistant gesetzten Wert und ist bis dahin unbekannt. Ob ein Modell den Befehl annimmt, sieht man nur im Menü der Maschine.
 
 ## Bluetooth
 

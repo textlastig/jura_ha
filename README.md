@@ -57,9 +57,13 @@ When on, the integration only creates sensors and binary sensors. Buttons (make,
 | Sensors | Total products, count per product (unit "products", in German "Bezüge"), alerts (`ok`/`alert` with the list of active alerts). Products the machine file marks as inactive (e.g. hot water on the WE6) get a counter too, disabled by default: enable it under the device if the machine has it |
 | Diagnostic | Maintenance counters (cleaning, filter change, descaling, coffee rinse, as far as the machine has them), maintenance percentages, connection |
 | Binary sensors | No drip tray, No coffee grounds container, Fill the water tank, Empty the coffee grounds container, Empty the drip tray, Add beans, Clean the machine, Change the filter, Descale the machine, Descale the machine soon; machines with milk products also Rinse the milk system, Clean the milk system |
-| Control | Product (named as in the JURA app), grinder ratio (e.g. "50% / 50%"), coffee strength, temperature (Low, Normal, High), amounts (water and bypass in ml, milk, milk foam and milk break in seconds), Make button, Refresh statistics button, connection switch |
+| Control | Product (named as in the JURA app), grinder ratio (e.g. "50% / 50%"), coffee strength, temperature (Low, Normal, High), amounts (water and bypass in ml, milk, milk foam and milk break in seconds), Make button, Refresh statistics button, connection switch, Auto-off after (experimental, see below) |
 
 Names follow the Home Assistant language (English or German); entity IDs do not depend on it (`<device>_<mac>_<attribute>`). Products and alerts are named as in the JURA J.O.E. app and on the machine display: the machine file gives each product a text number, the names for it come from the app (version 4.6.16). Which entities appear depends on the model's machine file. Statistics and alerts are read every minute while the machine is on. The daily counter and the auto-off timer cannot be read over Bluetooth on the WE6 (tested with 1.8.0: statistics page 2 is all zeros even after making a product, setting 0x13 returns no value).
+
+### Auto-off after (experimental)
+
+Sets the auto-off timer (15 min to 9 h) with the command the JURA app uses for models whose machine file has this setting (setting 13). The machine does not report the timer, so the entity shows the last value set from Home Assistant and is unknown until then. Whether a model accepts the command can only be seen in the machine menu.
 
 ## Bluetooth
 

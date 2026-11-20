@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 from datetime import datetime, timezone
@@ -8,7 +9,7 @@ from zipfile import ZipFile
 import xmltodict
 from bleak import BLEDevice
 
-from .client import Client
+from .client import Client, UUIDs
 
 if TYPE_CHECKING:
     from homeassistant.components.bluetooth import BluetoothServiceInfoBleak
@@ -16,6 +17,23 @@ if TYPE_CHECKING:
 _LOGGER = logging.getLogger(__name__)
 
 COMMAND_TIME = 15
+
+# auto-off timer: setting 13 with the values of the JURA machine files that
+# have it (e.g. EF1012 "AutoOFF"); the WE6 file has no settings at all
+AUTO_OFF_ARGUMENT = "13"
+AUTO_OFF = {
+    "15 min": "0F",
+    "30 min": "1E",
+    "1 h": "213C",
+    "2 h": "2178",
+    "3 h": "21B4",
+    "4 h": "21F0",
+    "5 h": "22012C",
+    "6 h": "220168",
+    "7 h": "2201A4",
+    "8 h": "2201E0",
+    "9 h": "22021C",
+}
 
 # statistics pages (from andrei-marinache/Jura-AlexxIT): bank command -> key
 MAINTENANCE_BANKS = {"@TG:43": "counters", "@TG:C0": "percents"}
@@ -261,6 +279,24 @@ class Device:
         data[17] = self.client.key
 
         return data
+
+    async def write_setting(self, argument: str, value: str) -> bool:
+        """Write a machine setting like the J.O.E. app (writePModeCommand).
+
+        [key, 'M', argument, value..., checksum] to P_MODE; the checksum is
+        255 - (sum of the characters of "<argument>,<value>") % 256.
+        Returns True once the command was written.
+        """
+        text = f"{argument}{value}".upper()
+        checksum = 255 - (ord(",") + sum(map(ord, text))) % 256
+        data = bytes([0x00, 0x4D]) + bytes.fromhex(text) + bytes([checksum])
+        _LOGGER.info(f"Write setting {argument}={value}: {data[1:].hex(' ')}")
+        self.client.send(data, uuid=UUIDs.P_MODE)
+        try:
+            await asyncio.wait_for(self.client.send_done.wait(), COMMAND_TIME + 5)
+        except TimeoutError:
+            return False
+        return True
 
     # Add method to register statistics updates
     def register_statistics_update(self, handler: Callable):
