@@ -29,6 +29,9 @@
       "alert_insert_tray": {
         "name": "Restwasserschale fehlt"
       },
+      "alert_insert_coffee_bin": {
+        "name": "Kaffeesatzbehälter fehlt"
+      },
       "alert_fill_water": {
         "name": "Wassertank füllen"
       },

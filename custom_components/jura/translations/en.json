@@ -29,6 +29,9 @@
       "alert_insert_tray": {
         "name": "No drip tray"
       },
+      "alert_insert_coffee_bin": {
+        "name": "No coffee grounds container"
+      },
       "alert_fill_water": {
         "name": "Fill the water tank"
       },

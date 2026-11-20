@@ -28,6 +28,16 @@ ALERT_SENSORS = [
         "entity_category": EntityCategory.DIAGNOSTIC,
     },
     {
+        # on the WE6 the grounds container sits in the drip tray, so pulling
+        # the tray raises this together with "insert tray"
+        "name_pattern": "insert coffee bin",
+        "type": "insert_coffee_bin",
+        "display_name": "No Coffee Grounds Container",
+        "icon": "mdi:delete-empty",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
         "name_pattern": "fill water",
         "type": "fill_water",
         "display_name": "Fill Water",
