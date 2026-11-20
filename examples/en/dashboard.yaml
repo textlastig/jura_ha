@@ -540,6 +540,25 @@ views:
         green: 0
         yellow: 80
         red: 95
+      visibility:
+      - condition: state
+        entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_decalc
+        state_not: unavailable
+    - grid_options:
+        columns: 6
+      type: gauge
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_filterchange
+      name: Filter
+      min: 0
+      max: 100
+      severity:
+        green: 0
+        yellow: 80
+        red: 95
+      visibility:
+      - condition: state
+        entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_filterchange
+        state_not: unavailable
     - grid_options:
         columns: 6
       type: tile
@@ -554,21 +573,10 @@ views:
       name: Descalings
       icon: mdi:water-sync
       color: blue-grey
-    - grid_options:
-        columns: 6
-      type: gauge
-      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_filterchange
-      name: Filter
-      min: 0
-      max: 100
-      severity:
-        green: 0
-        yellow: 80
-        red: 95
       visibility:
       - condition: state
-        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_active
-        state: 'on'
+        entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_decalc
+        state_not: unavailable
     - grid_options:
         columns: 6
       type: tile
@@ -578,8 +586,8 @@ views:
       color: blue-grey
       visibility:
       - condition: state
-        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_active
-        state: 'on'
+        entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_filterchange
+        state_not: unavailable
   - type: grid
     cards:
     - type: heading

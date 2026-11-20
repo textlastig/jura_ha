@@ -13,6 +13,7 @@ from homeassistant.components.sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import PERCENTAGE, EntityCategory
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_time_interval
 
@@ -51,6 +52,28 @@ async def async_setup_entry(
 
     async_add_entities(entities)
 
+    # Hide what the machine reports as not used (percent 0xFF), e.g. the filter
+    # without a filter cartridge or descaling with one
+    registry = er.async_get(hass)
+    prefix = device.mac.replace(":", "")
+
+    def hide_unused():
+        for mtype, value in device.statistics.get("maintenance_percents", {}).items():
+            for platform, attr in related_entities(mtype):
+                entity_id = registry.async_get_entity_id(
+                    platform, DOMAIN, f"{prefix}_{attr}"
+                )
+                if entity_id is None or (entry := registry.async_get(entity_id)) is None:
+                    continue
+                if value is None and entry.hidden_by is None:
+                    registry.async_update_entity(
+                        entity_id, hidden_by=er.RegistryEntryHider.INTEGRATION
+                    )
+                elif value is not None and entry.hidden_by is er.RegistryEntryHider.INTEGRATION:
+                    registry.async_update_entity(entity_id, hidden_by=None)
+
+    device.register_statistics_update(hide_unused)
+
     # Set up automatic refresh
     update_interval = hass.data[DOMAIN].get("update_interval", 60)
 
@@ -72,6 +95,24 @@ async def async_setup_entry(
 
     # Do an initial refresh
     hass.async_create_task(refresh_statistics())
+
+
+# Alerts that belong to a maintenance type, hidden together with it
+MAINTENANCE_ALERTS = {
+    "Cleaning": ("cleaning_alert", "cleaning_info"),
+    "FilterChange": ("filter_alert", "filter_info"),
+    "Decalc": ("decalc_alert", "decalc_info"),
+    "CappuClean": ("cappu_clean_alert", "cappu_clean_info"),
+}
+
+
+def related_entities(mtype: str) -> list[tuple[str, str]]:
+    """Entities (platform, attr) of a maintenance type: counter, percent, alerts."""
+    key = mtype.lower()
+    return [
+        ("sensor", f"maintenance_count_{key}"),
+        ("sensor", f"maintenance_percent_{key}"),
+    ] + [("binary_sensor", f"alert_{a}") for a in MAINTENANCE_ALERTS.get(mtype, ())]
 
 
 class JuraStatisticsSensor(JuraEntity, RestoreSensor):
