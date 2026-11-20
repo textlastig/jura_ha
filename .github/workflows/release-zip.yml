@@ -1,0 +1,34 @@
+name: Release ZIP
+
+# HACS installs the integration from this file (hacs.json: zip_release), so
+# GitHub counts the downloads per release.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to attach jura.zip to (e.g. v1.12.5)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - name: Build jura.zip
+        run: |
+          cd custom_components/jura
+          zip -r -X "$GITHUB_WORKSPACE/jura.zip" . -x '__pycache__/*' '*/__pycache__/*'
+          unzip -l "$GITHUB_WORKSPACE/jura.zip" | tail -1
+      - name: Attach to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$TAG" jura.zip --clobber --repo "$GITHUB_REPOSITORY"
