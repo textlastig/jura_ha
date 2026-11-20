@@ -61,6 +61,18 @@
       },
       "alert_cappu_clean_alert": {
         "name": "Milchsystem reinigen"
+      },
+      "alert_cleaning_info": {
+        "name": "Gerät bald reinigen"
+      },
+      "alert_filter_info": {
+        "name": "Filter bald wechseln"
+      },
+      "alert_filter_active": {
+        "name": "Filter aktiv"
+      },
+      "alert_cappu_clean_info": {
+        "name": "Milchsystem bald reinigen"
       }
     },
     "sensor": {

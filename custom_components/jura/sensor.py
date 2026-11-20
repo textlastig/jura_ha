@@ -223,6 +223,13 @@ class JuraMaintenanceSensor(JuraStatisticsSensor):
             self.mtype
         )
 
+    @property
+    def available(self) -> bool:
+        """Percent 0xFF means the machine does not use this, e.g. no filter."""
+        if self.kind == "percents" and self.native_value is None:
+            return False
+        return super().available
+
 
 class JuraAlertSensor(JuraEntity, RestoreSensor):
     """Sensor for machine alerts."""

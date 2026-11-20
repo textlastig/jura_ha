@@ -61,6 +61,18 @@
       },
       "alert_cappu_clean_alert": {
         "name": "Clean the milk system"
+      },
+      "alert_cleaning_info": {
+        "name": "Clean the machine soon"
+      },
+      "alert_filter_info": {
+        "name": "Change the filter soon"
+      },
+      "alert_filter_active": {
+        "name": "Filter active"
+      },
+      "alert_cappu_clean_info": {
+        "name": "Clean the milk system soon"
       }
     },
     "sensor": {

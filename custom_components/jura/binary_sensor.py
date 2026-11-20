@@ -79,11 +79,42 @@ ALERT_SENSORS = [
         "entity_category": EntityCategory.DIAGNOSTIC,
     },
     {
+        # pre-warning, bit 43 in the machine files
+        "name_pattern": "info - coffee clean alert",
+        "exact": True,
+        "type": "cleaning_info",
+        "display_name": "Cleaning Soon",
+        "icon": "mdi:washing-machine",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
         "name_pattern": "filter alert",
         "type": "filter_alert",
         "display_name": "Filter Change Needed",
         "icon": "mdi:air-filter",
         "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
+        # pre-warning, bit 45 in the machine files
+        "name_pattern": "info - filter used up alert",
+        "exact": True,
+        "type": "filter_info",
+        "display_name": "Filter Change Soon",
+        "icon": "mdi:air-filter",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
+        # status, not a problem: a filter cartridge is detected (RFID) and
+        # active, bit 37 in the machine files
+        "name_pattern": "active rf filter",
+        "exact": True,
+        "type": "filter_active",
+        "display_name": "Filter Active",
+        "icon": "mdi:filter-check-outline",
+        "device_class": None,
         "entity_category": EntityCategory.DIAGNOSTIC,
     },
     {
@@ -115,10 +146,22 @@ ALERT_SENSORS = [
         "entity_category": EntityCategory.DIAGNOSTIC,
     },
     {
+        # exact: "Info - cappu clean alert" (pre-warning) must not match
         "name_pattern": "cappu clean alert",
+        "exact": True,
         "type": "cappu_clean_alert",
         "milk": True,
         "display_name": "Milk System Cleaning Needed",
+        "icon": "mdi:cup-water",
+        "device_class": BinarySensorDeviceClass.PROBLEM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
+    {
+        "name_pattern": "info - cappu clean alert",
+        "exact": True,
+        "type": "cappu_clean_info",
+        "milk": True,
+        "display_name": "Milk System Cleaning Soon",
         "icon": "mdi:cup-water",
         "device_class": BinarySensorDeviceClass.PROBLEM,
         "entity_category": EntityCategory.DIAGNOSTIC,
@@ -138,8 +181,12 @@ async def async_setup_entry(
     # milk products (the machine file lists these alerts for every model)
     milk = has_milk_system(device.products)
     registry = er.async_get(hass)
+    # only alerts the machine file defines (the alert bits come from there)
+    names = [name.lower() for name in device.alerts.values()]
     for alert_info in ALERT_SENSORS:
-        if alert_info.get("milk") and not milk:
+        if (alert_info.get("milk") and not milk) or (
+            names and not any(matches(alert_info, name) for name in names)
+        ):
             unique_id = f"{device.mac.replace(':', '')}_alert_{alert_info['type']}"
             if entity_id := registry.async_get_entity_id(
                 "binary_sensor", DOMAIN, unique_id
@@ -149,6 +196,12 @@ async def async_setup_entry(
         entities.append(JuraAlertBinarySensor(device, alert_info))
 
     add_entities(entities)
+
+
+def matches(alert_info: dict, alert_name: str) -> bool:
+    """True if the alert name (lower case) belongs to this sensor."""
+    pattern = alert_info["name_pattern"].lower()
+    return alert_name == pattern if alert_info.get("exact") else pattern in alert_name
 
 
 def has_milk_system(products: list) -> bool:
@@ -174,8 +227,7 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity, RestoreEntity):
     def __init__(self, device, alert_info: dict):
         """Initialize the sensor."""
         # Store name pattern before calling super().__init__
-        self._name_pattern = alert_info["name_pattern"].lower()
-        self._exact = alert_info.get("exact", False)
+        self._info = alert_info
 
         super().__init__(device, f"alert_{alert_info['type']}")
 
@@ -200,9 +252,7 @@ class JuraAlertBinarySensor(JuraEntity, BinarySensorEntity, RestoreEntity):
             return  # keep the restored state until alerts were read
         # Check if any active alert's name contains (or, if exact, equals) our pattern
         self._attr_is_on = any(
-            self._name_pattern == alert_name.lower()
-            if self._exact
-            else self._name_pattern in alert_name.lower()
+            matches(self._info, alert_name.lower())
             for alert_name in self.device.active_alerts.values()
         )
 
