@@ -61,6 +61,8 @@ When on, the integration only creates sensors and binary sensors. Buttons (make,
 
 Names follow the Home Assistant language (English or German); entity IDs do not depend on it (`<device>_<mac>_<attribute>`). Products and alerts are named as in the JURA J.O.E. app and on the machine display: the machine file gives each product a text number, the names for it come from the app (version 4.6.16). Which entities appear depends on the model's machine file. Statistics and alerts are read every minute while the machine is on.
 
+**Exploration (since 1.8.0):** after a Home Assistant start and whenever a product was made, the integration additionally reads statistics page 2 (presumably the daily counter) and machine setting 0x13 (the auto-off timer on other models) and only writes the raw answers to the log (`Exploration ...`, level info). Both are read requests that change nothing on the machine; the JURA app reads neither for the WE6. Entities follow once the answers are understood.
+
 ## Bluetooth
 
 A good Bluetooth receiver matters, see the [Home Assistant list](https://www.home-assistant.io/integrations/bluetooth/). AlexxIT had no stable connection with five adapters (*Unbranded CSR clone detected*); only an adapter with a `CSR8510A10` chip worked reliably.

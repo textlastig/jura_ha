@@ -27,6 +27,9 @@ class UUIDs:
     STATS_DATA = "5A401534-ab2e-2548-c435-08c300000710"
     # Status
     MACHINE_STATUS = "5a401524-ab2e-2548-c435-08c300000710"
+    # answer to a settings read ("M" + setting number written to P_MODE),
+    # as used by the J.O.E. app (PModeSettingsParser)
+    P_MODE_READ = "5a401538-ab2e-2548-c435-08c300000710"
 
 
 class Client:
@@ -252,6 +255,32 @@ class Client:
             return None
 
         return await self.read(UUIDs.STATS_DATA, decrypt=True)
+
+    async def read_setting(self, arg: int) -> tuple[bytes, bytes] | None:
+        """Read one machine setting, like the J.O.E. app does.
+
+        Writes [key, 'M', arg] to P_MODE and reads the answer from
+        P_MODE_READ. Returns (raw, decrypted); read only, changes nothing.
+        """
+        self.send(bytes([0x00, 0x4D, arg]), uuid=UUIDs.P_MODE)
+
+        for _ in range(20):
+            if self.client:
+                break
+            await asyncio.sleep(1)
+        else:
+            return None
+
+        try:
+            await asyncio.wait_for(self.send_done.wait(), timeout=10)
+        except TimeoutError:
+            return None
+
+        await asyncio.sleep(1.2)  # the app waits up to 1200 ms for the answer
+        raw = await self.read(UUIDs.P_MODE_READ)
+        if raw is None:
+            return None
+        return bytes(raw), bytes(encryption.encdec(list(raw), self.key))
 
     async def read_machine_status(self) -> bytes | None:
         """Read machine status from the device."""

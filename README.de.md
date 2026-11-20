@@ -61,6 +61,8 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 
 Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist.
 
+**Erkundung (seit 1.8.0):** Nach dem Start von Home Assistant und nach jedem Bezug liest die Integration zusätzlich Statistikseite 2 (vermutlich der Tageszähler) und die Maschineneinstellung 0x13 (bei anderen Modellen der Abschalt-Timer) und schreibt nur die Rohantworten ins Log (`Exploration ...`, Stufe Info). Beides sind Leseabfragen, die an der Maschine nichts ändern; die JURA-App liest bei der WE6 keins von beiden. Entitäten folgen, sobald die Antworten verstanden sind.
+
 ## Bluetooth
 
 Ein guter Bluetooth-Empfänger ist wichtig, siehe die [Liste von Home Assistant](https://www.home-assistant.io/integrations/bluetooth/). AlexxIT hatte mit fünf Adaptern (*Unbranded CSR clone detected*) keine stabile Verbindung, erst ein Adapter mit `CSR8510A10` lief zuverlässig.

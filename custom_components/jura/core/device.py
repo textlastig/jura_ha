@@ -94,6 +94,8 @@ class Device:
         # False until the first read: entities keep their restored state
         self.alerts_read = False
         self.statistics_read = False
+        # total at the last exploration read (daily counter, auto-off timer)
+        self.probe_total: int | None = None
 
     @property
     def mac(self) -> str:
@@ -335,12 +337,47 @@ class Device:
         except Exception as ex:
             _LOGGER.debug(f"Error reading maintenance values: {ex}")
 
+        # exploration (1.8.0): after start and whenever a product was made
+        if total_count != self.probe_total:
+            self.probe_total = total_count
+            try:
+                await self.probe_unknown()
+            except Exception as ex:
+                _LOGGER.info(f"Exploration read failed: {ex!r}")
+
         # Notify all statistics listeners
         _LOGGER.debug(f"Notifying {len(self.updates_statistics)} statistics listeners")
         for handler in self.updates_statistics:
             handler()
 
         return self.statistics
+
+    async def probe_unknown(self):
+        """Read-only exploration, logs raw answers only.
+
+        - statistics page 2: presumably the daily counter (pages 1, 4, 8 are
+          product counters, maintenance counters and percents; the J.O.E.
+          app never reads page 2)
+        - setting 0x13: auto-off timer on other models (SLIDER "AutoOFF"
+          P_Argument 13); the WE6 machine file has no settings, so the app
+          never asks
+        """
+        for arg in (0x0100, 0xFFFF):
+            data = await self.client.read_statistics_page(0x02, arg)
+            _LOGGER.info(
+                f"Exploration statistics page 0x02 arg {arg:#06x} "
+                f"(total {self.probe_total}): "
+                f"{data.hex(' ') if data is not None else None}"
+            )
+        res = await self.client.read_setting(0x13)
+        if res is None:
+            _LOGGER.info("Exploration setting 0x13 (auto-off): no answer")
+        else:
+            raw, dec = res
+            _LOGGER.info(
+                f"Exploration setting 0x13 (auto-off): raw {raw.hex(' ')}, "
+                f"decrypted {dec.hex(' ')}, text {dec.decode('latin-1')!r}"
+            )
 
     async def _read_page_twice(self, kind: str) -> bytes | None:
         page, arg = MAINTENANCE_PAGES[kind]
