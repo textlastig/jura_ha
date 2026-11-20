@@ -59,7 +59,27 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 | Binärsensoren | Restwasserschale fehlt, Kaffeesatzbehälter fehlt, Wassertank füllen, Kaffeesatzbehälter leeren, Restwasserschale leeren, Bohnen füllen, Gerät reinigen, Filter wechseln, Gerät entkalken, Gerät bald entkalken; bei Maschinen mit Milchprodukten zusätzlich Milchsystem spülen, Milchsystem reinigen |
 | Steuerung | Kaffeespezialität (Namen wie in der JURA-App), Mahlwerk-Verhältnis (z. B. „50% / 50%“), Kaffeestärke, Temperatur (Niedrig, Normal, Hoch), Mengen (Wasser und Bypass in ml, Milch, Milchschaum und Milchpause in Sekunden), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
 
-Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist. Tageszähler und Abschalt-Timer lassen sich bei der WE6 über Bluetooth nicht auslesen (mit 1.8.0 geprüft: Statistikseite 2 ist auch nach einem Bezug nur 0, Einstellung 0x13 liefert keinen Wert). Den Abschalt-Timer kann man auch nicht setzen (mit 1.10.0 geprüft, darum in 1.10.1 wieder entfernt): Den Einstellungsbefehl der JURA-App (`M 13 <Wert>`) nimmt die Maschine ohne Fehler an, ändert aber nichts. Das neuere Textprotokoll der App für BlueFrog-Module (`@TM:13,…`) bietet das Smart-Connect-Modul der WE6 nicht an.
+Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist. Tageszähler und Abschalt-Timer lassen sich bei der WE6 über Bluetooth nicht auslesen (mit 1.8.0 geprüft: Statistikseite 2 ist auch nach einem Bezug nur 0, Einstellung 0x13 liefert keinen Wert). Den Abschalt-Timer kann man auch nicht setzen (mit 1.10.0 geprüft, darum in 1.10.1 wieder entfernt): Den Einstellungsbefehl der JURA-App (`M 13 <Wert>`) nimmt die Maschine ohne Fehler an, ändert aber nichts. Das neuere Textprotokoll der App für BlueFrog-Module (`@TM:13,…`) bietet das Smart-Connect-Modul der WE6 nicht an. Ein Scan der Einstellungsregister 00 bis 56 (`M <Register>`, 20.11.2026) lieferte für jedes Register nur Nullen, auch für 02, in dem andere Modelle die Wasserhärte führen. Die Maschinendatei der WE6 hat überhaupt keinen Einstellungsblock. Wasserhärte, Abschalt-Timer und Tageszähler, die die Maschine am Display zeigt, sind bei der WE6 über Bluetooth also nicht lesbar.
+
+## Dashboard und Tageszähler
+
+![](docs/dashboard.png)
+
+![](docs/dashboard-charts.png)
+
+Fertiges Beispiel für eine WE6 in [`examples/`](examples/), auf Deutsch (`examples/de/`, wie in den Bildern) und Englisch (`examples/en/`). Den Ordner passend zur Home-Assistant-Sprache wählen, weil die Zubereiten-Kacheln die Produktnamen der Integration verwenden.
+
+- `package.yaml`: Tageszähler (`sensor.jura_we6_*_heute`), ihre Helfer, das Skript `jura_we6_zubereiten` und die Automation, die den Nullpunkt des Tages setzt.
+- `dashboard.yaml`: Meldungen, Zubereiten per Antippen mit Rückfrage, individuelles Zubereiten, Pflege, Bezüge heute und gesamt, Diagramme „Heute“ (jeder Messwert) und „Letzte 7 Tage“ (ein Wert pro Tag). Braucht [apexcharts-card](https://github.com/RomRider/apexcharts-card).
+
+Einrichten:
+1. apexcharts-card installieren (HACS).
+2. In beiden Dateien `jura_we6_xxxxxxxxxxxx` durch das eigene Entitäts-Präfix ersetzen (*Einstellungen › Entitäten*, Suche „jura“).
+3. `package.yaml` nach `/config/packages/` legen (Packages eingeschaltet mit `homeassistant: packages: !include_dir_named packages`), Konfiguration prüfen, neu starten.
+4. Dashboard anlegen (*Einstellungen › Dashboards › Dashboard hinzufügen › Neu von Grund auf*), Raw-Konfigurationseditor öffnen und `dashboard.yaml` einfügen.
+5. Andere Modelle: nicht vorhandene Produkte entfernen und die Produktsensoren anpassen (`sensor.<präfix>_product_*`).
+
+So arbeiten die Tageszähler: Die Maschine liefert nur Gesamtzähler, die Integration fragt sie jede Minute ab. Beim ersten Verbinden des Tages drückt die Automation sofort *Statistik aktualisieren* und speichert die Gesamtzähler als Nullpunkt; „heute“ ist der aktuelle Stand minus Nullpunkt. Es wird nichts interpoliert: Bezüge ohne Messung (Home Assistant, Bluetooth-Proxy oder Bluetooth aus, Maschine vor der nächsten Abfrage ausgeschaltet) zählen in den Gesamtzählern, werden aber keinem Tag zugeordnet. Ohne Messung an einem Tag bleiben die Tageszähler bei 0.
 
 ## Bluetooth
 

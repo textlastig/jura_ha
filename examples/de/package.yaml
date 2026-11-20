@@ -1,0 +1,291 @@
+###############################################################################
+# examples/de/package.yaml
+# Tageszähler, Zubereiten-Skript und Nullpunkt-Automation für das Dashboard
+# examples/de/dashboard.yaml (JURA WE6, textlastig/jura_ha, HA auf Deutsch).
+#
+# Tageszähler ohne Interpolation: Beim ersten Verbinden des Tages drückt die
+# Automation "Statistik aktualisieren" und speichert die Zähler als
+# Nullpunkt. "Bezüge heute" = aktueller Stand minus Nullpunkt. Bezüge, die
+# ohne Messung entstehen (Home Assistant, Bluetooth-Proxy oder Bluetooth
+# aus, Maschine vor der nächsten Abfrage ausgeschaltet), zählen in den
+# Gesamtzählern, werden aber keinem Tag zugeordnet.
+#
+# 1. Jedes "jura_we6_xxxxxxxxxxxx" durch das eigene Entitäts-Präfix ersetzen.
+# 2. Packages einmalig in configuration.yaml einschalten:
+#      homeassistant:
+#        packages: !include_dir_named packages
+# 3. Datei als /config/packages/jura_kaffee.yaml speichern, Konfiguration
+#    prüfen, Home Assistant neu starten.
+# 4. Optional: Helfer "Jura Nullpunkt …" ausblenden.
+###############################################################################
+
+input_datetime:
+  jura_tageszahler_referenz:
+    name: Jura Tageszähler Referenz
+    has_date: true
+    has_time: true
+    icon: mdi:calendar-clock
+input_number:
+  jura_nullpunkt_gesamt:
+    name: Jura Nullpunkt Gesamt
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_kaffee_spezial:
+    name: Jura Nullpunkt Kaffee Spezial
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_kaffee:
+    name: Jura Nullpunkt Kaffee
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_espresso:
+    name: Jura Nullpunkt Espresso
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_ristretto:
+    name: Jura Nullpunkt Ristretto
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_2_x_kaffee:
+    name: Jura Nullpunkt 2 x Kaffee
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_2_x_espresso:
+    name: Jura Nullpunkt 2 x Espresso
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_2_x_ristretto:
+    name: Jura Nullpunkt 2 x Ristretto
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_nullpunkt_heisswasser:
+    name: Jura Nullpunkt Heißwasser
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+template:
+- sensor:
+  - name: Jura WE6 Gesamt heute
+    unique_id: jura_we6_gesamt_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_total_product') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_gesamt') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Kaffee Spezial heute
+    unique_id: jura_we6_kaffee_spezial_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_kaffee_spezial') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Kaffee heute
+    unique_id: jura_we6_kaffee_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_coffee') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_kaffee') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Espresso heute
+    unique_id: jura_we6_espresso_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_espresso') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_espresso') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Ristretto heute
+    unique_id: jura_we6_ristretto_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_ristretto') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_ristretto') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 2 x Kaffee heute
+    unique_id: jura_we6_2_x_kaffee_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_2_x_kaffee') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 2 x Espresso heute
+    unique_id: jura_we6_2_x_espresso_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_2_x_espresso') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 2 x Ristretto heute
+    unique_id: jura_we6_2_x_ristretto_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_2_x_ristretto') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Heißwasser heute
+    unique_id: jura_we6_heisswasser_heute
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_tageszahler_referenz') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_nullpunkt_heisswasser') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+script:
+  jura_we6_zubereiten:
+    alias: Jura WE6 zubereiten
+    icon: mdi:coffee-maker
+    description: Wählt an der Jura WE6 eine Kaffeespezialität mit ihren Standardwerten und startet sie. Für das Dashboard
+      Kaffeemaschine.
+    mode: single
+    fields:
+      produkt:
+        name: Kaffeespezialität
+        description: Name wie in der Auswahl, z. B. Kaffee Spezial
+        required: true
+        example: Kaffee Spezial
+        selector:
+          text: {}
+    sequence:
+    - action: select.select_option
+      target:
+        entity_id: select.jura_we6_xxxxxxxxxxxx_product
+      data:
+        option: '{{ produkt }}'
+    - delay:
+        seconds: 1
+    - action: button.press
+      target:
+        entity_id: button.jura_we6_xxxxxxxxxxxx_make
+automation:
+- id: jura_tageszahler_nullpunkt
+  alias: Jura Tageszähler Nullpunkt
+  description: 'Erste Messung des Tages: Beim Verbinden mit der Jura WE6 sofort die Zähler lesen und als Nullpunkt der Tageszähler
+    speichern. Bezüge vor der ersten Messung (Messausfall, nach dem Ausschalten) werden bewusst keinem Tag zugeordnet.'
+  mode: single
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.jura_we6_xxxxxxxxxxxx_connection
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ states(''input_datetime.jura_tageszahler_referenz'')[:10] != now().date() | string }}'
+  actions:
+  - action: button.press
+    target:
+      entity_id: button.jura_we6_xxxxxxxxxxxx_refresh_stats
+  - condition: template
+    value_template: '{{ is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_total_product'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_coffee'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_espresso''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_ristretto'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal'')) }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_gesamt
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_total_product'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_kaffee_spezial
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_kaffee
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_coffee'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_espresso
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_espresso'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_ristretto
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_ristretto'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_2_x_kaffee
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_2_x_espresso
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_2_x_ristretto
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_nullpunkt_heisswasser
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal'') | int }}'
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.jura_tageszahler_referenz
+    data:
+      timestamp: '{{ now().timestamp() }}'

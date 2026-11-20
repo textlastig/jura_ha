@@ -59,7 +59,27 @@ When on, the integration only creates sensors and binary sensors. Buttons (make,
 | Binary sensors | No drip tray, No coffee grounds container, Fill the water tank, Empty the coffee grounds container, Empty the drip tray, Add beans, Clean the machine, Change the filter, Descale the machine, Descale the machine soon; machines with milk products also Rinse the milk system, Clean the milk system |
 | Control | Product (named as in the JURA app), grinder ratio (e.g. "50% / 50%"), coffee strength, temperature (Low, Normal, High), amounts (water and bypass in ml, milk, milk foam and milk break in seconds), Make button, Refresh statistics button, connection switch |
 
-Names follow the Home Assistant language (English or German); entity IDs do not depend on it (`<device>_<mac>_<attribute>`). Products and alerts are named as in the JURA J.O.E. app and on the machine display: the machine file gives each product a text number, the names for it come from the app (version 4.6.16). Which entities appear depends on the model's machine file. Statistics and alerts are read every minute while the machine is on. The daily counter and the auto-off timer cannot be read over Bluetooth on the WE6 (tested with 1.8.0: statistics page 2 is all zeros even after making a product, setting 0x13 returns no value). The auto-off timer cannot be set either (tested with 1.10.0, therefore removed again in 1.10.1): the machine accepts the JURA app's setting command (`M 13 <value>`) without an error but changes nothing, and the WE6's Smart Connect module does not offer the app's newer text protocol for BlueFrog modules (`@TM:13,…`).
+Names follow the Home Assistant language (English or German); entity IDs do not depend on it (`<device>_<mac>_<attribute>`). Products and alerts are named as in the JURA J.O.E. app and on the machine display: the machine file gives each product a text number, the names for it come from the app (version 4.6.16). Which entities appear depends on the model's machine file. Statistics and alerts are read every minute while the machine is on. The daily counter and the auto-off timer cannot be read over Bluetooth on the WE6 (tested with 1.8.0: statistics page 2 is all zeros even after making a product, setting 0x13 returns no value). The auto-off timer cannot be set either (tested with 1.10.0, therefore removed again in 1.10.1): the machine accepts the JURA app's setting command (`M 13 <value>`) without an error but changes nothing, and the WE6's Smart Connect module does not offer the app's newer text protocol for BlueFrog modules (`@TM:13,…`). A scan of the setting registers 00 to 56 (`M <register>`, 20.11.2026) returned only zeros for every register, including 02, which holds the water hardness on other models. The WE6 machine file has no settings section at all. So water hardness, auto-off timer and daily counter, which the machine shows on its display, cannot be read over Bluetooth on the WE6.
+
+## Dashboard and daily counters
+
+![](docs/dashboard.png)
+
+![](docs/dashboard-charts.png)
+
+Ready-made example for a WE6 in [`examples/`](examples/), English (`examples/en/`) and German (`examples/de/`, as in the screenshots). Pick the folder matching your Home Assistant language, because the brew buttons use the product names of the integration.
+
+- `package.yaml`: daily counters (`sensor.jura_we6_*_today`), their helpers, the script `jura_we6_brew` and the automation that sets the daily zero point.
+- `dashboard.yaml`: alerts, one-tap brewing with confirmation, custom brewing, maintenance, products today and total, charts "Today" (every reading) and "Last 7 days" (one value per day). Needs [apexcharts-card](https://github.com/RomRider/apexcharts-card).
+
+Setup:
+1. Install apexcharts-card (HACS).
+2. Replace `jura_we6_xxxxxxxxxxxx` in both files with your entity prefix (*Settings › Entities*, search "jura").
+3. Save `package.yaml` in `/config/packages/` (packages enabled with `homeassistant: packages: !include_dir_named packages`), check the configuration, restart.
+4. Create a dashboard (*Settings › Dashboards › Add dashboard › New dashboard from scratch*), open the raw configuration editor and paste `dashboard.yaml`.
+5. Other models: remove the products your machine does not have and adapt the product sensors (`sensor.<prefix>_product_*`).
+
+How the daily counters work: the machine only reports totals, and the integration polls them every minute. On the first connection of the day the automation presses *Refresh statistics* at once and stores the totals as the zero point; "today" is the current total minus that zero point. Nothing is interpolated: products made while no reading was possible (Home Assistant, Bluetooth proxy or Bluetooth down, or the machine switched off before the next poll) are counted in the totals but not assigned to any day. Without a reading on a day the daily counters stay at 0.
 
 ## Bluetooth
 

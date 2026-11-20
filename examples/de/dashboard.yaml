@@ -1,0 +1,790 @@
+###############################################################################
+# examples/de/dashboard.yaml
+# Dashboard "Kaffeemaschine" für eine JURA WE6 mit textlastig/jura_ha.
+# Home-Assistant-Sprache: Deutsch (Produktnamen müssen zur Produktauswahl
+# der Integration passen).
+#
+# 1. jura_ha und die Karte apexcharts-card installieren (HACS/Marketplace).
+# 2. Zuerst examples/de/package.yaml ausrollen (Tageszähler, Skript).
+# 3. Jedes "jura_we6_xxxxxxxxxxxx" durch das eigene Entitäts-Präfix ersetzen,
+#    z. B. jura_we6_d0123456789a (Einstellungen → Entitäten, Suche "jura").
+# 4. Einstellungen → Dashboards → Dashboard hinzufügen → "Neu von Grund auf",
+#    öffnen → Bearbeiten → ⋮ → Raw-Konfigurationseditor, Datei einfügen,
+#    speichern.
+# Andere Maschinen: Kacheln für nicht vorhandene Produkte entfernen.
+###############################################################################
+
+title: Kaffeemaschine
+views:
+- title: Jura WE6
+  path: we6
+  icon: mdi:coffee-maker
+  type: sections
+  max_columns: 3
+  badges:
+  - type: entity
+    entity: binary_sensor.jura_we6_xxxxxxxxxxxx_connection
+    name: Bluetooth
+    show_name: true
+    show_state: true
+    show_icon: true
+  - type: entity
+    entity: sensor.jura_we6_xxxxxxxxxxxx_total_product
+    name: Gerät
+    show_name: true
+    show_state: false
+    show_icon: true
+    icon: mdi:coffee-maker-outline
+    tap_action:
+      action: more-info
+  sections:
+  - type: grid
+    cards:
+    - type: heading
+      heading: Meldungen
+      icon: mdi:bell-outline
+      heading_style: title
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_fill_water
+      name: Wassertank füllen
+      icon: mdi:water-alert
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_fill_water
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_no_beans
+      name: Bohnen füllen
+      icon: mdi:coffee-off
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_no_beans
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_empty_grounds
+      name: Kaffeesatzbehälter leeren
+      icon: mdi:delete-alert
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_empty_grounds
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_empty_tray
+      name: Restwasserschale leeren
+      icon: mdi:tray-alert
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_empty_tray
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_tray
+      name: Restwasserschale fehlt
+      icon: mdi:tray
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_tray
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_coffee_bin
+      name: Kaffeesatzbehälter fehlt
+      icon: mdi:delete-empty
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_coffee_bin
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_alert
+      name: Gerät reinigen
+      icon: mdi:spray-bottle
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_alert
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_alert
+      name: Filter wechseln
+      icon: mdi:filter-variant-remove
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_alert
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_alert
+      name: Gerät entkalken
+      icon: mdi:water-alert
+      color: red
+      vertical: false
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_alert
+        state: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_info
+      name: Gerät bald entkalken
+      icon: mdi:water-alert-outline
+      color: amber
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_info
+        state: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_alert
+        state_not: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_alerts
+      name: Alles in Ordnung
+      icon: mdi:check-circle-outline
+      color: green
+      hide_state: true
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_fill_water
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_no_beans
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_empty_grounds
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_empty_tray
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_tray
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_alert
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_alert
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_alert
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_decalc_info
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_coffee_bin
+        state_not: 'on'
+    - type: heading
+      heading: Zubereiten
+      icon: mdi:coffee-to-go-outline
+      heading_style: title
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_ristretto
+      name: Ristretto
+      icon: mdi:coffee-outline
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 6
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Ristretto
+        confirmation:
+          text: Ristretto zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Ristretto
+        confirmation:
+          text: Ristretto zubereiten?
+      hold_action:
+        action: more-info
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_espresso
+      name: Espresso
+      icon: mdi:coffee
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 6
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Espresso
+        confirmation:
+          text: Espresso zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Espresso
+        confirmation:
+          text: Espresso zubereiten?
+      hold_action:
+        action: more-info
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_coffee
+      name: Kaffee
+      icon: mdi:cup
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 6
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Kaffee
+        confirmation:
+          text: Kaffee zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Kaffee
+        confirmation:
+          text: Kaffee zubereiten?
+      hold_action:
+        action: more-info
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special
+      name: Kaffee Spezial
+      icon: mdi:glass-mug-variant
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 6
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Kaffee Spezial
+        confirmation:
+          text: Kaffee Spezial zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: Kaffee Spezial
+        confirmation:
+          text: Kaffee Spezial zubereiten?
+      hold_action:
+        action: more-info
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti
+      name: 2 x Ristretto
+      icon: mdi:coffee-outline
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 4
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: 2 x Ristretto
+        confirmation:
+          text: 2 x Ristretto zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: 2 x Ristretto
+        confirmation:
+          text: 2 x Ristretto zubereiten?
+      hold_action:
+        action: more-info
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi
+      name: 2 x Espresso
+      icon: mdi:coffee
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 4
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: 2 x Espresso
+        confirmation:
+          text: 2 x Espresso zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: 2 x Espresso
+        confirmation:
+          text: 2 x Espresso zubereiten?
+      hold_action:
+        action: more-info
+    - type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee
+      name: 2 x Kaffee
+      icon: mdi:cup
+      color: brown
+      vertical: true
+      hide_state: true
+      grid_options:
+        columns: 4
+        rows: 2
+      tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: 2 x Kaffee
+        confirmation:
+          text: 2 x Kaffee zubereiten?
+      icon_tap_action:
+        action: perform-action
+        perform_action: script.jura_we6_zubereiten
+        data:
+          produkt: 2 x Kaffee
+        confirmation:
+          text: 2 x Kaffee zubereiten?
+      hold_action:
+        action: more-info
+    - type: heading
+      heading: Individuell
+      heading_style: subtitle
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: select.jura_we6_xxxxxxxxxxxx_product
+      name: Kaffeespezialität
+      icon: mdi:coffee
+      color: brown
+      features:
+      - type: select-options
+      features_position: inline
+      hide_state: true
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: select.jura_we6_xxxxxxxxxxxx_coffee_strength
+      name: Stärke
+      icon: mdi:coffee-maker-outline
+      color: brown
+      features:
+      - type: select-options
+      visibility:
+      - condition: state
+        entity: select.jura_we6_xxxxxxxxxxxx_coffee_strength
+        state_not: unavailable
+      hide_state: true
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: select.jura_we6_xxxxxxxxxxxx_temperature
+      name: Temperatur
+      icon: mdi:thermometer
+      color: brown
+      features:
+      - type: select-options
+      visibility:
+      - condition: state
+        entity: select.jura_we6_xxxxxxxxxxxx_temperature
+        state_not: unavailable
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: number.jura_we6_xxxxxxxxxxxx_water_amount
+      name: Wassermenge
+      icon: mdi:water
+      color: brown
+      features:
+      - type: numeric-input
+        style: slider
+      visibility:
+      - condition: state
+        entity: number.jura_we6_xxxxxxxxxxxx_water_amount
+        state_not: unavailable
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: button.jura_we6_xxxxxxxxxxxx_make
+      name: Zubereiten
+      icon: mdi:play-circle-outline
+      color: green
+      hide_state: true
+      tap_action: &id001
+        action: perform-action
+        perform_action: button.press
+        target:
+          entity_id: button.jura_we6_xxxxxxxxxxxx_make
+        confirmation:
+          text: Jetzt zubereiten?
+      icon_tap_action: *id001
+      visibility:
+      - condition: state
+        entity: button.jura_we6_xxxxxxxxxxxx_make
+        state_not: unavailable
+  - type: grid
+    cards:
+    - type: heading
+      heading: Pflege
+      icon: mdi:wrench-outline
+      heading_style: title
+    - grid_options:
+        columns: 6
+      type: gauge
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_cleaning
+      name: Reinigung
+      min: 0
+      max: 100
+      severity:
+        green: 0
+        yellow: 80
+        red: 95
+    - grid_options:
+        columns: 6
+      type: gauge
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_decalc
+      name: Entkalken
+      min: 0
+      max: 100
+      severity:
+        green: 0
+        yellow: 80
+        red: 95
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_count_cleaning
+      name: Reinigungen
+      icon: mdi:spray-bottle
+      color: blue-grey
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_count_decalc
+      name: Entkalkungen
+      icon: mdi:water-sync
+      color: blue-grey
+  - type: grid
+    cards:
+    - type: heading
+      heading: Bezüge heute
+      icon: mdi:coffee
+      heading_style: title
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: sensor.jura_we6_gesamt_heute
+      name: Gesamt
+      icon: mdi:coffee
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_ristretto_heute
+      name: Ristretto
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_espresso_heute
+      name: Espresso
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_kaffee_heute
+      name: Kaffee
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_kaffee_spezial_heute
+      name: Kaffee Spezial
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_2_x_ristretto_heute
+      name: 2 x Ristretto
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_2_x_espresso_heute
+      name: 2 x Espresso
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_2_x_kaffee_heute
+      name: 2 x Kaffee
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_heisswasser_heute
+      name: Heißwasser
+      icon: mdi:kettle
+      color: brown
+    - type: heading
+      heading: Bezüge gesamt
+      icon: mdi:coffee
+      heading_style: title
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_total_product
+      name: Gesamt
+      icon: mdi:coffee
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_ristretto
+      name: Ristretto
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_espresso
+      name: Espresso
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_coffee
+      name: Kaffee
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special
+      name: Kaffee Spezial
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti
+      name: 2 x Ristretto
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi
+      name: 2 x Espresso
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee
+      name: 2 x Kaffee
+      icon: mdi:coffee-outline
+      color: brown
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal
+      name: Heißwasser
+      icon: mdi:kettle
+      color: brown
+  - type: grid
+    column_span: 3
+    cards:
+    - type: heading
+      heading: Bezüge pro Tag
+      icon: mdi:chart-bar
+    - type: custom:apexcharts-card
+      grid_options:
+        columns: full
+      all_series_config:
+        curve: stepline
+        stroke_width: 2
+        unit: Bezüge
+        extend_to: now
+        transform: 'return Number(x) > 0 ? Number(x) : null;'
+        show:
+          legend_value: false
+      apex_config:
+        chart:
+          height: 320
+        markers:
+          size: 5
+        legend:
+          position: bottom
+        yaxis:
+          min: 0
+          forceNiceScale: true
+          decimalsInFloat: 0
+      header:
+        show: true
+        title: Heute
+        show_states: false
+      graph_span: 1d
+      span:
+        start: day
+      series:
+      - entity: sensor.jura_we6_kaffee_spezial_heute
+        name: Kaffee Spezial
+      - entity: sensor.jura_we6_kaffee_heute
+        name: Kaffee
+      - entity: sensor.jura_we6_espresso_heute
+        name: Espresso
+      - entity: sensor.jura_we6_ristretto_heute
+        name: Ristretto
+      - entity: sensor.jura_we6_2_x_kaffee_heute
+        name: 2 x Kaffee
+      - entity: sensor.jura_we6_2_x_espresso_heute
+        name: 2 x Espresso
+      - entity: sensor.jura_we6_2_x_ristretto_heute
+        name: 2 x Ristretto
+      - entity: sensor.jura_we6_heisswasser_heute
+        name: Heißwasser
+    - type: custom:apexcharts-card
+      grid_options:
+        columns: full
+      all_series_config:
+        curve: stepline
+        stroke_width: 2
+        unit: Bezüge
+        extend_to: false
+        transform: 'return Number(x) > 0 ? Number(x) : null;'
+        show:
+          legend_value: false
+      apex_config:
+        chart:
+          height: 320
+        markers:
+          size: 5
+        legend:
+          position: bottom
+        yaxis:
+          min: 0
+          forceNiceScale: true
+          decimalsInFloat: 0
+        xaxis:
+          tickAmount: 7
+      header:
+        show: true
+        title: Letzte 7 Tage
+        show_states: false
+      graph_span: 7d
+      span:
+        start: day
+        offset: -6d
+      series:
+      - entity: sensor.jura_we6_kaffee_spezial_heute
+        name: Kaffee Spezial
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_kaffee_heute
+        name: Kaffee
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_espresso_heute
+        name: Espresso
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_ristretto_heute
+        name: Ristretto
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_2_x_kaffee_heute
+        name: 2 x Kaffee
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_2_x_espresso_heute
+        name: 2 x Espresso
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_2_x_ristretto_heute
+        name: 2 x Ristretto
+        statistics:
+          type: max
+          period: day
+          align: start
+      - entity: sensor.jura_we6_heisswasser_heute
+        name: Heißwasser
+        statistics:
+          type: max
+          period: day
+          align: start

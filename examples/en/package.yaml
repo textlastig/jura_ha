@@ -1,0 +1,291 @@
+###############################################################################
+# examples/en/package.yaml
+# Daily counters, brew script and zero-point automation for the dashboard
+# examples/en/dashboard.yaml (JURA WE6, textlastig/jura_ha, HA in English).
+#
+# Daily counters without interpolation: on the first connection of the day
+# the automation presses "Refresh statistics" and stores the counters as the
+# zero point. "Products today" = current counter minus zero point. Products
+# made while no reading was possible (Home Assistant, Bluetooth proxy or
+# Bluetooth down, machine switched off before the next poll) are counted in
+# the total counters but not assigned to any day.
+#
+# 1. Replace every "jura_we6_xxxxxxxxxxxx" with your entity prefix.
+# 2. Enable packages once in configuration.yaml:
+#      homeassistant:
+#        packages: !include_dir_named packages
+# 3. Save this file as /config/packages/jura_coffee.yaml, check the
+#    configuration, restart Home Assistant.
+# 4. Optional: hide the "Jura zero point …" helpers.
+###############################################################################
+
+input_datetime:
+  jura_daily_counter_reference:
+    name: Jura daily counter reference
+    has_date: true
+    has_time: true
+    icon: mdi:calendar-clock
+input_number:
+  jura_zero_point_total:
+    name: Jura zero point Total
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_special_coffee:
+    name: Jura zero point Special coffee
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_coffee:
+    name: Jura zero point Coffee
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_espresso:
+    name: Jura zero point Espresso
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_ristretto:
+    name: Jura zero point Ristretto
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_2_x_coffee:
+    name: Jura zero point 2 x Coffee
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_2_x_espresso:
+    name: Jura zero point 2 x Espresso
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_2_x_ristretto:
+    name: Jura zero point 2 x Ristretto
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+  jura_zero_point_hot_water:
+    name: Jura zero point Hot water
+    min: 0
+    max: 10000000
+    step: 1
+    mode: box
+    icon: mdi:numeric-0-box-outline
+template:
+- sensor:
+  - name: Jura WE6 Total today
+    unique_id: jura_we6_total_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_total_product') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_total') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Special coffee today
+    unique_id: jura_we6_special_coffee_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_special_coffee') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Coffee today
+    unique_id: jura_we6_coffee_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_coffee') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_coffee') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Espresso today
+    unique_id: jura_we6_espresso_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_espresso') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_espresso') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Ristretto today
+    unique_id: jura_we6_ristretto_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_ristretto') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_ristretto') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 2 x Coffee today
+    unique_id: jura_we6_2_x_coffee_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_2_x_coffee') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 2 x Espresso today
+    unique_id: jura_we6_2_x_espresso_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_2_x_espresso') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 2 x Ristretto today
+    unique_id: jura_we6_2_x_ristretto_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_2_x_ristretto') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+  - name: Jura WE6 Hot water today
+    unique_id: jura_we6_hot_water_today
+    state_class: measurement
+    icon: mdi:coffee
+    state: |
+      {% set ref = states('input_datetime.jura_daily_counter_reference') %}
+      {% set src = states('sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal') %}
+      {% if ref[:10] != now().date() | string %}0
+      {% elif is_number(src) %}{{ [0, (src | float - states('input_number.jura_zero_point_hot_water') | float(0)) | int] | max }}
+      {% elif is_number(this.state) %}{{ this.state | int }}
+      {% else %}0{% endif %}
+script:
+  jura_we6_brew:
+    alias: Jura WE6 brew
+    icon: mdi:coffee-maker
+    description: Selects a product on the Jura WE6 with its default settings and starts it. For the coffee machine dashboard.
+    mode: single
+    fields:
+      product:
+        name: Product
+        description: Name as in the product list, e.g. Special coffee
+        required: true
+        example: Special coffee
+        selector:
+          text: {}
+    sequence:
+    - action: select.select_option
+      target:
+        entity_id: select.jura_we6_xxxxxxxxxxxx_product
+      data:
+        option: '{{ product }}'
+    - delay:
+        seconds: 1
+    - action: button.press
+      target:
+        entity_id: button.jura_we6_xxxxxxxxxxxx_make
+automation:
+- id: jura_daily_counter_zero_point
+  alias: Jura daily counter zero point
+  description: 'First reading of the day: on connecting to the Jura WE6, read the counters at once and store them as the zero
+    point of the daily counters. Products made before the first reading (no connection, machine switched off) are deliberately
+    not assigned to any day.'
+  mode: single
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.jura_we6_xxxxxxxxxxxx_connection
+    to: 'on'
+  conditions:
+  - condition: template
+    value_template: '{{ states(''input_datetime.jura_daily_counter_reference'')[:10] != now().date() | string }}'
+  actions:
+  - action: button.press
+    target:
+      entity_id: button.jura_we6_xxxxxxxxxxxx_refresh_stats
+  - condition: template
+    value_template: '{{ is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_total_product'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_coffee'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_espresso''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_ristretto'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi'')) and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti''))
+      and is_number(states(''sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal'')) }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_total
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_total_product'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_special_coffee
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_1_coffee_special'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_coffee
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_coffee'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_espresso
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_espresso'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_ristretto
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_ristretto'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_2_x_coffee
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_coffee'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_2_x_espresso
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_espressi'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_2_x_ristretto
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_2_ristretti'') | int }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jura_zero_point_hot_water
+    data:
+      value: '{{ states(''sensor.jura_we6_xxxxxxxxxxxx_product_hotwater_portionnormal'') | int }}'
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.jura_daily_counter_reference
+    data:
+      timestamp: '{{ now().timestamp() }}'
