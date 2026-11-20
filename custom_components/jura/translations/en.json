@@ -270,9 +270,6 @@
       },
       "temperature": {
         "name": "Temperature"
-      },
-      "auto_off": {
-        "name": "Auto-off after"
       }
     },
     "number": {
