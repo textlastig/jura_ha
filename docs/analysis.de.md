@@ -98,7 +98,7 @@ Alle JURA-Charakteristiken enden auf `-ab2e-2548-c435-08c300000710`.
 
 - **Verschlüsselung:** Jeder Wert ist mit dem Schlüsselbyte aus der Werbung verschlüsselt (`core/encryption.py`, `encdec`). Befehle tragen den Schlüssel als Byte 0.
 - **Lebenszeichen:** `00 7F 80` an `1529`. Ohne Lebenszeichen trennt die Maschine nach etwa 10 s.
-- **Status:** `1524`, entschlüsselt. Byte 0 wiederholt den Schlüssel, ab Byte 1 ein Bit pro Meldung (Bit 0 = höchstes Bit von Byte 1). Direkt nach dem Verbinden meldet die Maschine einige Sekunden lang einen Platzhalter; erst danach stimmen die Bits.
+- **Status:** `1524`, entschlüsselt. Byte 0 wiederholt den Schlüssel, ab Byte 1 ein Bit pro Meldung (Bit 0 = höchstes Bit von Byte 1). Direkt nach dem Verbinden meldet die Maschine einige Sekunden lang einen Platzhalter; erst danach stimmen die Bits. Die Integration liest den Status deshalb frühestens 8 s nach dem Verbinden (seit 1.12.4).
 - **Statistik:** `00 00 <Seite> <Argument>` an `1533` schreiben, warten, `1534` lesen.
   - Seite `01`, Argument `FFFF`: Gesamtzähler und je Produktcode ein Zähler mit 3 Byte. Bereit, wenn Byte 1 des unverschlüsselten `1533`-Werts nicht mehr 225 ist. Dauert bis zu etwa 20 s.
   - Seite `04`, Argument `0100`: Wartungszähler, je 2 Byte.

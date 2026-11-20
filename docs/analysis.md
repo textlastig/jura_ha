@@ -96,7 +96,7 @@ All JURA characteristics end in `-ab2e-2548-c435-08c300000710`.
 
 - **Encryption:** every value is encrypted with the key byte from the advertisement (`core/encryption.py`, `encdec`). Commands start with the key as byte 0.
 - **Heartbeat:** `00 7F 80` to `1529`. Without it the machine disconnects after about 10 s.
-- **Status:** `1524`, decrypted, byte 0 echoes the key, from byte 1 one bit per alert (bit 0 = highest bit of byte 1). Right after connecting the machine reports a placeholder for a few seconds; only after that are the bits valid.
+- **Status:** `1524`, decrypted, byte 0 echoes the key, from byte 1 one bit per alert (bit 0 = highest bit of byte 1). Right after connecting the machine reports a placeholder for a few seconds; only after that are the bits valid. The integration therefore reads the status at the earliest 8 s after connecting (since 1.12.4).
 - **Statistics:** write `00 00 <page> <arg>` to `1533`, wait, read `1534`.
   - Page `01`, arg `FFFF`: total and one 3-byte counter per product code. Ready when byte 1 of the raw `1533` value is no longer 225. Takes up to about 20 s.
   - Page `04`, arg `0100`: maintenance counters, 2 bytes each.

@@ -12,6 +12,9 @@ _LOGGER = logging.getLogger(__name__)
 
 ACTIVE_TIME = 120
 COMMAND_TIME = 15
+# right after connecting the machine reports a placeholder status for a few
+# seconds (seen on a WE6: valid after about 6 s)
+STATUS_SETTLE_TIME = 8
 
 
 class UUIDs:
@@ -36,6 +39,7 @@ class Client:
         # returns a fresh BLEDevice (best connectable path) before each connect
         self.ble_device_callback: Callable[[], BLEDevice | None] | None = None
         self.client: BleakClient | None = None
+        self.connected_at = 0.0
         self.loop = asyncio.get_running_loop()
 
         self.ping_future: asyncio.Future | None = None
@@ -107,6 +111,7 @@ class Client:
                 self.client = await establish_connection(
                     BleakClient, self.device, self.device.address
                 )
+                self.connected_at = time.time()
                 if self.callback:
                     self.callback(True)
 
@@ -268,6 +273,12 @@ class Client:
             if not self.client:
                 _LOGGER.debug("Failed to establish connection")
                 return None
+
+        if (wait := self.connected_at + STATUS_SETTLE_TIME - time.time()) > 0:
+            _LOGGER.debug(f"Waiting {wait:.1f} s for a valid machine status")
+            await asyncio.sleep(wait)
+        if not self.client:
+            return None
 
         try:
             data = await self.read(UUIDs.MACHINE_STATUS, decrypt=True)
