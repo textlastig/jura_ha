@@ -178,6 +178,36 @@ views:
     - grid_options:
         columns: 12
       type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_info
+      name: Clean soon
+      icon: mdi:spray-bottle
+      color: amber
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_info
+        state: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_alert
+        state_not: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
+      entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_info
+      name: Change filter soon
+      icon: mdi:air-filter
+      color: amber
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_info
+        state: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_alert
+        state_not: 'on'
+      hide_state: true
+    - grid_options:
+        columns: 12
+      type: tile
       entity: sensor.jura_we6_xxxxxxxxxxxx_alerts
       name: All good
       icon: mdi:check-circle-outline
@@ -213,6 +243,12 @@ views:
         state_not: 'on'
       - condition: state
         entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_insert_coffee_bin
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_cleaning_info
+        state_not: 'on'
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_info
         state_not: 'on'
     - type: heading
       heading: Brew
@@ -518,6 +554,32 @@ views:
       name: Descalings
       icon: mdi:water-sync
       color: blue-grey
+    - grid_options:
+        columns: 6
+      type: gauge
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_percent_filterchange
+      name: Filter
+      min: 0
+      max: 100
+      severity:
+        green: 0
+        yellow: 80
+        red: 95
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_active
+        state: 'on'
+    - grid_options:
+        columns: 6
+      type: tile
+      entity: sensor.jura_we6_xxxxxxxxxxxx_maintenance_count_filterchange
+      name: Filter changes
+      icon: mdi:air-filter
+      color: blue-grey
+      visibility:
+      - condition: state
+        entity: binary_sensor.jura_we6_xxxxxxxxxxxx_alert_filter_active
+        state: 'on'
   - type: grid
     cards:
     - type: heading
