@@ -54,7 +54,7 @@ Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Z
 
 | Art | Entitäten |
 |---|---|
-| Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen) |
+| Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen). Produkte, die die Maschinendatei als inaktiv führt (z. B. Heißwasser bei der WE6), bekommen ebenfalls einen Zähler, der standardmäßig deaktiviert ist: bei Bedarf am Gerät aktivieren |
 | Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
 | Binärsensoren | Restwasserschale fehlt, Kaffeesatzbehälter fehlt, Wassertank füllen, Kaffeesatzbehälter leeren, Restwasserschale leeren, Bohnen füllen, Gerät reinigen, Filter wechseln, Gerät entkalken, Gerät bald entkalken; bei Maschinen mit Milchprodukten zusätzlich Milchsystem spülen, Milchsystem reinigen |
 | Steuerung | Kaffeespezialität (Namen wie in der JURA-App), Mahlwerk-Verhältnis (z. B. „50% / 50%“), Kaffeestärke, Temperatur (Niedrig, Normal, Hoch), Mengen (Wasser und Bypass in ml, Milch, Milchschaum und Milchpause in Sekunden), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |

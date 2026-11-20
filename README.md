@@ -54,7 +54,7 @@ When on, the integration only creates sensors and binary sensors. Buttons (make,
 
 | Kind | Entities |
 |---|---|
-| Sensors | Total products, count per product (unit "products", in German "Bezüge"), alerts (`ok`/`alert` with the list of active alerts) |
+| Sensors | Total products, count per product (unit "products", in German "Bezüge"), alerts (`ok`/`alert` with the list of active alerts). Products the machine file marks as inactive (e.g. hot water on the WE6) get a counter too, disabled by default: enable it under the device if the machine has it |
 | Diagnostic | Maintenance counters (cleaning, filter change, descaling, coffee rinse, as far as the machine has them), maintenance percentages, connection |
 | Binary sensors | No drip tray, No coffee grounds container, Fill the water tank, Empty the coffee grounds container, Empty the drip tray, Add beans, Clean the machine, Change the filter, Descale the machine, Descale the machine soon; machines with milk products also Rinse the milk system, Clean the milk system |
 | Control | Product (named as in the JURA app), grinder ratio (e.g. "50% / 50%"), coffee strength, temperature (Low, Normal, High), amounts (water and bypass in ml, milk, milk foam and milk break in seconds), Make button, Refresh statistics button, connection switch |

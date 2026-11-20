@@ -32,12 +32,14 @@ async def async_setup_entry(
     entities: list = [JuraTotalCoffeeSensor(device)]
 
     # Create sensors for each product
+    # Inactive products (e.g. hot water on the WE6) are counted by the machine
+    # as well; their sensors exist but are disabled by default, because many
+    # machine files list inactive products that are never made.
     for product in device.products:
-        product_name = product["@Name"]
-        if product.get("@Active") != "false":
-            entities.append(
-                JuraProductCountSensor(device, product_name, product.get("@Text"))
-            )
+        sensor = JuraProductCountSensor(device, product["@Name"], product.get("@Text"))
+        if product.get("@Active") == "false":
+            sensor._attr_entity_registry_enabled_default = False
+        entities.append(sensor)
 
     # Maintenance counters and percents (if the machine file lists them)
     for kind in ("counters", "percents"):
