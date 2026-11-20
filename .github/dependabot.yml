@@ -1,0 +1,7 @@
+# Dependabot schlägt Updates für die GitHub Actions in .github/workflows vor.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
