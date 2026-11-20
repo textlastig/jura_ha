@@ -1,6 +1,9 @@
 {
   "domain": "jura",
   "name": "JURA Coffee Machines",
+  "categories": [
+    "appliances_cleaning.cooking"
+  ],
   "codeowners": [
     "@AlexxIT",
     "@textlastig"
