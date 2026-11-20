@@ -94,6 +94,6 @@ The fork was merged, extended and tested by [textlastig](https://github.com/text
 
 The code is licensed under the [MIT License](LICENSE), like AlexxIT's original. The contributions from pull requests AlexxIT/Jura#41, #59 and #77 were submitted to the MIT-licensed original repository and are therefore under the same license. Copyright in those contributions remains with their authors.
 
-**Excluded:** `custom_components/jura/core/resources.zip` contains JURA's machine files (products, settings and alerts per model). They come from JURA, are not covered by the MIT License and are included only to operate this integration, as in the original. The same applies to the product, setting and alert names in `translations/*.json` and `core/texts.json`, which are taken from the JURA J.O.E. app.
+**Excluded** (also in [NOTICE](NOTICE)): `custom_components/jura/core/resources.zip` contains JURA's machine files (products, settings and alerts per model). They come from JURA, are not covered by the MIT License and are included only to operate this integration, as in the original. The same applies to the product, setting and alert names in `translations/*.json` and `core/texts.json`, which are taken from the JURA J.O.E. app.
 
 JURA and Smart Connect are trademarks of JURA Elektroapparate AG. This project is not affiliated with JURA.

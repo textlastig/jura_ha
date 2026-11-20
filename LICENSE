@@ -20,12 +20,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Exception: custom_components/jura/core/resources.zip contains machine files
-by JURA Elektroapparate AG. They are not covered by this license and are
-included only to operate this integration, as in the original project.
-The same applies to the product, setting and alert names in
-custom_components/jura/translations/*.json and core/texts.json taken from
-the JURA J.O.E. app.
