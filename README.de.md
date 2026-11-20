@@ -2,13 +2,64 @@
 
 [English](README.md) | **Deutsch**
 
-Custom-Integration für [Home Assistant](https://www.home-assistant.io/), die JURA-Kaffeevollautomaten über das Bluetooth-Modul [JURA Smart Connect](https://us.jura.com/en/homeproducts/accessories/SmartConnect-Main-72167) einbindet: Statistik, Wartungsstand und Meldungen auslesen und auf Wunsch Produkte zubereiten.
+Custom-Integration für [Home Assistant](https://www.home-assistant.io/), die JURA-Kaffeevollautomaten über das Bluetooth-Modul [JURA Smart Connect](https://us.jura.com/en/homeproducts/accessories/SmartConnect-Main-72167) einbindet. Ein Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura), zusammengeführt mit Verbesserungen aus anderen Forks und erweitert, siehe [Fork und Dank](#fork-und-dank).
 
-Dies ist ein Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura). Er führt Verbesserungen aus offenen Pull Requests und anderen Forks zusammen und ergänzt eine Option, die Maschine nur auszulesen.
+![Geräteseite einer JURA WE6 in Home Assistant](demo.png)
 
-![](demo.png)
+## Was die Integration kann
 
-## Was dieser Fork gegenüber dem Original ändert
+- **Statistik:** Bezüge gesamt und ein Zähler je Produkt, benannt wie in der JURA-App.
+- **Tageszähler:** Bezüge heute, in Home Assistant berechnet, mit fertigem Dashboard.
+- **Pflege:** Reinigen, Entkalken, Filter: Zähler und Stand in Prozent, soweit die Maschine sie hat. Was die Maschine nicht benutzt (z. B. den Filter ohne Patrone), wird ausgeblendet.
+- **Meldungen und Vorwarnungen:** Wassertank füllen, Schale leeren, Bohnen füllen, reinigen, entkalken, Filter wechseln, „bald“-Vorwarnungen, genau so, wie die Maschinendatei sie für das Modell festlegt.
+- **Zubereiten:** Produkt, Stärke, Temperatur und Mengen, mit Taste *Zubereiten*.
+- **Nur auslesen:** auf Wunsch ganz ohne Steuerung, etwa für Sprachassistenten oder Dashboards für alle.
+- **Deutsch und Englisch**, in der Sprache von Home Assistant.
+- Läuft auch bei ausgeschalteter Maschine: Die letzten Werte bleiben stehen, und die Integration verbindet sich wieder, sobald die Maschine an ist.
+
+## Voraussetzungen
+
+- Eine JURA-Maschine mit **Smart-Connect-Modul** (Bluetooth). Das WLAN-Modul wird nicht unterstützt.
+- **Bluetooth in Home Assistant**, entweder
+  - direkt über die [Bluetooth-Integration](https://www.home-assistant.io/integrations/bluetooth/) mit einem unterstützten Adapter oder
+  - über einen [ESPHome-Bluetooth-Proxy](https://esphome.io/components/bluetooth_proxy.html) mit aktiven Verbindungen (`active: true`).
+- **Tipp:** den Empfänger nah an die Maschine bringen. Wir nutzen einen [M5Stack AtomS3U](https://docs.m5stack.com/en/core/AtomS3U) (ein ESP32-S3 als USB-Stick) als ESPHome-Bluetooth-Proxy in einer Steckdose mit USB neben der Maschine. Jeder ESP32 mit Bluetooth sollte gehen.
+- Die Maschine darf nicht mit einer PIN geschützt sein.
+
+## Dashboard
+
+![Dashboard mit Meldungen, Zubereiten, Pflege und Bezügen heute](docs/dashboard.png)
+
+Ein fertiges Dashboard mit Tageszählern, auf Deutsch und Englisch: **[Anleitung zum Dashboard](docs/dashboard.de.md)** · [English guide](docs/dashboard.md)
+
+## Installation
+
+[![](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=textlastig&repository=jura_ha&category=Integration)
+
+**[Installation und Einrichtung](docs/installation.de.md)** · [English guide](docs/installation.md): HACS (Marketplace), Installation von Hand, Umstieg vom Original, Option „Nur auslesen“.
+
+Was die Integration anlegt: **[Entitäten](docs/entities.de.md)** · [English](docs/entities.md)
+
+## Bluetooth-Fehlersuche und Analyse
+
+- **[Bluetooth-Fehlersuche](docs/troubleshooting.de.md)** · [English](docs/troubleshooting.md): Empfänger, Reichweite, ESPHome-Proxy, die Maschine wird nicht gefunden, ein anderes Gerät kommt nicht an die Maschine.
+- **[Analyse](docs/analysis.de.md)** · [English](docs/analysis.md): mit [`tools/jura_inspect.py`](tools/jura_inspect.py) die ganze Maschine von einem Mac (oder Linux-/Windows-Rechner) auslesen und herausfinden, was sie kann: Produkte, Meldungen, Wartung, Statistik, Einstellungsregister und Bluetooth-Dienste. Mit dem Protokoll, unseren Ergebnissen für die WE6 und ihr Modul „BlueFrog“, einem Schreibmodus **auf eigene Gefahr** und einer Anleitung für eigene Skripte.
+
+## Getestete Maschinen
+
+Dieser Fork läuft mit einer **WE6**. Laut Original außerdem: [D4](https://github.com/AlexxIT/Jura/issues/49), [E4](https://github.com/AlexxIT/Jura/issues/47), [E6](https://github.com/AlexxIT/Jura/issues/13), E8, ENA8 (mit Tasten), [S8](https://github.com/AlexxIT/Jura/issues/20), [Z8](https://github.com/AlexxIT/Jura/issues/15). Andere Modelle sollten gehen, solange ihre Maschinendatei in `resources.zip` steht.
+
+## Grenzen
+
+- **Über Bluetooth nicht lesbar** (WE6): Wasserhärte, Abschalt-Timer und der Tageszähler der Maschine. Den Abschalt-Timer kann man auch nicht setzen. Einzelheiten unter [Analyse](docs/analysis.de.md#ergebnisse-für-die-we6).
+- **Werte nur bei Verbindung:** Die Maschine liefert Werte nur, solange sie an und verbunden ist. Bezüge, die Home Assistant nicht lesen konnte, zählen in den Gesamtzählern, aber keinem Tag.
+- **Nur eine Verbindung gleichzeitig:** Solange Home Assistant verbunden ist, kommt die JURA-App nicht an die Maschine. Siehe [Fehlersuche](docs/troubleshooting.de.md#ein-anderes-gerät-kann-sich-nicht-verbinden).
+- **Kein WLAN:** Das [WLAN-Modul](https://us.jura.com/en/homeproducts/accessories/WiFi-Connect-24160) wird nicht unterstützt und ist auch nicht geplant.
+- **Keine PIN:** Maschinen mit PIN-Schutz werden nicht unterstützt.
+
+## Fork und Dank
+
+### Was dieser Fork gegenüber dem Original ändert
 
 | Änderung | Herkunft |
 |---|---|
@@ -17,87 +68,12 @@ Dies ist ein Fork von [AlexxIT/Jura](https://github.com/AlexxIT/Jura). Er führt
 | Sensor „No Beans“, richtiger Schlüssel im Statistikbefehl, weniger Log-Rauschen | [tidalf, AlexxIT/Jura#59](https://github.com/AlexxIT/Jura/pull/59) |
 | Option **Nur auslesen, keine Steuerung**, Entitätsnamen auf Deutsch und Englisch, Produkt- und Meldungsnamen wie in der JURA-App, Milchsystem-Meldungen nur bei Maschinen mit Milchsystem | neu in diesem Fork |
 | Meldungen und Vorwarnungen genau so, wie die Maschinendatei in `resources.zip` sie festlegt (z. B. „Gerät bald reinigen“, „Filter bald wechseln“, „Filter aktiv“); Wartung, die die Maschine nicht benutzt (z. B. Filter ohne Patrone), wird ausgeblendet | neu in diesem Fork |
-| Fertiges Dashboard und Tageszähler („Bezüge heute“) auf Deutsch und Englisch, siehe [Dashboard und Tageszähler](#dashboard-und-tageszähler) | neu in diesem Fork |
+| Fertiges Dashboard und Tageszähler („Bezüge heute“) auf Deutsch und Englisch, siehe [Dashboard](docs/dashboard.de.md) | neu in diesem Fork |
+| Analyse-Werkzeug für den Rechner (`tools/jura_inspect.py`), Dokumentation des Protokolls und dessen, was die WE6 über Bluetooth preisgibt, siehe [Analyse](docs/analysis.de.md) | neu in diesem Fork |
 
 Die Steuerung bleibt vollständig enthalten und ist Standard. Die Entitäts-IDs sind dieselben wie beim Original; wer umsteigt, behält Verlauf und Statistik.
 
-## Getestete Maschinen
-
-Laut Original: [D4](https://github.com/AlexxIT/Jura/issues/49), [E4](https://github.com/AlexxIT/Jura/issues/47), [E6](https://github.com/AlexxIT/Jura/issues/13), E8, ENA8 (mit Tasten), [S8](https://github.com/AlexxIT/Jura/issues/20), [Z8](https://github.com/AlexxIT/Jura/issues/15). Dieser Fork läuft mit einer **WE6**. Andere Modelle sollten gehen, solange ihre Maschinendatei in `resources.zip` steht.
-
-## Installation
-
-[![](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=textlastig&repository=jura_ha&category=Integration)
-
-HACS bzw. Marketplace › Menü › *Benutzerdefinierte Repositories* › URL `https://github.com/textlastig/jura_ha`, Typ *Integration* › Hinzufügen › Herunterladen. Danach Home Assistant neu starten.
-
-Ohne HACS: den Ordner `custom_components/jura` aus dem [neuesten Release](https://github.com/textlastig/jura_ha/releases/latest) nach `custom_components` im Konfigurationsordner kopieren.
-
-**Umstieg vom Original:** Original und Fork nutzen beide die Domain `jura`, es darf nur eine davon installiert sein. Das Original in HACS entfernen, den Fork installieren, neu starten. Der vorhandene Eintrag läuft weiter, Entitäten und IDs bleiben.
-
-## Einrichtung
-
-[![](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=jura)
-
-1. Die Bluetooth-Integration von Home Assistant einrichten.
-2. *Einstellungen › Geräte & Dienste › Integration hinzufügen › JURA Coffee Machines*, MAC-Adresse wählen.
-
-Für die erste Einrichtung muss die Maschine an sein. Steht keine MAC-Adresse zur Auswahl, sieht Home Assistant gerade keine Maschine: Ist sie an, funktioniert Bluetooth (verbindet sich die JURA-App?) und ist der Empfänger nah genug? Maschinen mit PIN-Schutz werden nicht unterstützt.
-
-Danach darf die Maschine aus sein, auch beim Neustart von Home Assistant: Die Integration merkt sich Modell und Schlüssel und zeigt die letzten Werte, bis die Maschine wieder erreichbar ist.
-
-### Option „Nur auslesen, keine Steuerung“
-
-*Einstellungen › Geräte & Dienste › JURA Coffee Machines › Konfigurieren.* Standard ist aus.
-
-Eingeschaltet legt die Integration nur Sensoren und Binärsensoren an. Tasten (Zubereiten, Statistik aktualisieren), Auswahlen, Zahlen und der Verbindungsschalter werden aus Home Assistant entfernt. Ausschalten legt sie mit denselben IDs wieder an. Sinnvoll, wenn niemand über Home Assistant Kaffee machen soll, etwa bei Sprachassistenten oder Dashboards für alle.
-
-## Entitäten
-
-| Art | Entitäten |
-|---|---|
-| Sensoren | Bezüge gesamt und je Produkt (z. B. „Kaffee Spezial“ 14 662 Bezüge, „2 x Kaffee“), Meldungen (`ok`/`alert` mit Liste der aktiven Meldungen). Produkte, die die Maschinendatei als inaktiv führt (z. B. Heißwasser bei der WE6), bekommen ebenfalls einen Zähler, der standardmäßig deaktiviert ist: bei Bedarf am Gerät aktivieren |
-| Diagnose | Wartungszähler (Reinigung, Filterwechsel, Entkalken, Kaffeespülung, soweit die Maschine sie hat), Wartungsstand in Prozent, Verbindung |
-| Binärsensoren | Restwasserschale fehlt, Kaffeesatzbehälter fehlt, Wassertank füllen, Kaffeesatzbehälter leeren, Restwasserschale leeren, Bohnen füllen, Gerät reinigen, Gerät bald reinigen, Filter wechseln, Filter bald wechseln, Filter aktiv, Gerät entkalken, Gerät bald entkalken; bei Maschinen mit Milchprodukten zusätzlich Milchsystem spülen, Milchsystem reinigen, Milchsystem bald reinigen. Es entstehen nur Meldungen, die die Maschinendatei kennt |
-| Steuerung | Kaffeespezialität (Namen wie in der JURA-App), Mahlwerk-Verhältnis (z. B. „50% / 50%“), Kaffeestärke, Temperatur (Niedrig, Normal, Hoch), Mengen (Wasser und Bypass in ml, Milch, Milchschaum und Milchpause in Sekunden), Taste Zubereiten, Taste Statistik aktualisieren, Verbindungsschalter |
-
-Die Namen erscheinen in der Sprache von Home Assistant (Deutsch oder Englisch), die Entitäts-IDs sind davon unabhängig (`<gerät>_<mac>_<attribut>`). Produkte und Meldungen heißen wie in der JURA-App J.O.E. und am Display der Maschine: Die Maschinendatei nennt zu jedem Produkt eine Textnummer, die Namen dazu stammen aus der App (Version 4.6.16). Welche Entitäten erscheinen, hängt von der Maschinendatei des Modells ab. Statistik und Meldungen werden jede Minute gelesen, solange die Maschine an ist. Tageszähler und Abschalt-Timer lassen sich bei der WE6 über Bluetooth nicht auslesen (mit 1.8.0 geprüft: Statistikseite 2 ist auch nach einem Bezug nur 0, Einstellung 0x13 liefert keinen Wert). Den Abschalt-Timer kann man auch nicht setzen (mit 1.10.0 geprüft, darum in 1.10.1 wieder entfernt): Den Einstellungsbefehl der JURA-App (`M 13 <Wert>`) nimmt die Maschine ohne Fehler an, ändert aber nichts. Das neuere Textprotokoll der App für BlueFrog-Module (`@TM:13,…`) bietet das Smart-Connect-Modul der WE6 nicht an. Ein Scan der Einstellungsregister 00 bis 56 (`M <Register>`, 20.11.2026) lieferte für jedes Register nur Nullen, auch für 02, in dem andere Modelle die Wasserhärte führen. Die Maschinendatei der WE6 hat überhaupt keinen Einstellungsblock. Wasserhärte, Abschalt-Timer und Tageszähler, die die Maschine am Display zeigt, sind bei der WE6 über Bluetooth also nicht lesbar.
-
-**Filter:** „Filter aktiv“ ist die eigene Meldung der Maschine, dass sie eine Filterpatrone erkannt hat (die WE6 erkennt eine CLARIS Pro Smart per RFID). Ohne Filter meldet die Maschine den Filterstand als „nicht benutzt“ (0xFF), der Sensor Filterstand in Prozent ist dann nicht verfügbar. Mit Filter ist es beim Entkalken umgekehrt: Laut Anleitung der WE6 fordert die Maschine mit CLARIS Pro Smart kein Entkalken mehr an. Die RF-Filtereinträge stehen in jeder Maschinendatei und sagen deshalb nicht, ob ein Modell Filter erkennt; das sagt nur die Meldung der Maschine. Geprüft an einer WE6 ohne Filter: „Filter aktiv“ ist aus, der Filterstand in Prozent ist nicht verfügbar.
-
-**Ausgeblendet, solange nicht benutzt:** Was die Maschine als „nicht benutzt“ meldet (Prozent 0xFF), blendet die Integration in der Geräteansicht aus, zusammen mit Zähler, Meldung und Vorwarnung, ohne Filter also Filterstand, Filterwechsel, „Filter wechseln“ und „Filter bald wechseln“. Sobald die Maschine wieder einen Wert meldet, erscheinen sie wieder. Selbst ausgeblendete Entitäten bleiben ausgeblendet.
-
-## Dashboard und Tageszähler
-
-![](docs/dashboard.png)
-
-![](docs/dashboard-charts.png)
-
-Fertiges Beispiel für eine WE6 in [`examples/`](examples/), auf Deutsch (`examples/de/`, wie in den Bildern) und Englisch (`examples/en/`). Den Ordner passend zur Home-Assistant-Sprache wählen, weil die Zubereiten-Kacheln die Produktnamen der Integration verwenden.
-
-- `package.yaml`: Tageszähler (`sensor.jura_we6_*_heute`), ihre Helfer, das Skript `jura_we6_zubereiten` und die Automation, die den Nullpunkt des Tages setzt.
-- `dashboard.yaml`: Meldungen (Vorwarnungen „bald“ in Gelb), Zubereiten per Antippen mit Rückfrage, individuelles Zubereiten, Pflege (Entkalken oder Filter, je nachdem, was die Maschine benutzt), Bezüge heute und gesamt, Diagramme „Heute“ (jeder Messwert) und „Letzte 7 Tage“ (ein Wert pro Tag). Braucht [apexcharts-card](https://github.com/RomRider/apexcharts-card).
-
-Einrichten:
-1. apexcharts-card installieren (HACS).
-2. In beiden Dateien `jura_we6_xxxxxxxxxxxx` durch das eigene Entitäts-Präfix ersetzen (*Einstellungen › Entitäten*, Suche „jura“).
-3. `package.yaml` nach `/config/packages/` legen (Packages eingeschaltet mit `homeassistant: packages: !include_dir_named packages`), Konfiguration prüfen, neu starten.
-4. Dashboard anlegen (*Einstellungen › Dashboards › Dashboard hinzufügen › Neu von Grund auf*), Raw-Konfigurationseditor öffnen und `dashboard.yaml` einfügen.
-5. Andere Modelle: nicht vorhandene Produkte entfernen und die Produktsensoren anpassen (`sensor.<präfix>_product_*`).
-
-So arbeiten die Tageszähler: Die Maschine liefert nur Gesamtzähler, die Integration fragt sie jede Minute ab. Beim ersten Verbinden des Tages drückt die Automation sofort *Statistik aktualisieren* und speichert die Gesamtzähler als Nullpunkt; „heute“ ist der aktuelle Stand minus Nullpunkt. Es wird nichts interpoliert: Bezüge ohne Messung (Home Assistant, Bluetooth-Proxy oder Bluetooth aus, Maschine vor der nächsten Abfrage ausgeschaltet) zählen in den Gesamtzählern, werden aber keinem Tag zugeordnet. Ohne Messung an einem Tag bleiben die Tageszähler bei 0.
-
-## Bluetooth
-
-Ein guter Bluetooth-Empfänger ist wichtig, siehe die [Liste von Home Assistant](https://www.home-assistant.io/integrations/bluetooth/). AlexxIT hatte mit fünf Adaptern (*Unbranded CSR clone detected*) keine stabile Verbindung, erst ein Adapter mit `CSR8510A10` lief zuverlässig.
-
-Gut geht ein [ESPHome-Bluetooth-Proxy](https://esphome.io/components/bluetooth_proxy.html) mit `active: true` nah an der Maschine, zum Beispiel ein M5Stack Atom Lite. Die Maschine sendet ihr Modell nur in der Scan-Antwort; ein Empfänger, der nur passiv mithört, reicht für die Einrichtung nicht.
-
-## WLAN
-
-Das [WLAN-Modul](https://us.jura.com/en/homeproducts/accessories/WiFi-Connect-24160) wird nicht unterstützt und ist auch nicht geplant.
-
-## Dank
+### Dank
 
 - **[AlexxIT](https://github.com/AlexxIT)** für die Integration, das Protokoll und die jahrelange Pflege, ohne die es diesen Fork nicht gäbe.
 - **[madAndroid](https://github.com/madAndroid)** (Andrew Stangl) für die Fixes zu Einrichtung, Verbindung und aktiver Suche.
@@ -109,10 +85,10 @@ Zusammengeführt, ergänzt und getestet wurde der Fork von [textlastig](https://
 
 ## Nützliche Links
 
-- https://lunarius.fe80.eu/blog/tag/bluetooth.html
-- https://github.com/Jutta-Proto/protocol-cpp
-- https://github.com/Jutta-Proto/protocol-bt-cpp
-- https://github.com/franfrancisco9/Jura-Python-BT
+- [Jutta-Proto/protocol-bt-cpp](https://github.com/Jutta-Proto/protocol-bt-cpp): Bluetooth-Protokoll
+- [Jutta-Proto/protocol-cpp](https://github.com/Jutta-Proto/protocol-cpp): serielles Protokoll
+- [franfrancisco9/Jura-Python-BT](https://github.com/franfrancisco9/Jura-Python-BT)
+- [lunarius.fe80.eu](https://lunarius.fe80.eu/blog/tag/bluetooth.html)
 
 ## Lizenz
 
