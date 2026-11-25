@@ -289,3 +289,18 @@ automation:
       entity_id: input_datetime.jura_tageszahler_referenz
     data:
       timestamp: '{{ now().timestamp() }}'
+- id: jura_tageszahler_zuruecksetzen
+  alias: Jura Tageszähler zurücksetzen
+  description: Setzt die Tageszähler eine Sekunde vor Mitternacht auf 0 (Referenz auf den Vortag). Sonst zählt die Tagesstatistik
+    um 00:00 noch den Endstand des Vortags als Höchstwert mit.
+  mode: single
+  triggers:
+  - trigger: time
+    at: '23:59:59'
+  conditions: []
+  actions:
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.jura_tageszahler_referenz
+    data:
+      timestamp: '{{ (now() - timedelta(days=1)).timestamp() }}'

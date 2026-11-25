@@ -289,3 +289,18 @@ automation:
       entity_id: input_datetime.jura_daily_counter_reference
     data:
       timestamp: '{{ now().timestamp() }}'
+- id: jura_daily_counter_reset
+  alias: Jura daily counter reset
+  description: Sets the daily counters to 0 one second before midnight (reference to the day before). Otherwise the daily
+    statistics at 00:00 still include the last value of the day before as maximum.
+  mode: single
+  triggers:
+  - trigger: time
+    at: '23:59:59'
+  conditions: []
+  actions:
+  - action: input_datetime.set_datetime
+    target:
+      entity_id: input_datetime.jura_daily_counter_reference
+    data:
+      timestamp: '{{ (now() - timedelta(days=1)).timestamp() }}'
