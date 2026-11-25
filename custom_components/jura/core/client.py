@@ -187,25 +187,20 @@ class Client:
     async def read_statistics_data(
         self, timeout: int = 20, retries: int = 30
     ) -> bytes | None:
-        """Read statistics data from the device."""
+        """Read the product counters (page 0x01)."""
         _LOGGER.debug("Reading Jura statistics...")
 
-        # Send statistics request command
         # https://github.com/Jutta-Proto/protocol-bt-cpp?tab=readme-ov-file#writing-1
-        command_bytes = [self.key, 0x00, 0x01, 0xFF, 0xFF]
-        self.send(bytes(command_bytes), uuid=UUIDs.STATS_COMMAND)
+        # Waits until the machine has taken the request, otherwise STATS_DATA
+        # may still hold a maintenance page.
+        data = await self.read_statistics_page(0x01, 0xFFFF, timeout, retries)
+        if data is not None:
+            return data
+        if not self.client or not self.send_done.is_set():
+            return None
 
-        # Wait for connection
-        if not self.client:
-            for _ in range(timeout):
-                if not self.client:
-                    await asyncio.sleep(1)
-                else:
-                    break
-            if not self.client:
-                _LOGGER.debug("Failed to establish connection")
-                return None
-
+        # Machine does not show that it has taken the request: only check that
+        # it is not busy. The device checks if the counters are plausible.
         # Wait for statistics to be ready
         # https://github.com/Jutta-Proto/protocol-bt-cpp?tab=readme-ov-file#reading
         for _ in range(retries):

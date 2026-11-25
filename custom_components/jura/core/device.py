@@ -17,6 +17,9 @@ _LOGGER = logging.getLogger(__name__)
 
 COMMAND_TIME = 15
 
+# implausible product counters in a row until they are accepted
+MAX_REJECTED = 5
+
 # statistics pages (from andrei-marinache/Jura-AlexxIT): bank command -> key
 MAINTENANCE_BANKS = {"@TG:43": "counters", "@TG:C0": "percents"}
 # page, argument
@@ -94,6 +97,9 @@ class Device:
         # False until the first read: entities keep their restored state
         self.alerts_read = False
         self.statistics_read = False
+        # last known counters (restored by the sensors or read), None = total
+        self.known_counts: dict[str | None, int] = {}
+        self.rejected_counts: list[dict[str | None, int]] = []
 
     @property
     def mac(self) -> str:
@@ -325,6 +331,9 @@ class Device:
         for product, count in product_counts.items():
             _LOGGER.debug(f"Product: {product}, Count: {count}")
 
+        if not self._accept_counts({None: total_count, **product_counts}):
+            return self.statistics
+
         # Save the statistics
         self.statistics["total_products"] = total_count
         self.statistics["product_counts"] = product_counts
@@ -341,6 +350,34 @@ class Device:
             handler()
 
         return self.statistics
+
+    def _accept_counts(self, counts: dict[str | None, int]) -> bool:
+        """Check product counters, there is no fixed limit for the values.
+
+        Lifetime counters never go back. Without known counters, no product may
+        exceed the total. Otherwise another page was read. If the same
+        machine keeps reporting such counters (e.g. new electronics), they are
+        accepted after MAX_REJECTED consistent reads in a row.
+        """
+
+        def went_back(old: dict) -> bool:
+            return any(v < old.get(k, 0) for k, v in counts.items())
+
+        too_high = not self.known_counts and max(counts.values()) > counts[None]
+        if too_high or went_back(self.known_counts):
+            if self.rejected_counts and went_back(self.rejected_counts[-1]):
+                self.rejected_counts.clear()
+            self.rejected_counts.append(counts)
+            if len(self.rejected_counts) < MAX_REJECTED:
+                _LOGGER.info(
+                    f"Implausible counters ignored: {self.known_counts} -> {counts}"
+                )
+                return False
+            _LOGGER.warning(f"Counters accepted after {MAX_REJECTED} reads: {counts}")
+
+        self.rejected_counts.clear()
+        self.known_counts = counts
+        return True
 
     async def _read_page_twice(self, kind: str) -> bytes | None:
         page, arg = MAINTENANCE_PAGES[kind]

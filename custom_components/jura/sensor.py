@@ -140,6 +140,7 @@ class JuraStatisticsSensor(JuraEntity, RestoreSensor):
                 self._restored = int(float(last.state))
             except ValueError:
                 pass
+        self._remember(self._restored)
         self.async_write_ha_state()
 
     @property
@@ -148,6 +149,9 @@ class JuraStatisticsSensor(JuraEntity, RestoreSensor):
         if not self.device.statistics_read:
             return self._restored
         return self._get_value()
+
+    def _remember(self, value: Any) -> None:
+        """Use the restored value to check the first read (counters only)."""
 
     def _get_value(self) -> Any:
         """Get the value for this sensor from statistics."""
@@ -167,6 +171,14 @@ PRODUCT_UNITS = {"de": "Bezüge"}
 
 class JuraProductUnitSensor(JuraStatisticsSensor):
     """Statistics sensor counting products ("Bezüge" in German)."""
+
+    # None: total of all products
+    product_name: str | None = None
+
+    def _remember(self, value: Any) -> None:
+        """Use the restored value to check the first read."""
+        if isinstance(value, int | float):
+            self.device.known_counts.setdefault(self.product_name, int(value))
 
     @property
     def native_unit_of_measurement(self) -> str:
